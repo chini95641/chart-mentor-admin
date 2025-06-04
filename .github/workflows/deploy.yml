@@ -1,0 +1,52 @@
+name: Deploy to Hostinger
+
+on:
+  push:
+    branches:
+      - main  # Or your default branch
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18' # Specify your Node.js version
+
+      - name: Install Dependencies
+        run: npm install --prefix frontend # Or yarn install --cwd frontend
+
+      - name: Build Project
+        run: npm run build --prefix frontend # Or yarn --cwd frontend build
+
+      - name: Deploy to Hostinger
+        uses: appleboy/scp-action@master
+        with:
+          host: '156.67.72.178' # Directly set IP
+          username: 'u744296712' # Directly set username
+          key: ${{ secrets.HOSTINGER_SSH_KEY }} # SSH KEY MUST REMAIN A SECRET
+          port: '65002' # Directly set port
+          source: "frontend/dist/*" # Assumes build output is in frontend/dist
+          target: "/home/u744296712/domains/royalblue-rail-284990.hostingersite.com/temp_deploy" # Username also hardcoded here
+          strip_components: 2 # Removes 'frontend/dist' from the path
+
+      - name: Move files to public_html and cleanup
+        uses: appleboy/ssh-action@master
+        with:
+          host: '156.67.72.178' # Directly set IP
+          username: 'u744296712' # Directly set username
+          key: ${{ secrets.HOSTINGER_SSH_KEY }} # SSH KEY MUST REMAIN A SECRET
+          port: '65002' # Directly set port
+          script: |
+            cd /home/u744296712/domains/royalblue-rail-284990.hostingersite.com/ # Username also hardcoded here
+            # Remove existing files in public_html, be careful with this command
+            # This will remove all files and directories except default.php and .well-known (if it exists for SSL)
+            find public_html -mindepth 1 ! -name 'default.php' ! -name '.well-known' -exec rm -rf {} \;
+            # Move new files from temp_deploy to public_html
+            mv temp_deploy/* public_html/
+            # Remove temp_deploy directory
+            rm -rf temp_deploy 
