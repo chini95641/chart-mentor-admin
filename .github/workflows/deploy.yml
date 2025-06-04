@@ -101,39 +101,37 @@ jobs:
             echo "INFO: Using Node version: $(node -v)"
             echo "INFO: Using npm version: $(npm -v)"
 
+            echo "INFO: Setting up .env file..."
+            if [ -f ".env.example" ]; then
+              if [ ! -f ".env" ]; then
+                echo "INFO: .env file not found. Copying .env.example to .env"
+                cp .env.example .env
+                echo "ACTION REQUIRED: .env file created from .env.example. Please review and update it with actual secrets on the server."
+              else
+                echo "INFO: .env file already exists. Skipping creation from .env.example."
+              fi
+            else
+              echo "WARNING: .env.example not found. Cannot create .env file automatically."
+            fi
+
             echo "INFO: Installing PM2..."
             npm install -g pm2
 
-            echo "INFO: Checking for MongoDB..."
+            echo "INFO: Checking for MongoDB (manual installation not recommended, use Hostinger service or MongoDB Atlas)..."
             if ! command -v mongod &> /dev/null
             then
                 echo "INFO: MongoDB (mongod) not found. Attempting to install MongoDB 6.0..."
                 echo "WARNING: This step requires sudo and may fail on shared hosting or if the OS is not Ubuntu/Debian."
                 echo "WARNING: It is STRONGLY recommended to use Hostinger's provided MongoDB service or a managed database like MongoDB Atlas."
-                
-                # Add MongoDB GPG Key & Repository (for Ubuntu/Debian)
-                # These commands require sudo and internet access from the server to mongodb.org
-                sudo apt-get update || echo "WARNING: sudo apt-get update failed."
-                sudo apt-get install -y gnupg curl || echo "WARNING: sudo apt-get install gnupg curl failed."
-                curl -fsSL https://pgp.mongodb.com/server-6.0.asc | \
-                   sudo gpg -o /usr/share/keyrings/mongodb-server-6.0.gpg --dearmor || echo "WARNING: Failed to add MongoDB GPG key."
-                echo "deb [ arch=amd64,arm64 signed-by=/usr/share/keyrings/mongodb-server-6.0.gpg ] https://repo.mongodb.org/apt/ubuntu $(lsb_release -cs)/mongodb-org/6.0 multiverse" | \
-                   sudo tee /etc/apt/sources.list.d/mongodb-org-6.0.list || echo "WARNING: Failed to add MongoDB repository."
-                
-                # Install MongoDB packages
-                sudo apt-get update || echo "WARNING: sudo apt-get update failed (after adding repo)."
-                sudo apt-get install -y mongodb-org || echo "WARNING: sudo apt-get install mongodb-org failed."
-                
-                # Attempt to start and enable MongoDB (may also require sudo/systemd)
+                sudo apt-get update > /dev/null 2>&1 || echo "WARNING: sudo apt-get update failed."
+                sudo apt-get install -y gnupg curl > /dev/null 2>&1 || echo "WARNING: sudo apt-get install gnupg curl failed."
+                curl -fsSL https://pgp.mongodb.com/server-6.0.asc | sudo gpg -o /usr/share/keyrings/mongodb-server-6.0.gpg --dearmor > /dev/null 2>&1 || echo "WARNING: Failed to add MongoDB GPG key."
+                echo "deb [ arch=amd64,arm64 signed-by=/usr/share/keyrings/mongodb-server-6.0.gpg ] https://repo.mongodb.org/apt/ubuntu $(lsb_release -cs)/mongodb-org/6.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-6.0.list > /dev/null 2>&1 || echo "WARNING: Failed to add MongoDB repository."
+                sudo apt-get update > /dev/null 2>&1 || echo "WARNING: sudo apt-get update failed (after adding repo)."
+                sudo apt-get install -y mongodb-org > /dev/null 2>&1 || echo "WARNING: sudo apt-get install mongodb-org failed."
                 sudo systemctl start mongod || echo "WARNING: sudo systemctl start mongod failed."
                 sudo systemctl enable mongod || echo "WARNING: sudo systemctl enable mongod failed."
-                
-                if ! command -v mongod &> /dev/null
-                then
-                    echo "ERROR: MongoDB installation appears to have failed. Please install it manually or use a managed service."
-                else
-                    echo "INFO: MongoDB appears to have been installed. mongod version: $(mongod --version)"
-                fi
+                if ! command -v mongod &> /dev/null; then echo "ERROR: MongoDB installation appears to have failed."; else echo "INFO: MongoDB appears to have been installed. Version: $(mongod --version)"; fi
             else
                 echo "INFO: MongoDB (mongod) is already installed. Version: $(mongod --version)"
             fi
