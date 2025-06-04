@@ -50,7 +50,7 @@ jobs:
 
       # Backend Deployment
       - name: Install Backend Dependencies
-        run: npm install --prefix backend 
+        run: yarn install --prefix backend 
 
       - name: Build Backend
         run: npm run build --prefix backend 
