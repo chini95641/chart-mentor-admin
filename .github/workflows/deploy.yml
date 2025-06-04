@@ -49,11 +49,8 @@ jobs:
             rm -rf temp_deploy
 
       # Backend Deployment
-      - name: Install Backend Dependencies
+      - name: Install Backend Dependencies on Runner (for potential caching or pre-flight checks if any)
         run: yarn --cwd backend install --frozen-lockfile
-
-      - name: Build Backend
-        run: yarn --cwd backend build
 
       - name: Create Backend Deployment Directory on Server
         uses: appleboy/ssh-action@master
@@ -66,16 +63,20 @@ jobs:
             mkdir -p /home/u744296712/backend_app/
             mkdir -p /home/u744296712/backend_app/uploads
 
-      - name: Deploy Backend to Hostinger
+      - name: Deploy Backend Source to Hostinger
         uses: appleboy/scp-action@master
         with:
           host: '156.67.72.178'
           username: 'u744296712'
           password: 'Web@123chart'
           port: '65002'
-          source: "backend/dist/*,backend/package.json,backend/yarn.lock"
+          source: "backend/"
           target: "/home/u744296712/backend_app"
-          strip_components: 1
+          exclude: |
+            node_modules/
+            .git/
+            dist/
+            uploads/
 
       - name: Setup and Run Backend with PM2
         uses: appleboy/ssh-action@master
@@ -87,10 +88,10 @@ jobs:
           script: |
             cd /home/u744296712/backend_app
             pm2 -v || npm install -g pm2
-            yarn install --production --frozen-lockfile
+            yarn install --frozen-lockfile
             pm2 stop backend-app || true
             pm2 delete backend-app || true
-            pm2 start index.js --name backend-app
+            pm2 start yarn --name backend-app -- run start
             pm2 save
             pm2 startup
             echo "Backend deployment complete. PM2 status:"
