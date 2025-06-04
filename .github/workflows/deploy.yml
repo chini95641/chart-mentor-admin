@@ -88,10 +88,10 @@ jobs:
           script: |
             cd /home/u744296712/backend_app
             pm2 -v || npm install -g pm2
-            yarn install --frozen-lockfile
+            npm install --frozen-lockfile
             pm2 stop backend-app || true
             pm2 delete backend-app || true
-            pm2 start yarn --name backend-app -- run start
+            pm2 start npm --name backend-app -- run start
             pm2 save
             pm2 startup
             echo "Backend deployment complete. PM2 status:"
