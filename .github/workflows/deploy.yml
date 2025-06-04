@@ -87,13 +87,39 @@ jobs:
           port: '65002'
           script: |
             cd /home/u744296712/backend_app
+            
+            # Ensure NVM is installed and source it
+            # This attempts to install NVM if not present. For robustness, install NVM manually on the server first.
+            if [ ! -d "$HOME/.nvm" ]; then
+              curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+            fi
+            export NVM_DIR="$HOME/.nvm"
+            [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+            [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+            
+            # Install and use Node.js v18
             nvm install 18
-            pm2 -v || npm install -g pm2
-            npm install --frozen-lockfile
+            nvm use 18
+            # nvm alias default 18 # Optional: consider setting this manually on server if needed for other user sessions
+            
+            echo "Using Node version:"
+            node -v
+            echo "Using npm version:"
+            npm -v
+
+            # Install PM2 globally using the NVM-managed Node version
+            npm install -g pm2
+            
+            # Install backend dependencies using npm (as per your last change)
+            npm install --frozen-lockfile 
+            
+            # Manage application with PM2 using the NVM-managed Node version
+            # The 'npm run start' will execute 'ts-node index.ts' using the Node.js v18 environment
             pm2 stop backend-app || true
             pm2 delete backend-app || true
             pm2 start npm --name backend-app -- run start
-            pm2 save
-            pm2 startup
+            pm2 save # Save current PM2 process list
+            # The output of pm2 startup might need to be run manually with sudo if not already configured
+            pm2 startup 
             echo "Backend deployment complete. PM2 status:"
             pm2 list 
