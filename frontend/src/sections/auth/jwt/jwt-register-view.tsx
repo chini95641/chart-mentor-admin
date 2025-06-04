@@ -12,14 +12,13 @@ import LoadingButton from '@mui/lab/LoadingButton';
 import InputAdornment from '@mui/material/InputAdornment';
 
 import { paths } from 'src/routes/paths';
-import { useRouter } from 'src/routes/hooks';
 import { RouterLink } from 'src/routes/components';
+import { useRouter, useSearchParams } from 'src/routes/hooks';
 
 import { useBoolean } from 'src/hooks/use-boolean';
 
-import { useTranslate } from 'src/locales';
 import { useAuthContext } from 'src/auth/hooks';
-import { PATH_AFTER_REGISTER } from 'src/config-global';
+import { PATH_AFTER_LOGIN } from 'src/config-global';
 
 import Iconify from 'src/components/iconify';
 import FormProvider, { RHFTextField } from 'src/components/hook-form';
@@ -27,12 +26,15 @@ import FormProvider, { RHFTextField } from 'src/components/hook-form';
 // ----------------------------------------------------------------------
 
 export default function JwtRegisterView() {
-  const { t } = useTranslate();
   const { register } = useAuthContext();
 
   const router = useRouter();
 
   const [errorMsg, setErrorMsg] = useState('');
+
+  const searchParams = useSearchParams();
+
+  const returnTo = searchParams.get('returnTo');
 
   const password = useBoolean();
 
@@ -65,8 +67,9 @@ export default function JwtRegisterView() {
     try {
       await register?.(data.email, data.password, data.firstName, data.lastName);
 
-      router.push(PATH_AFTER_REGISTER);
+      router.push(returnTo || PATH_AFTER_LOGIN);
     } catch (error) {
+      console.error(error);
       reset();
       setErrorMsg(typeof error === 'string' ? error : error.message);
     }
@@ -74,19 +77,19 @@ export default function JwtRegisterView() {
 
   const renderHead = (
     <Stack spacing={2} sx={{ mb: 5, position: 'relative' }}>
-      <Typography variant="h4">{t('Get started absolutely free')}</Typography>
+      <Typography variant="h4">Get started absolutely free</Typography>
 
       <Stack direction="row" spacing={0.5}>
-        <Typography variant="body2"> {t('Already have an account?')} </Typography>
+        <Typography variant="body2"> Already have an account? </Typography>
 
         <Link href={paths.auth.jwt.login} component={RouterLink} variant="subtitle2">
-          {t('Login')}
+          Sign in
         </Link>
       </Stack>
     </Stack>
   );
 
-  /* const renderTerms = (
+  const renderTerms = (
     <Typography
       component="div"
       sx={{
@@ -106,20 +109,20 @@ export default function JwtRegisterView() {
       </Link>
       .
     </Typography>
-  ); */
+  );
 
   const renderForm = (
     <Stack spacing={2.5}>
       <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
-        <RHFTextField name="firstName" label={t('First name')} />
-        <RHFTextField name="lastName" label={t('Last name')} />
+        <RHFTextField name="firstName" label="First name" />
+        <RHFTextField name="lastName" label="Last name" />
       </Stack>
 
-      <RHFTextField name="email" label={t('Email address')} />
+      <RHFTextField name="email" label="Email address" />
 
       <RHFTextField
         name="password"
-        label={t('Password')}
+        label="Password"
         type={password.value ? 'text' : 'password'}
         InputProps={{
           endAdornment: (
@@ -140,7 +143,7 @@ export default function JwtRegisterView() {
         variant="contained"
         loading={isSubmitting}
       >
-        {t('Create account')}
+        Create account
       </LoadingButton>
     </Stack>
   );
@@ -159,7 +162,7 @@ export default function JwtRegisterView() {
         {renderForm}
       </FormProvider>
 
-      {/* {renderTerms} */}
+      {renderTerms}
     </>
   );
 }

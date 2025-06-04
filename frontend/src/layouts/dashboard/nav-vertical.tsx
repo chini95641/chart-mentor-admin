@@ -14,7 +14,7 @@ import Scrollbar from 'src/components/scrollbar';
 import { NavSectionVertical } from 'src/components/nav-section';
 
 import { NAV } from '../config-layout';
-/* import NavUpgrade from "../common/nav-upgrade"; */
+import NavUpgrade from '../common/nav-upgrade';
 import { useNavData } from './config-navigation';
 import NavToggleButton from '../common/nav-toggle-button';
 
@@ -33,6 +33,7 @@ export default function NavVertical({ openNav, onCloseNav }: Props) {
   const lgUp = useResponsive('up', 'lg');
 
   const navData = useNavData();
+
   useEffect(() => {
     if (openNav) {
       onCloseNav();
@@ -62,7 +63,7 @@ export default function NavVertical({ openNav, onCloseNav }: Props) {
 
       <Box sx={{ flexGrow: 1 }} />
 
-      {/* <NavUpgrade /> */}
+      <NavUpgrade />
     </Scrollbar>
   );
 

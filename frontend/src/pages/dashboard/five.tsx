@@ -1,17 +1,17 @@
 import { Helmet } from 'react-helmet-async';
 
-import { JwtRegisterView } from 'src/sections/auth/jwt';
+import FiveView from 'src/sections/five/view';
 
 // ----------------------------------------------------------------------
 
-export default function RegisterPage() {
+export default function Page() {
   return (
     <>
       <Helmet>
-        <title> Jwt: Register</title>
+        <title> Dashboard: Five</title>
       </Helmet>
 
-      <JwtRegisterView />
+      <FiveView />
     </>
   );
 }

@@ -1,6 +1,6 @@
-import { StackProps } from "@mui/material/Stack";
-import { Theme, SxProps } from "@mui/material/styles";
-import { ListItemButtonProps } from "@mui/material/ListItemButton";
+import { StackProps } from '@mui/material/Stack';
+import { Theme, SxProps } from '@mui/material/styles';
+import { ListItemButtonProps } from '@mui/material/ListItemButton';
 
 // ----------------------------------------------------------------------
 
@@ -40,7 +40,6 @@ export type NavItemProps = ListItemButtonProps &
 
 export type NavListProps = {
   data: NavItemBaseProps;
-  userRole?: string;
   depth: number;
   slotProps?: SlotProps;
 };
@@ -53,8 +52,6 @@ export type NavSubListProps = {
 
 export type NavGroupProps = {
   subheader?: string;
-  roles?: string[];
-  userRole?: string;
   items: NavItemBaseProps[];
   slotProps?: SlotProps;
 };
@@ -62,7 +59,6 @@ export type NavGroupProps = {
 export type NavProps = StackProps & {
   data: {
     subheader: string;
-    roles?: string[];
     items: NavItemBaseProps[];
   }[];
   slotProps?: SlotProps;

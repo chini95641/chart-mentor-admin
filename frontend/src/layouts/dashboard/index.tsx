@@ -1,11 +1,7 @@
-import { useState, useEffect } from 'react';
-
 import Box from '@mui/material/Box';
 
 import { useBoolean } from 'src/hooks/use-boolean';
 import { useResponsive } from 'src/hooks/use-responsive';
-
-import { useAuthContext } from 'src/auth/hooks';
 
 import { useSettingsContext } from 'src/components/settings';
 
@@ -22,10 +18,7 @@ type Props = {
 };
 
 export default function DashboardLayout({ children }: Props) {
-  const { user } = useAuthContext();
   const settings = useSettingsContext();
-
-  const [isClient, setClient] = useState(false);
 
   const lgUp = useResponsive('up', 'lg');
 
@@ -41,18 +34,12 @@ export default function DashboardLayout({ children }: Props) {
 
   const renderNavVertical = <NavVertical openNav={nav.value} onCloseNav={nav.onFalse} />;
 
-  useEffect(() => {
-    if (user?.role === 'CLIENT') {
-      setClient(true);
-    }
-  }, [user]);
-
   if (isHorizontal) {
     return (
       <>
         <Header onOpenNav={nav.onTrue} />
 
-        {!isClient && lgUp ? renderHorizontal : renderNavVertical}
+        {lgUp ? renderHorizontal : renderNavVertical}
 
         <Main>{children}</Main>
       </>
@@ -71,7 +58,7 @@ export default function DashboardLayout({ children }: Props) {
             flexDirection: { xs: 'column', lg: 'row' },
           }}
         >
-          {!isClient && lgUp ? renderNavMini : renderNavVertical}
+          {lgUp ? renderNavMini : renderNavVertical}
 
           <Main>{children}</Main>
         </Box>
@@ -86,11 +73,11 @@ export default function DashboardLayout({ children }: Props) {
       <Box
         sx={{
           minHeight: 1,
-          display: "flex",
-          flexDirection: { xs: "column", lg: "row" },
+          display: 'flex',
+          flexDirection: { xs: 'column', lg: 'row' },
         }}
       >
-        {!isClient && renderNavVertical}
+        {renderNavVertical}
 
         <Main>{children}</Main>
       </Box>

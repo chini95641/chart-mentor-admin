@@ -1,23 +1,20 @@
 import { useMemo } from 'react';
 
-import { useTranslate } from 'src/locales';
+import { paths } from 'src/routes/paths';
 
-// import Label from "src/components/label";
-// import Iconify from "src/components/iconify";
-/* import SvgColor from 'src/components/svg-color';
- */
+import SvgColor from 'src/components/svg-color';
+
 // ----------------------------------------------------------------------
 
-/* const icon = (name: string) => (
+const icon = (name: string) => (
   <SvgColor src={`/assets/icons/navbar/${name}.svg`} sx={{ width: 1, height: 1 }} />
   // OR
   // <Iconify icon="fluent:mail-24-filled" />
   // https://icon-sets.iconify.design/solar/
   // https://www.streamlinehq.com/icons
-); */
-/* 
+);
+
 const ICONS = {
-  home: icon('ic_home'),
   job: icon('ic_job'),
   blog: icon('ic_blog'),
   chat: icon('ic_chat'),
@@ -42,104 +39,47 @@ const ICONS = {
   ecommerce: icon('ic_ecommerce'),
   analytics: icon('ic_analytics'),
   dashboard: icon('ic_dashboard'),
-  gravestone: icon('ic_gravestone'),
-  graveyard: icon('ic_graveyard'),
-}; */
+};
 
 // ----------------------------------------------------------------------
 
 export function useNavData() {
-  const { t } = useTranslate();
-
   const data = useMemo(
     () => [
-      // fELLESRAAD
+      // OVERVIEW
+      // ----------------------------------------------------------------------
       {
-        subheader: t('Home'),
-        roles: ['COST', 'ADMIN'],
+        subheader: 'overview v5.7.0',
         items: [
-          /* {
-            title: t('Home'),
-            path: paths.dashboard.root,
-            icon: ICONS.dashboard,
-            roles: ['COST', 'ADMIN'],
-          }, */
+          { title: 'one', path: paths.dashboard.root, icon: ICONS.dashboard },
+          { title: 'two', path: paths.dashboard.two, icon: ICONS.ecommerce },
+          {
+            title: 'three',
+            path: paths.dashboard.three,
+            icon: ICONS.analytics,
+          },
         ],
       },
+
+      // MANAGEMENT
+      // ----------------------------------------------------------------------
       {
-        subheader: t('Scope'),
-        roles: ['COST', 'ADMIN'],
-        color: '#ee575e',
+        subheader: 'management',
         items: [
-          // Create
-          /* {
-            title: t('Sucursal'),
-            path: paths.dashboard.root,
+          {
+            title: 'user',
+            path: paths.dashboard.group.root,
             icon: ICONS.user,
-            roles: ['COST', 'ADMIN'],
-            color: '#ee575e',
-          }, */
+            children: [
+              { title: 'four', path: paths.dashboard.group.root },
+              { title: 'five', path: paths.dashboard.group.five },
+              { title: 'six', path: paths.dashboard.group.six },
+            ],
+          },
         ],
-      },
-      {
-        subheader: t('Methodology'),
-        roles: ['COST', 'ADMIN'],
-        color: '#1D5DEC',
-        items: [
-          // Supplies
-          /*  {
-            title: t('Anadir nuevo insumos'),
-            path: paths.dashboard.root,
-            icon: ICONS.user,
-            roles: ['COST', 'ADMIN'],
-            color: '#1D5DEC',
-          }, */
-        ],
-      },
-      {
-        subheader: t('Quantity of Hours'),
-        roles: ['COST', 'ADMIN'],
-        color: '#1D5DEC',
-        items: [],
-      },
-      {
-        subheader: t('Distribution of Hours'),
-        roles: ['COST', 'ADMIN'],
-        color: '#1D5DEC',
-        items: [],
-      },
-      {
-        subheader: t('Labor Costs'),
-        roles: ['COST', 'ADMIN'],
-        color: '#1D5DEC',
-        items: [],
-      },
-      {
-        subheader: t('Distruciton of Labor'),
-        roles: ['COST', 'ADMIN'],
-        color: '#1D5DEC',
-        items: [],
-      },
-      {
-        subheader: t('Material'),
-        roles: ['COST', 'ADMIN'],
-        color: '#1D5DEC',
-        items: [],
-      },
-      {
-        subheader: t('Travel'),
-        roles: ['COST', 'ADMIN'],
-        color: '#1D5DEC',
-        items: [],
-      },
-      {
-        subheader: t('Admin'),
-        roles: ['COST', 'ADMIN'],
-        color: '#1D5DEC',
-        items: [],
       },
     ],
-    [t]
+    []
   );
 
   return data;

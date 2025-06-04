@@ -36,7 +36,7 @@ export default function ContactsPopover() {
           }),
         }}
       >
-        <Iconify icon="fluent:mail-24-filled" width={24} />
+        <Iconify icon="solar:users-group-rounded-bold-duotone" width={24} />
       </IconButton>
 
       <CustomPopover open={popover.open} onClose={popover.onClose} sx={{ width: 320 }}>

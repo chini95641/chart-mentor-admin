@@ -1,11 +1,11 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback } from 'react';
 
-import { paths } from "src/routes/paths";
-import { useRouter } from "src/routes/hooks";
+import { paths } from 'src/routes/paths';
+import { useRouter } from 'src/routes/hooks';
 
-import { SplashScreen } from "src/components/loading-screen";
+import { SplashScreen } from 'src/components/loading-screen';
 
-import { useAuthContext } from "../hooks";
+import { useAuthContext } from '../hooks';
 
 // ----------------------------------------------------------------------
 
@@ -29,15 +29,17 @@ export default function AuthGuard({ children }: Props) {
 
 function Container({ children }: Props) {
   const router = useRouter();
+
   const { authenticated, method } = useAuthContext();
 
   const [checked, setChecked] = useState(false);
 
   const check = useCallback(() => {
-    const searchParams = new URLSearchParams({
-      returnTo: window.location.pathname,
-    }).toString();
     if (!authenticated) {
+      const searchParams = new URLSearchParams({
+        returnTo: window.location.pathname,
+      }).toString();
+
       const loginPath = loginPaths[method];
 
       const href = `${loginPath}?${searchParams}`;

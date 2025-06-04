@@ -62,16 +62,6 @@ export const PRODUCT_PUBLISH_OPTIONS = [
     label: 'Draft',
   },
 ];
-export const GRAVEYARD_PUBLISH_OPTIONS = [
-  {
-    value: true,
-    label: 'Published',
-  },
-  {
-    value: false,
-    label: 'Draft',
-  },
-];
 
 export const PRODUCT_SORT_OPTIONS = [
   { value: 'featured', label: 'Featured' },
@@ -96,5 +86,3 @@ export const PRODUCT_CATEGORY_GROUP_OPTIONS = [
 ];
 
 export const PRODUCT_CHECKOUT_STEPS = ['Cart', 'Billing & address', 'Payment'];
-
-export const SERVICE_ORDER_STEPS = ['Handlevogn', 'Kontakt', 'Bekrefte'];
