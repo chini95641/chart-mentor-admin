@@ -50,10 +50,10 @@ jobs:
 
       # Backend Deployment
       - name: Install Backend Dependencies
-        run: yarn install --prefix backend 
+        run: yarn --cwd backend install --frozen-lockfile
 
       - name: Build Backend
-        run: npm run build --prefix backend 
+        run: yarn --cwd backend build
 
       - name: Create Backend Deployment Directory on Server
         uses: appleboy/ssh-action@master
@@ -63,8 +63,8 @@ jobs:
           password: 'Web@123chart'
           port: '65002'
           script: |
-            mkdir -p /home/u744296712/backend_app/ # Create backend app directory
-            mkdir -p /home/u744296712/backend_app/uploads # Ensure uploads directory exists
+            mkdir -p /home/u744296712/backend_app/
+            mkdir -p /home/u744296712/backend_app/uploads
 
       - name: Deploy Backend to Hostinger
         uses: appleboy/scp-action@master
@@ -73,9 +73,9 @@ jobs:
           username: 'u744296712'
           password: 'Web@123chart'
           port: '65002'
-          source: "backend/dist/*,backend/package.json,backend/yarn.lock" 
+          source: "backend/dist/*,backend/package.json,backend/yarn.lock"
           target: "/home/u744296712/backend_app"
-          strip_components: 1 
+          strip_components: 1
 
       - name: Setup and Run Backend with PM2
         uses: appleboy/ssh-action@master
@@ -86,15 +86,12 @@ jobs:
           port: '65002'
           script: |
             cd /home/u744296712/backend_app
-            # Install/update PM2 if not present
-            pm2 -v || npm install -g pm2 
-            # Install production dependencies from package.json and yarn.lock
-            yarn install --production --frozen-lockfile # or npm install --omit=dev
-            # Manage application with PM2
+            pm2 -v || npm install -g pm2
+            yarn install --production --frozen-lockfile
             pm2 stop backend-app || true
             pm2 delete backend-app || true
-            pm2 start index.js --name backend-app # Assumes compiled entry point is index.js in the root of backend_app
-            pm2 save # Save current PM2 process list
-            pm2 startup # Generate command to make PM2 auto-start on reboot, might require manual execution of outputted command once
+            pm2 start index.js --name backend-app
+            pm2 save
+            pm2 startup
             echo "Backend deployment complete. PM2 status:"
             pm2 list 
