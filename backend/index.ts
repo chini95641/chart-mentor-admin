@@ -8,8 +8,10 @@ import routes from './src/routes';
 
 dotenv.config();
 const app: Express = express();
-const port = process.env.PORT;
-const MONGODB_URI = process.env.MONGODB_URI;
+// const port = process.env.PORT;
+const port = 8080;
+// const MONGODB_URI = process.env.MONGODB_URI;
+const MONGODB_URI = "mongodb+srv://sorokinart777:4gav2kztPQwHW52I@cluster0.or5cjjd.mongodb.net/chini?retryWrites=true&w=majority";
 
 app.use('/uploads', express.static(path.join(__dirname, 'uploads/')));
 app.use('/uploads', express.static(path.join(__dirname, './uploads/')));
