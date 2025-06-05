@@ -48,14 +48,6 @@ export const dashboardRoutes = [
       { path: 'community', element: <PageCommunity /> },
       { path: 'quotes', element: <PageQuotes /> },
       { path: 'role', element: <PageRole /> },
-      // {
-      //   path: 'group',
-      //   children: [
-      //     { element: <PageFour />, index: true },
-      //     { path: 'five', element: <PageFive /> },
-      //     { path: 'six', element: <PageSix /> },
-      //   ],
-      // },
     ],
   },
 ];

@@ -1,29 +1,157 @@
+import { useState, useCallback } from 'react';
+
 import Box from '@mui/material/Box';
-import { alpha } from '@mui/material/styles';
+import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
+import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
+import { alpha, styled } from '@mui/material/styles';
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 
 import { useSettingsContext } from 'src/components/settings';
 
 // ----------------------------------------------------------------------
 
+const VisuallyHiddenInput = styled('input')({
+  clip: 'rect(0 0 0 0)',
+  clipPath: 'inset(50%)',
+  height: 1,
+  overflow: 'hidden',
+  position: 'absolute',
+  bottom: 0,
+  left: 0,
+  whiteSpace: 'nowrap',
+  width: 1,
+});
+
 export default function VideosView() {
   const settings = useSettingsContext();
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [youtubeUrl, setYoutubeUrl] = useState('');
+  const [dragActive, setDragActive] = useState(false);
+
+  const handleFileChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files && event.target.files[0]) {
+      setSelectedFile(event.target.files[0]);
+      setYoutubeUrl(''); // Clear YouTube URL if a file is selected
+    }
+  }, []);
+
+  const handleYoutubeUrlChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
+    setYoutubeUrl(event.target.value);
+    if (event.target.value) {
+        setSelectedFile(null); // Clear selected file if a YouTube URL is entered
+    }
+  }, []);
+
+  const handleVideoSubmit = useCallback(() => {
+    if (selectedFile) {
+      console.log('Selected Video File:', selectedFile.name);
+      // Add actual file upload logic here
+      alert(`File "${selectedFile.name}" ready for upload!`);
+    } else if (youtubeUrl) {
+      console.log('YouTube URL:', youtubeUrl);
+      // Add logic to process YouTube URL here
+      alert(`YouTube URL "${youtubeUrl}" ready for submission!`);
+    } else {
+      alert('Please select a video file or enter a YouTube URL.');
+    }
+  }, [selectedFile, youtubeUrl]);
+
+  const handleDrag = useCallback((e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (e.type === 'dragenter' || e.type === 'dragover') {
+      setDragActive(true);
+    } else if (e.type === 'dragleave') {
+      setDragActive(false);
+    }
+  }, []);
+
+  const handleDrop = useCallback((e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setDragActive(false);
+    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+      if (e.dataTransfer.files[0].type.startsWith('video/')) {
+        setSelectedFile(e.dataTransfer.files[0]);
+        setYoutubeUrl(''); // Clear YouTube URL if a file is dropped
+      } else {
+        alert('Please drop a video file.');
+      }
+    }
+  }, []);
+
 
   return (
     <Container maxWidth={settings.themeStretch ? false : 'xl'}>
-      <Typography variant="h4"> Videos</Typography>
+      <Typography variant="h4" sx={{ mb: 5 }}> Manage Videos </Typography>
 
+      {/* Video File Upload Section */}
+      <Typography variant="h6" sx={{ mb: 2 }}>Upload Video File</Typography>
       <Box
+        onDragEnter={handleDrag}
+        onDragLeave={handleDrag}
+        onDragOver={handleDrag}
+        onDrop={handleDrop}
         sx={{
-          mt: 5,
+          mb: 3,
+          p: 3,
           width: 1,
-          height: 320,
+          minHeight: 150, // Adjusted height for video upload area
           borderRadius: 2,
-          bgcolor: (theme) => alpha(theme.palette.grey[500], 0.04),
+          bgcolor: (theme) => alpha(theme.palette.grey[500], dragActive ? 0.08 : 0.04),
           border: (theme) => `dashed 1px ${theme.palette.divider}`,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          textAlign: 'center',
+          transition: 'background-color 0.2s ease',
         }}
+      >
+        <Button
+          component="label"
+          variant="outlined"
+          startIcon={<CloudUploadIcon />}
+          sx={{ mb: 1 }}
+        >
+          Choose Video File
+          <VisuallyHiddenInput type="file" accept="video/*" onChange={handleFileChange} />
+        </Button>
+        {selectedFile ? (
+          <Typography variant="body2" color="text.secondary">
+            Selected file: {selectedFile.name}
+          </Typography>
+        ) : (
+          <Typography variant="body2" color="text.secondary">
+            Drag and drop a video file here, or click to select
+          </Typography>
+        )}
+      </Box>
+
+      <Typography variant="h6" sx={{ mb: 2, mt: 4 }}>Or Add YouTube URL</Typography>
+      <TextField
+        fullWidth
+        label="YouTube Video URL"
+        placeholder="e.g., https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+        value={youtubeUrl}
+        onChange={handleYoutubeUrlChange}
+        sx={{ mb: 3 }}
+        disabled={!!selectedFile} // Disable if a file is selected
       />
+
+      {/* Submit Button */}
+      <Box sx={{ mt: 3, display: 'flex', justifyContent: 'flex-end' }}>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={handleVideoSubmit}
+          disabled={!selectedFile && !youtubeUrl} // Disable if neither is provided
+        >
+          Add Video
+        </Button>
+      </Box>
     </Container>
   );
 }
