@@ -1,17 +1,17 @@
 import { Helmet } from 'react-helmet-async';
 
-import ThreeView from 'src/sections/three/view';
+import VideosView from 'src/sections/videos/view';
 
 // ----------------------------------------------------------------------
 
-export default function Page() {
+export default function PageVideos() {
   return (
     <>
       <Helmet>
-        <title> Dashboard: Three</title>
+        <title> Videos</title>
       </Helmet>
 
-      <ThreeView />
+      <VideosView />
     </>
   );
 }

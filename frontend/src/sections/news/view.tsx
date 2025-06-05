@@ -7,12 +7,12 @@ import { useSettingsContext } from 'src/components/settings';
 
 // ----------------------------------------------------------------------
 
-export default function FiveView() {
+export default function NewsView() {
   const settings = useSettingsContext();
 
   return (
     <Container maxWidth={settings.themeStretch ? false : 'xl'}>
-      <Typography variant="h4"> Page Five </Typography>
+      <Typography variant="h4"> News </Typography>
 
       <Box
         sx={{

@@ -8,12 +8,17 @@ import { LoadingScreen } from 'src/components/loading-screen';
 
 // ----------------------------------------------------------------------
 
-const IndexPage = lazy(() => import('src/pages/dashboard/one'));
-const PageTwo = lazy(() => import('src/pages/dashboard/two'));
-const PageThree = lazy(() => import('src/pages/dashboard/three'));
-const PageFour = lazy(() => import('src/pages/dashboard/four'));
-const PageFive = lazy(() => import('src/pages/dashboard/five'));
-const PageSix = lazy(() => import('src/pages/dashboard/six'));
+const IndexPage = lazy(() => import('src/pages/dashboard/home'));
+const PageChartOfDay = lazy(() => import('src/pages/dashboard/chart_of_day'));
+const PageVideos = lazy(() => import('src/pages/dashboard/videos'));
+const PageUsers = lazy(() => import('src/pages/dashboard/users'));
+const PageQuizes = lazy(() => import('src/pages/dashboard/quizes'));
+const PageAdminViews = lazy(() => import('src/pages/dashboard/admin_views'));
+const PageNews = lazy(() => import('src/pages/dashboard/news'));
+const PageStocks = lazy(() => import('src/pages/dashboard/stocks'));
+const PageLearn = lazy(() => import('src/pages/dashboard/learn'));
+const PageCommunity = lazy(() => import('src/pages/dashboard/community'));
+const PageQuotes = lazy(() => import('src/pages/dashboard/quotes'));
 
 // ----------------------------------------------------------------------
 
@@ -31,24 +36,24 @@ export const dashboardRoutes = [
     ),
     children: [
       { element: <IndexPage />, index: true },
-      { path: 'chart_of_day', element: <PageTwo /> },
-      { path: 'videos', element: <PageThree /> },
-      { path: 'usax', element: <IndexPage /> },
-      { path: 'quizes', element: <PageTwo /> },
-      { path: 'admin_videos', element: <PageThree /> },
-      { path: 'news', element: <IndexPage /> },
-      { path: 'stocks', element: <PageTwo /> },
-      { path: 'learn', element: <PageThree /> },
-      { path: 'community', element: <IndexPage /> },
-      { path: 'quotes', element: <PageThree /> },
-      {
-        path: 'group',
-        children: [
-          { element: <PageFour />, index: true },
-          { path: 'five', element: <PageFive /> },
-          { path: 'six', element: <PageSix /> },
-        ],
-      },
+      { path: 'chart_of_day', element: <PageChartOfDay /> },
+      { path: 'videos', element: <PageVideos /> },
+      { path: 'usax', element: <PageUsers /> },
+      { path: 'quizes', element: <PageQuizes /> },
+      { path: 'admin_videos', element: <PageAdminViews /> },
+      { path: 'news', element: <PageNews /> },
+      { path: 'stocks', element: <PageStocks /> },
+      { path: 'learn', element: <PageLearn /> },
+      { path: 'community', element: <PageCommunity /> },
+      { path: 'quotes', element: <PageQuotes /> },
+      // {
+      //   path: 'group',
+      //   children: [
+      //     { element: <PageFour />, index: true },
+      //     { path: 'five', element: <PageFive /> },
+      //     { path: 'six', element: <PageSix /> },
+      //   ],
+      // },
     ],
   },
 ];

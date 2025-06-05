@@ -7,12 +7,12 @@ import { useSettingsContext } from 'src/components/settings';
 
 // ----------------------------------------------------------------------
 
-export default function OneView() {
+export default function ChartOfdayView() {
   const settings = useSettingsContext();
 
   return (
     <Container maxWidth={settings.themeStretch ? false : 'xl'}>
-      <Typography variant="h4"> Page One </Typography>
+      <Typography variant="h4"> Chart Of the Day </Typography>
 
       <Box
         sx={{

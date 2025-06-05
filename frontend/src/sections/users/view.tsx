@@ -7,12 +7,12 @@ import { useSettingsContext } from 'src/components/settings';
 
 // ----------------------------------------------------------------------
 
-export default function TwoView() {
+export default function UsersView() {
   const settings = useSettingsContext();
 
   return (
     <Container maxWidth={settings.themeStretch ? false : 'xl'}>
-      <Typography variant="h4"> Page Two </Typography>
+      <Typography variant="h4"> Users</Typography>
 
       <Box
         sx={{

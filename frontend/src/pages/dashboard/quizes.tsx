@@ -1,17 +1,17 @@
 import { Helmet } from 'react-helmet-async';
 
-import OneView from 'src/sections/one/view';
+import QuizesView from 'src/sections/quizes/view';
 
 // ----------------------------------------------------------------------
 
-export default function Page() {
+export default function PageQuizes() {
   return (
     <>
       <Helmet>
-        <title> Dashboard: One</title>
+        <title> Quizes</title>
       </Helmet>
 
-      <OneView />
+      <QuizesView />
     </>
   );
 }

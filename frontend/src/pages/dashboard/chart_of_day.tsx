@@ -1,6 +1,6 @@
 import { Helmet } from 'react-helmet-async';
 
-import TwoView from 'src/sections/two/view';
+import ChartOfDayiew from 'src/sections/chart_of_day/view';
 
 // ----------------------------------------------------------------------
 
@@ -8,10 +8,11 @@ export default function Page() {
   return (
     <>
       <Helmet>
-        <title> Dashboard: Two</title>
+        <title> Chart Of Day
+        </title>
       </Helmet>
 
-      <TwoView />
+      <ChartOfDayiew />
     </>
   );
 }
