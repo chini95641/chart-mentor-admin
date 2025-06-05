@@ -1,127 +1,109 @@
-import { useState, useCallback } from 'react';
+import { useState } from 'react';
 
 // MUI Core imports - sorted alphabetically
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
 import Container from '@mui/material/Container';
-import TextField from '@mui/material/TextField';
 import InputLabel from '@mui/material/InputLabel';
 import Typography from '@mui/material/Typography';
 import FormControl from '@mui/material/FormControl';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 // MUI X Date Pickers imports - sorted alphabetically by named import
-import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+// NEW MUI Table imports
+import Paper from '@mui/material/Paper';
+import Table from '@mui/material/Table';
+import TableRow from '@mui/material/TableRow';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableHead from '@mui/material/TableHead';
+import TableContainer from '@mui/material/TableContainer';
 
 import { useSettingsContext } from 'src/components/settings';
 
 // ----------------------------------------------------------------------
 
+interface User {
+  id: string;
+  userName: string;
+  mobileNumber: string;
+  email: string;
+  membership: 'free' | 'premium';
+  registrationDate: string;
+  expirationDate?: string | null;
+}
+
+const sampleUsers: User[] = [
+  { id: '1', userName: 'Alice Smith', mobileNumber: '555-0101', email: 'alice.smith@example.com', membership: 'premium', registrationDate: '2023-01-15', expirationDate: '2024-01-15' },
+  { id: '2', userName: 'Bob Johnson', mobileNumber: '555-0102', email: 'bob.johnson@example.com', membership: 'free', registrationDate: '2023-03-22' },
+  { id: '3', userName: 'Carol Williams', mobileNumber: '555-0103', email: 'carol.williams@example.com', membership: 'free', registrationDate: '2023-05-10' },
+  { id: '4', userName: 'David Brown', mobileNumber: '555-0104', email: 'david.brown@example.com', membership: 'premium', registrationDate: '2023-07-01', expirationDate: '2024-07-01' },
+  { id: '5', userName: 'Eve Davis', mobileNumber: '555-0105', email: 'eve.davis@example.com', membership: 'free', registrationDate: '2023-09-18' },
+];
+
 export default function UsersView() {
   const settings = useSettingsContext();
-  const [userName, setUserName] = useState('');
-  const [mobileNumber, setMobileNumber] = useState('');
-  const [membership, setMembership] = useState<'' | 'free' | 'premium'>('');
-  const [expirationDate, setExpirationDate] = useState<Date | null>(null);
+  const [membershipFilter, setMembershipFilter] = useState<'all' | 'free' | 'premium'>('all');
 
-  const handleMembershipChange = useCallback((event: SelectChangeEvent<'' | 'free' | 'premium'>) => {
-    const newMembership = event.target.value as '' | 'free' | 'premium';
-    setMembership(newMembership);
-    if (newMembership !== 'premium') {
-      setExpirationDate(null); // Reset expiration date if not premium
-    }
-  }, []);
+  const handleMembershipFilterChange = (event: SelectChangeEvent<'all' | 'free' | 'premium'>) => {
+    setMembershipFilter(event.target.value as 'all' | 'free' | 'premium');
+  };
 
-  const handleAddUser = useCallback(() => {
-    if (!userName || !mobileNumber || !membership) {
-        alert('Please fill in all required fields: User Name, Mobile Number, and Membership.');
-        return;
-    }
-    if (membership === 'premium' && !expirationDate) {
-        alert('Please select an expiration date for premium membership.');
-        return;
-    }
-    console.log('User Data:', {
-      userName,
-      mobileNumber,
-      membership,
-      expirationDate: membership === 'premium' ? expirationDate : null,
-    });
-    alert('User data ready to be added! Check console for details.');
-    // Reset form after submission (optional)
-    setUserName('');
-    setMobileNumber('');
-    setMembership('');
-    setExpirationDate(null);
-  }, [userName, mobileNumber, membership, expirationDate]);
+  const filteredUsers = sampleUsers.filter(user => 
+    membershipFilter === 'all' || user.membership === membershipFilter
+  );
 
   return (
-    <LocalizationProvider dateAdapter={AdapterDateFns}>
-      <Container maxWidth={settings.themeStretch ? false : 'xl'}>
-        <Typography variant="h4" sx={{ mb: 5 }}>Manage Users</Typography>
+    <Container maxWidth={settings.themeStretch ? false : 'xl'}>
+      <Typography variant="h4" sx={{ mb: 3 }}>User List</Typography>
 
-        <Box
-          component="form"
-          sx={{
-            display: 'grid',
-            gap: 3,
-            // For a single column layout on smaller screens, and two columns on larger ones
-            gridTemplateColumns: { xs: '1fr', md: 'repeat(2, 1fr)' }, 
-          }}
-          noValidate
-          autoComplete="off"
-        >
-          <TextField
-            required
-            label="User Name"
-            value={userName}
-            onChange={(e) => setUserName(e.target.value)}
-            fullWidth
-          />
+      <Box sx={{ mb: 3, width: '100%', maxWidth: 300 }}>
+        <FormControl fullWidth>
+          <InputLabel id="membership-filter-label">Filter by Membership</InputLabel>
+          <Select
+            labelId="membership-filter-label"
+            id="membership-filter-select"
+            value={membershipFilter}
+            label="Filter by Membership"
+            onChange={handleMembershipFilterChange}
+          >
+            <MenuItem value="all">All</MenuItem>
+            <MenuItem value="free">Free</MenuItem>
+            <MenuItem value="premium">Premium</MenuItem>
+          </Select>
+        </FormControl>
+      </Box>
 
-          <TextField
-            required
-            label="Mobile Number"
-            type="tel"
-            value={mobileNumber}
-            onChange={(e) => setMobileNumber(e.target.value)}
-            fullWidth
-          />
-
-          <FormControl fullWidth required>
-            <InputLabel id="membership-select-label">Membership</InputLabel>
-            <Select
-              labelId="membership-select-label"
-              id="membership-select"
-              value={membership}
-              label="Membership"
-              onChange={handleMembershipChange}
-            >
-              <MenuItem value=""><em>Select Membership</em></MenuItem>
-              <MenuItem value="free">Free</MenuItem>
-              <MenuItem value="premium">Premium</MenuItem>
-            </Select>
-          </FormControl>
-
-          {membership === 'premium' && (
-            <DatePicker
-              label="Expiration Date"
-              value={expirationDate}
-              onChange={(newValue) => setExpirationDate(newValue)}
-              sx={{ width: '100%' }} // Ensure DatePicker takes full width in grid cell
-            />
-          )}
-        
-          {/* This Box ensures the button spans both columns if they exist, or stays in its place in a single column */} 
-          <Box sx={{ gridColumn: { md: '1 / -1' } , display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
-            <Button variant="contained" color="primary" onClick={handleAddUser}>
-              Add User
-            </Button>
-          </Box>
-        </Box>
-      </Container>
-    </LocalizationProvider>
+      <TableContainer component={Paper}>
+        <Table sx={{ minWidth: 650 }} aria-label="simple table">
+          <TableHead>
+            <TableRow>
+              <TableCell>User Name</TableCell>
+              <TableCell>Mobile Number</TableCell>
+              <TableCell>Email</TableCell>
+              <TableCell>Membership</TableCell>
+              <TableCell>Registration Date</TableCell>
+              <TableCell>Expiration Date</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {filteredUsers.map((user) => (
+              <TableRow
+                key={user.id}
+                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+              >
+                <TableCell component="th" scope="row">
+                  {user.userName}
+                </TableCell>
+                <TableCell>{user.mobileNumber}</TableCell>
+                <TableCell>{user.email}</TableCell>
+                <TableCell>{user.membership}</TableCell>
+                <TableCell>{user.registrationDate}</TableCell>
+                <TableCell>{user.expirationDate || 'N/A'}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </Container>
   );
 }
