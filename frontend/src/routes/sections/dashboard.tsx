@@ -19,6 +19,7 @@ const PageStocks = lazy(() => import('src/pages/dashboard/stocks'));
 const PageLearn = lazy(() => import('src/pages/dashboard/learn'));
 const PageCommunity = lazy(() => import('src/pages/dashboard/community'));
 const PageQuotes = lazy(() => import('src/pages/dashboard/quotes'));
+const PageRole = lazy(() => import('src/pages/dashboard/role'));
 
 // ----------------------------------------------------------------------
 
@@ -46,6 +47,7 @@ export const dashboardRoutes = [
       { path: 'learn', element: <PageLearn /> },
       { path: 'community', element: <PageCommunity /> },
       { path: 'quotes', element: <PageQuotes /> },
+      { path: 'role', element: <PageRole /> },
       // {
       //   path: 'group',
       //   children: [

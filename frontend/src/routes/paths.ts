@@ -29,6 +29,7 @@ export const paths = {
     learn: `${ROOTS.DASHBOARD}/learn`,
     community: `${ROOTS.DASHBOARD}/community`,
     quotes: `${ROOTS.DASHBOARD}/quotes`,
+    role: `${ROOTS.DASHBOARD}/role`,
     group: {
       root: `${ROOTS.DASHBOARD}/group`,
       five: `${ROOTS.DASHBOARD}/group/five`,

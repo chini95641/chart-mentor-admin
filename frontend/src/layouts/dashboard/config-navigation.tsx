@@ -62,6 +62,7 @@ export function useNavData() {
           { title: 'Learn', path: paths.dashboard.learn, icon: ICONS.menuItem },
           { title: 'Community', path: paths.dashboard.community, icon: ICONS.chat },
           { title: 'Quotes', path: paths.dashboard.quotes, icon: ICONS.job },
+          { title: 'Role Management', path: paths.dashboard.role, icon: ICONS.user },
           // {
           //   title: 'three',
           //   path: paths.dashboard.three,
