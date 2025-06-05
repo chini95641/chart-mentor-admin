@@ -36,7 +36,7 @@ const useSampleNewsItems = () => {
       source: 'Financial Times',
       timestamp: new Date(Date.now() - 1 * 60 * 60 * 1000), // 1 hour ago
       summary: t('news.items.marketRally.summary'),
-      imageUrl: '/assets/images/placeholder.svg', // Replace with actual or better placeholder
+      imageUrl: '/assets/images/home/hero/light_1.webp', // Replace with actual or better placeholder
       articleUrl: '#', // Replace with actual article link
     },
     {
@@ -55,15 +55,6 @@ const useSampleNewsItems = () => {
       timestamp: new Date(Date.now() - 5 * 60 * 60 * 1000), // 5 hours ago
       summary: t('news.items.centralBank.summary'),
       // No image for this one to show how it renders
-      articleUrl: '#',
-    },
-    {
-      id: 'news4',
-      title: t('news.items.oilPrices.title'),
-      source: 'Bloomberg',
-      timestamp: new Date(Date.now() - 8 * 60 * 60 * 1000), // 8 hours ago
-      summary: t('news.items.oilPrices.summary'),
-      imageUrl: '/assets/images/placeholder.svg',
       articleUrl: '#',
     },
   ];
@@ -93,7 +84,7 @@ export default function NewsView() {
                   <CardMedia
                     component="img"
                     sx={{ height: 140 }} // Or use aspect ratio approach
-                    image={item.imageUrl}
+                    image="/assets/images/home/hero/light_1.webp"
                     alt={item.title}
                   />
                 )}

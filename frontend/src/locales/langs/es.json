@@ -127,8 +127,8 @@
   "quizzes": {
     "title": "Crear Cuestionario",
     "chooseOption": "Elija una Opción",
-    "input1Label": "Entrada de Texto 1",
-    "input2Label": "Entrada de Texto 2",
+    "input1Label": "Aprender",
+    "input2Label": "Mercado en Vivo",
     "submit": "Enviar Cuestionario",
     "alerts": {
       "selectOption": "Por favor, seleccione una opción (a, b, c, o d).",

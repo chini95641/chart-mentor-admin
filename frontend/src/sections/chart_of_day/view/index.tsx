@@ -51,7 +51,7 @@ const UploadPrompt = ({
   const { t } = useTranslate();
   return (
     <>
-      <Button component="label" variant="contained" startIcon={<CloudUploadIcon />} sx={{ mb: 2 }}>
+      <Button component="label" variant="outlined" startIcon={<CloudUploadIcon />} sx={{ mb: 2 }}>
         {t('chartOfDay.uploadChart')}
         <VisuallyHiddenInput type="file" accept="image/*" onChange={onFileSelect} />
       </Button>
@@ -148,15 +148,20 @@ export default function ChartOfdayView() {
         {t('chartOfDay.title')}
       </Typography>
 
+      <Typography variant="h6" sx={{ mb: 2 }}>
+        {t('videos.uploadTitle')}
+      </Typography>
+
       <Box
         onDragEnter={handleDrag}
         onDragLeave={handleDrag}
         onDragOver={handleDrag}
         onDrop={handleDrop}
         sx={{
-          mt: 5,
+          mb: 3,
+          p: 3,
           width: 1,
-          height: 320,
+          minHeight: 150,
           borderRadius: 2,
           bgcolor: (theme) => alpha(theme.palette.grey[500], dragActive ? 0.08 : 0.04),
           border: (theme) => `dashed 1px ${theme.palette.divider}`,

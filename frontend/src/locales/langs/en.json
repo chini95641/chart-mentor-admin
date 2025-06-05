@@ -129,8 +129,8 @@
   "quizzes": {
     "title": "Create Quiz",
     "chooseOption": "Choose an Option",
-    "input1Label": "Text Input 1",
-    "input2Label": "Text Input 2",
+    "input1Label": "Learn",
+    "input2Label": "Live Market",
     "submit": "Submit Quiz",
     "alerts": {
       "selectOption": "Please select an option (a, b, c, or d).",
