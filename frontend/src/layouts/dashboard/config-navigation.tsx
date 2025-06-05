@@ -49,35 +49,44 @@ export function useNavData() {
       // OVERVIEW
       // ----------------------------------------------------------------------
       {
-        subheader: 'overview v5.7.0',
+        subheader: '',
         items: [
-          { title: 'one', path: paths.dashboard.root, icon: ICONS.dashboard },
-          { title: 'two', path: paths.dashboard.two, icon: ICONS.ecommerce },
-          {
-            title: 'three',
-            path: paths.dashboard.three,
-            icon: ICONS.analytics,
-          },
+          { title: 'Home', path: paths.dashboard.root, icon: ICONS.dashboard },
+          { title: 'Chart of the Day', path: paths.dashboard.chart_of_day, icon: ICONS.ecommerce },
+          { title: 'Videos', path: paths.dashboard.videos, icon: ICONS.ecommerce },
+          { title: 'Usax', path: paths.dashboard.usax, icon: ICONS.ecommerce },
+          { title: 'Quizes', path: paths.dashboard.quizes, icon: ICONS.ecommerce },
+          { title: 'Admin Views', path: paths.dashboard.admin_videos, icon: ICONS.ecommerce },
+          { title: 'News', path: paths.dashboard.news, icon: ICONS.ecommerce },
+          { title: 'Stocks', path: paths.dashboard.stocks, icon: ICONS.ecommerce },
+          { title: 'Learn', path: paths.dashboard.learn, icon: ICONS.ecommerce },
+          { title: 'Community', path: paths.dashboard.community, icon: ICONS.ecommerce },
+          { title: 'Quotes', path: paths.dashboard.quotes, icon: ICONS.ecommerce },
+          // {
+          //   title: 'three',
+          //   path: paths.dashboard.three,
+          //   icon: ICONS.analytics,
+          // },
         ],
       },
 
       // MANAGEMENT
       // ----------------------------------------------------------------------
-      {
-        subheader: 'management',
-        items: [
-          {
-            title: 'user',
-            path: paths.dashboard.group.root,
-            icon: ICONS.user,
-            children: [
-              { title: 'four', path: paths.dashboard.group.root },
-              { title: 'five', path: paths.dashboard.group.five },
-              { title: 'six', path: paths.dashboard.group.six },
-            ],
-          },
-        ],
-      },
+      // {
+      //   subheader: 'management',
+      //   items: [
+      //     {
+      //       title: 'user',
+      //       path: paths.dashboard.group.root,
+      //       icon: ICONS.user,
+      //       children: [
+      //         { title: 'four', path: paths.dashboard.group.root },
+      //         { title: 'five', path: paths.dashboard.group.five },
+      //         { title: 'six', path: paths.dashboard.group.six },
+      //       ],
+      //     },
+      //   ],
+      // },
     ],
     []
   );

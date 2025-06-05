@@ -11,8 +11,7 @@ import Typography from '@mui/material/Typography';
 
 import { useRouter } from 'src/routes/hooks';
 
-import { useMockedUser } from 'src/hooks/use-mocked-user';
-
+import { _mock } from 'src/_mock';
 import { useAuthContext } from 'src/auth/hooks';
 
 import { varHover } from 'src/components/animate';
@@ -40,9 +39,9 @@ const OPTIONS = [
 export default function AccountPopover() {
   const router = useRouter();
 
-  const { user } = useMockedUser();
+  const { user, logout } = useAuthContext();
 
-  const { logout } = useAuthContext();
+  console.log("=========", user);
 
   const popover = usePopover();
 
@@ -80,7 +79,7 @@ export default function AccountPopover() {
         }}
       >
         <Avatar
-          src={user?.photoURL}
+          src={_mock.image.avatar(24)}
           alt={user?.displayName}
           sx={{
             width: 36,

@@ -140,7 +140,7 @@ export const createNewUser = async (
     email,
     password,
     name,
-    role: 'LEAD',
+    role: 'ADMIN',
   });
 
   await newUser.save({ session });

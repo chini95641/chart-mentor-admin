@@ -31,8 +31,16 @@ export const dashboardRoutes = [
     ),
     children: [
       { element: <IndexPage />, index: true },
-      { path: 'two', element: <PageTwo /> },
-      { path: 'three', element: <PageThree /> },
+      { path: 'chart_of_day', element: <PageTwo /> },
+      { path: 'videos', element: <PageThree /> },
+      { path: 'usax', element: <IndexPage /> },
+      { path: 'quizes', element: <PageTwo /> },
+      { path: 'admin_videos', element: <PageThree /> },
+      { path: 'news', element: <IndexPage /> },
+      { path: 'stocks', element: <PageTwo /> },
+      { path: 'learn', element: <PageThree /> },
+      { path: 'community', element: <IndexPage /> },
+      { path: 'quotes', element: <PageThree /> },
       {
         path: 'group',
         children: [
