@@ -11,6 +11,7 @@ import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { useTranslate } from 'src/locales';
 
 import { useSettingsContext } from 'src/components/settings';
+import { useSnackbar } from 'src/components/snackbar/use-snackbar';
 
 // ----------------------------------------------------------------------
 
@@ -32,6 +33,7 @@ export default function VideosView() {
   const [youtubeUrl, setYoutubeUrl] = useState('');
   const [dragActive, setDragActive] = useState(false);
   const { t } = useTranslate();
+  const { showSnackbar } = useSnackbar();
 
   const handleFileChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
@@ -51,15 +53,15 @@ export default function VideosView() {
     if (selectedFile) {
       console.log('Selected Video File:', selectedFile.name);
       // Add actual file upload logic here
-      alert(t('videos.alerts.fileReady', { fileName: selectedFile.name }));
+      showSnackbar(t('videos.alerts.fileReady', { fileName: selectedFile.name }), 'info');
     } else if (youtubeUrl) {
       console.log('YouTube URL:', youtubeUrl);
       // Add logic to process YouTube URL here
-      alert(t('videos.alerts.youtubeReady', { youtubeUrl }));
+      showSnackbar(t('videos.alerts.youtubeReady', { youtubeUrl }), 'info');
     } else {
-      alert(t('videos.alerts.noInput'));
+      showSnackbar(t('videos.alerts.noInput'), 'warning');
     }
-  }, [selectedFile, youtubeUrl, t]);
+  }, [selectedFile, youtubeUrl, t, showSnackbar]);
 
   const handleDrag = useCallback((e: React.DragEvent) => {
     e.preventDefault();
@@ -80,10 +82,10 @@ export default function VideosView() {
         setSelectedFile(e.dataTransfer.files[0]);
         setYoutubeUrl(''); // Clear YouTube URL if a file is dropped
       } else {
-        alert(t('videos.alerts.dropVideo'));
+        showSnackbar(t('videos.alerts.dropVideo'), 'error');
       }
     }
-  }, [t]);
+  }, [t, showSnackbar]);
 
 
   return (

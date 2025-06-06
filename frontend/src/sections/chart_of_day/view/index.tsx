@@ -13,8 +13,9 @@ import CircularProgress from '@mui/material/CircularProgress';
 
 import { useTranslate } from 'src/locales';
 
-// Internal imports
 import { useSettingsContext } from 'src/components/settings';
+// Internal imports
+import { useSnackbar } from 'src/components/snackbar/use-snackbar';
 
 // ----------------------------------------------------------------------
 
@@ -69,13 +70,14 @@ export default function ChartOfdayView() {
   const [dragActive, setDragActive] = useState(false);
   const [description, setDescription] = useState('');
   const { t } = useTranslate();
+  const { showSnackbar } = useSnackbar();
 
   const handleImageUpload = useCallback(
     (file: File) => {
       if (!file) return;
 
       if (!file.type.startsWith('image/')) {
-        alert(t('chartOfDay.errors.imageFile'));
+        showSnackbar(t('chartOfDay.errors.imageFile'), 'error');
         return;
       }
 
@@ -87,7 +89,7 @@ export default function ChartOfdayView() {
       };
       reader.readAsDataURL(file);
     },
-    [t]
+    [t, showSnackbar]
   );
 
   const handleDrag = useCallback((e: React.DragEvent) => {
@@ -134,13 +136,13 @@ export default function ChartOfdayView() {
     console.log('Description:', description);
 
     if (!selectedImage) {
-      alert(t('chartOfDay.errors.selectImage'));
+      showSnackbar(t('chartOfDay.errors.selectImage'), 'warning');
       return;
     }
     // Here you would typically trigger an API call to upload the image and description
     // For example: await uploadChartApi({ image: selectedImage, description });
-    alert(t('chartOfDay.successMessage'));
-  }, [selectedImage, description, t]);
+    showSnackbar(t('chartOfDay.successMessage'), 'success');
+  }, [selectedImage, description, t, showSnackbar]);
 
   return (
     <Container maxWidth={settings.themeStretch ? false : 'xl'}>

@@ -14,11 +14,13 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import { useTranslate } from 'src/locales';
 
 import { useSettingsContext } from 'src/components/settings';
+import { useSnackbar } from 'src/components/snackbar/use-snackbar';
 
 // ----------------------------------------------------------------------
 
 export default function QuizesView() {
   const settings = useSettingsContext();
+  const { showSnackbar } = useSnackbar();
 
   const [selectedOption, setSelectedOption] = useState('');
   const [textInput1, setTextInput1] = useState('');
@@ -32,11 +34,11 @@ export default function QuizesView() {
   const handleSubmit = useCallback(() => {
     // Basic validation
     if (!selectedOption) {
-      alert(t('quizzes.alerts.selectOption'));
+      showSnackbar(t('quizzes.alerts.selectOption'), 'warning');
       return;
     }
     if (!textInput1.trim() || !textInput2.trim()) {
-      alert(t('quizzes.alerts.fillInputs'));
+      showSnackbar(t('quizzes.alerts.fillInputs'), 'warning');
       return;
     }
     console.log('Submitted Data:', {
@@ -44,12 +46,12 @@ export default function QuizesView() {
       input1: textInput1,
       input2: textInput2,
     });
-    alert(t('quizzes.alerts.submitSuccess'));
+    showSnackbar(t('quizzes.alerts.submitSuccess'), 'success');
     // Optionally reset fields
     setSelectedOption('');
     setTextInput1('');
     setTextInput2('');
-  }, [selectedOption, textInput1, textInput2, t]);
+  }, [selectedOption, textInput1, textInput2, t, showSnackbar]);
 
   return (
     <Container maxWidth={settings.themeStretch ? false : 'xl'}>

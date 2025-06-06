@@ -4,6 +4,10 @@ import { HOST_API } from 'src/config-global';
 
 // ----------------------------------------------------------------------
 
+if (sessionStorage.getItem('accessToken')) {
+  axios.defaults.headers.common.Authorization = sessionStorage.getItem('accessToken');
+}
+
 const axiosInstance = axios.create({ baseURL: HOST_API });
 
 axiosInstance.interceptors.response.use(
@@ -49,5 +53,11 @@ export const endpoints = {
     list: '/api/product/list',
     details: '/api/product/details',
     search: '/api/product/search',
+  },
+  quote: {
+    create: '/api/quotes',
+  },
+  comment: {
+    create: '/api/comments',
   },
 };

@@ -9,7 +9,6 @@ import { tabs } from './components/tabs';
 import { menu } from './components/menu';
 import { list } from './components/list';
 import { table } from './components/table';
-import { alert } from './components/alert';
 import { badge } from './components/badge';
 import { paper } from './components/paper';
 import { radio } from './components/radio';
@@ -61,7 +60,6 @@ export function componentsOverrides(theme: Theme) {
     badge(theme),
     table(theme),
     paper(theme),
-    alert(theme),
     radio(theme),
     select(theme),
     button(theme),

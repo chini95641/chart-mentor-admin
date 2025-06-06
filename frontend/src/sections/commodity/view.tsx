@@ -17,8 +17,9 @@ import ListItemText from '@mui/material/ListItemText'; // For explicit theme typ
 
 import { useTranslate } from 'src/locales';
 
-// Internal imports
 import { useSettingsContext } from 'src/components/settings';
+// Internal imports
+import { useSnackbar } from 'src/components/snackbar/use-snackbar';
 
 // ----------------------------------------------------------------------
 
@@ -114,6 +115,7 @@ const useInitialCommoditiesData = () => {
 export default function CommodityView() {
   const settings = useSettingsContext();
   const { t } = useTranslate();
+  const { showSnackbar } = useSnackbar();
   const initialCommoditiesData = useInitialCommoditiesData();
   const [selectedCommodityId, setSelectedCommodityId] = useState<CommodityId>('crude');
   const [commoditiesData, setCommoditiesData] = useState<Record<CommodityId, Commodity>>(initialCommoditiesData);
@@ -130,7 +132,7 @@ export default function CommodityView() {
 
   const handleSubmitObservation = useCallback(() => {
     if (!newObservationText.trim()) {
-      alert(t('commodity.alerts.enterObservation'));
+      showSnackbar(t('commodity.alerts.enterObservation'), 'warning');
       return;
     }
 
@@ -153,7 +155,7 @@ export default function CommodityView() {
     });
 
     setNewObservationText(''); // Clear input field
-  }, [newObservationText, selectedCommodityId, t]);
+  }, [newObservationText, selectedCommodityId, t, showSnackbar]);
 
   const selectedCommodity = commoditiesData[selectedCommodityId];
 

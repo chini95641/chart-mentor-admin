@@ -1,17 +1,17 @@
 import { Helmet } from 'react-helmet-async';
 
-import HomeView from 'src/sections/home/view';
+import HomeVCreate from 'src/sections/home/create';
 
 // ----------------------------------------------------------------------
 
-export default function Page() {
+export default function HomeCreatePage() {
   return (
     <>
       <Helmet>
-        <title> Home</title>
+        <title> Home: Create</title>
       </Helmet>
 
-      <HomeView />
+      <HomeVCreate />
     </>
   );
 }

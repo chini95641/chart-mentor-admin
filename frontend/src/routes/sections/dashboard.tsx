@@ -8,7 +8,8 @@ import { LoadingScreen } from 'src/components/loading-screen';
 
 // ----------------------------------------------------------------------
 
-const IndexPage = lazy(() => import('src/pages/dashboard/home'));
+const IndexPage = lazy(() => import('src/pages/dashboard/home/create'));
+const HomeListPage = lazy(() => import('src/pages/dashboard/home/create'));
 const PageChartOfDay = lazy(() => import('src/pages/dashboard/chart_of_day'));
 const PageVideos = lazy(() => import('src/pages/dashboard/videos'));
 const PageUsers = lazy(() => import('src/pages/dashboard/users'));
@@ -37,7 +38,21 @@ export const dashboardRoutes = [
       </AuthGuard>
     ),
     children: [
-      { element: <IndexPage />, index: true },
+      {
+        path: '',
+        children: [
+          { element: <IndexPage />, index: true },
+          { path: 'list', element: <HomeListPage /> },
+        ],
+      },
+      // {
+      //   path: 'order',
+      //   children: [
+      //     { element: <OrderListPage />, index: true },
+      //     { path: 'list', element: <OrderListPage /> },
+      //     { path: ':id', element: <OrderDetailsPage /> },
+      //   ],
+      // },
       { path: 'chart_of_day', element: <PageChartOfDay /> },
       { path: 'videos', element: <PageVideos /> },
       { path: 'usax', element: <PageUsers /> },

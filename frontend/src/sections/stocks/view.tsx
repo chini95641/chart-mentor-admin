@@ -16,6 +16,7 @@ import Select, { SelectChangeEvent } from '@mui/material/Select';
 import { useTranslate } from 'src/locales';
 
 import { useSettingsContext } from 'src/components/settings';
+import { useSnackbar } from 'src/components/snackbar/use-snackbar';
 
 // ----------------------------------------------------------------------
 
@@ -67,6 +68,7 @@ const UploadUserPrompt = ({ onFileChange }: UploadUserPromptProps) => {
 export default function StocksView() {
   const settings = useSettingsContext();
   const { t } = useTranslate();
+  const { showSnackbar } = useSnackbar();
 
   const [optionType, setOptionType] = useState<'' | 'swing' | 'long'>('');
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
@@ -77,7 +79,7 @@ export default function StocksView() {
   const handleImageFileSelect = useCallback((file: File) => {
     if (!file) return;
     if (!file.type.startsWith('image/')) {
-      alert(t('stocks.alerts.imageFile'));
+      showSnackbar(t('stocks.alerts.imageFile'), 'error');
       return;
     }
     setIsUploading(true);
@@ -88,10 +90,10 @@ export default function StocksView() {
     };
     reader.onerror = () => {
       setIsUploading(false);
-      alert(t('stocks.alerts.fileReadError'));
+      showSnackbar(t('stocks.alerts.fileReadError'), 'error');
     };
     reader.readAsDataURL(file);
-  }, [t]);
+  }, [t, showSnackbar]);
 
   const handleDrag = useCallback((e: React.DragEvent) => {
     e.preventDefault();
@@ -120,11 +122,11 @@ export default function StocksView() {
 
   const handleSubmit = useCallback(() => {
     if (!optionType) {
-      alert(t('stocks.alerts.selectOptionType'));
+      showSnackbar(t('stocks.alerts.selectOptionType'), 'warning');
       return;
     }
     if (!selectedImage) {
-      alert(t('stocks.alerts.uploadImage'));
+      showSnackbar(t('stocks.alerts.uploadImage'), 'warning');
       return;
     }
     console.log('Stock Data:', {
@@ -132,12 +134,12 @@ export default function StocksView() {
       image: selectedImage, // This will be a base64 string
       description,
     });
-    alert(t('stocks.alerts.submitSuccess'));
+    showSnackbar(t('stocks.alerts.submitSuccess'), 'success');
     // Optionally reset form
     setOptionType('');
     setSelectedImage(null);
     setDescription('');
-  }, [optionType, selectedImage, description, t]);
+  }, [optionType, selectedImage, description, t, showSnackbar]);
 
   // Function to render image upload content, replacing nested ternary
   const renderImageUploadContent = () => {

@@ -13,6 +13,7 @@ import { alpha, Theme } from '@mui/material/styles';
 import { useTranslate } from 'src/locales';
 
 import { useSettingsContext } from 'src/components/settings';
+import { useSnackbar } from 'src/components/snackbar/use-snackbar';
 
 // ----------------------------------------------------------------------
 
@@ -69,6 +70,7 @@ export default function LearnView() {
   const settings = useSettingsContext();
   const [activeTab, setActiveTab] = useState(0);
   const { t } = useTranslate();
+  const { showSnackbar } = useSnackbar();
 
   // State for Chart Insights Tab
   const [chartInsights, setChartInsights] = useState<ChartInsightsData>({
@@ -125,13 +127,13 @@ export default function LearnView() {
     if (
       !Object.values(dataToSubmit).some((value) => typeof value === 'string' && value.trim() !== '')
     ) {
-      alert(t('learn.alerts.fillData', { tabName: submittedTabName }));
+      showSnackbar(t('learn.alerts.fillData', { tabName: submittedTabName }), 'warning');
       return;
     }
 
     console.log(`Submitting data for tab: ${submittedTabName}`, dataToSubmit);
-    alert(t('learn.alerts.submitSuccess', { tabName: submittedTabName }));
-  }, [activeTab, chartInsights, articleSummary, videoNotes, t]);
+    showSnackbar(t('learn.alerts.submitSuccess', { tabName: submittedTabName }), 'success');
+  }, [activeTab, chartInsights, articleSummary, videoNotes, t, showSnackbar]);
 
   return (
     <Container maxWidth={settings.themeStretch ? false : 'xl'}>

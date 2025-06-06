@@ -18,6 +18,7 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { useTranslate } from 'src/locales';
 
 import { useSettingsContext } from 'src/components/settings';
+import { useSnackbar } from 'src/components/snackbar/use-snackbar';
 
 // ----------------------------------------------------------------------
 
@@ -39,12 +40,13 @@ interface AdminFeedItem {
   actions: AdminAction[];
 }
 
-const handleAdminAction = (actionLabel: string, itemId: string) => {
-  alert(`${actionLabel} clicked for item ${itemId}`);
-};
-
 const useSampleAdminFeedItems = () => {
   const { t } = useTranslate();
+  const { showSnackbar } = useSnackbar();
+
+  const handleAdminAction = (actionLabel: string, itemId: string) => {
+    showSnackbar(`${actionLabel} clicked for item ${itemId}`, 'info');
+  };
 
   const sampleAdminFeedItems: AdminFeedItem[] = [
     {
@@ -190,7 +192,7 @@ function AdminFeedItemCard({ item }: AdminFeedItemCardProps) {
   );
 }
 
-export default function AdminViewsView() {
+export default function AdminViewView() {
   const settings = useSettingsContext();
   const sampleAdminFeedItems = useSampleAdminFeedItems();
   const [feedItems] = useState<AdminFeedItem[]>(sampleAdminFeedItems);

@@ -55,7 +55,17 @@ export function useNavData() {
       {
         subheader: '',
         items: [
-          { title: t('nav.home'), path: paths.dashboard.root, icon: ICONS.dashboard },
+          // { title: t('nav.home'), path: paths.dashboard.root, icon: ICONS.dashboard },
+          {
+            title: t('nav.home'),
+            path: paths.dashboard.home.root,
+            icon: ICONS.user,
+            children: [
+              { title: t('create'), path: paths.dashboard.home.root },
+              { title: t('list'), path: paths.dashboard.home.list },
+            ],
+          },
+
           {
             title: t('nav.chartOfTheDay'),
             path: paths.dashboard.chart_of_day,

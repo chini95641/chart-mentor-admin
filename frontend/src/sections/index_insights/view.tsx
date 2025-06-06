@@ -16,6 +16,7 @@ import Typography from '@mui/material/Typography';
 import { useTranslate } from 'src/locales';
 
 import { useSettingsContext } from 'src/components/settings';
+import { useSnackbar } from 'src/components/snackbar/use-snackbar';
 
 // ----------------------------------------------------------------------
 
@@ -148,6 +149,7 @@ const marketStatLabels = (
 export default function IndexInsightsView() {
   const settings = useSettingsContext();
   const { t } = useTranslate();
+  const { showSnackbar } = useSnackbar();
   const initialIndicesData = useInitialIndicesData();
   const [selectedIndexId, setSelectedIndexId] = useState<IndexId>('nifty');
   const [indicesData, setIndicesData] = useState<Record<IndexId, IndexData>>(initialIndicesData);
@@ -172,7 +174,7 @@ export default function IndexInsightsView() {
   const handleSubmitObservation = useCallback(() => {
     const isAnyStatFilled = Object.values(newMarketStatsInput).some(val => val.trim() !== '');
     if (!isAnyStatFilled && !newTwoLinerNote.trim()) {
-      alert(t('indexInsights.alerts.noData'));
+      showSnackbar(t('indexInsights.alerts.noData'), 'warning');
       return;
     }
 
@@ -207,7 +209,7 @@ export default function IndexInsightsView() {
 
     setNewMarketStatsInput(initialMarketStats);
     setNewTwoLinerNote('');
-  }, [newMarketStatsInput, newTwoLinerNote, selectedIndexId, t]);
+  }, [newMarketStatsInput, newTwoLinerNote, selectedIndexId, t, showSnackbar]);
 
   const selectedIndex = indicesData[selectedIndexId];
   const labels = marketStatLabels(t);

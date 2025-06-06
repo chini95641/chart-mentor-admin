@@ -11,6 +11,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 import { useTranslate } from 'src/locales';
 
 import { useSettingsContext } from 'src/components/settings';
+import { useSnackbar } from 'src/components/snackbar/use-snackbar';
 
 // ----------------------------------------------------------------------
 
@@ -67,6 +68,7 @@ const UploadQuotePrompt = ({
 export default function QuotesView() {
   const settings = useSettingsContext();
   const { t } = useTranslate();
+  const { showSnackbar } = useSnackbar();
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [isUploading, setIsUploading] = useState(false);
@@ -80,7 +82,7 @@ export default function QuotesView() {
     }
 
     if (!file.type.startsWith('image/')) {
-      alert(t('quotes.alerts.imageFile'));
+      showSnackbar(t('quotes.alerts.imageFile'), 'error');
       setSelectedFile(null);
       setPreviewUrl(null);
       setIsUploading(false);
@@ -98,10 +100,10 @@ export default function QuotesView() {
       setIsUploading(false);
       setSelectedFile(null);
       setPreviewUrl(null);
-      alert(t('quotes.alerts.fileReadError'));
+      showSnackbar(t('quotes.alerts.fileReadError'), 'error');
     };
     reader.readAsDataURL(file);
-  }, [t]);
+  }, [t, showSnackbar]);
 
   const handleFileSelect = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files?.[0]) {
@@ -114,13 +116,13 @@ export default function QuotesView() {
 
   const handleSubmit = useCallback(() => {
     if (!selectedFile) {
-      alert(t('quotes.alerts.selectImage'));
+      showSnackbar(t('quotes.alerts.selectImage'), 'warning');
       return;
     }
     console.log('Selected File:', selectedFile.name, selectedFile.type, selectedFile.size);
-    alert(t('quotes.alerts.submitSuccess'));
+    showSnackbar(t('quotes.alerts.submitSuccess'), 'success');
     handleImageUpload(null);
-  }, [selectedFile, handleImageUpload, t]);
+  }, [selectedFile, handleImageUpload, t, showSnackbar]);
 
   const renderUploadAreaContent = () => {
     if (isUploading) {

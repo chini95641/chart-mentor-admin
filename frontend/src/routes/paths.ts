@@ -18,6 +18,10 @@ export const paths = {
   },
   // DASHBOARD
   dashboard: {
+    home: {
+      root: ROOTS.DASHBOARD,
+      list: `${ROOTS.DASHBOARD}/list`,
+    },
     root: ROOTS.DASHBOARD,
     chart_of_day: `${ROOTS.DASHBOARD}/chart_of_day`,
     videos: `${ROOTS.DASHBOARD}/videos`,
