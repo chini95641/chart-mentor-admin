@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 // MUI Core imports - sorted alphabetically
 import Box from '@mui/material/Box';
@@ -16,11 +16,15 @@ import TableRow from '@mui/material/TableRow';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableHead from '@mui/material/TableHead';
+import { CircularProgress } from '@mui/material';
 import TableContainer from '@mui/material/TableContainer';
+import TablePagination from '@mui/material/TablePagination';
 
+import { getUsers } from 'src/api/user';
 import { useTranslate } from 'src/locales';
 
 import { useSettingsContext } from 'src/components/settings';
+import { useSnackbar } from 'src/components/snackbar/use-snackbar';
 
 // ----------------------------------------------------------------------
 
@@ -34,26 +38,47 @@ interface User {
   expirationDate?: string | null;
 }
 
-const sampleUsers: User[] = [
-  { id: '1', userName: 'Alice Smith', mobileNumber: '555-0101', email: 'alice.smith@example.com', membership: 'premium', registrationDate: '2023-01-15', expirationDate: '2024-01-15' },
-  { id: '2', userName: 'Bob Johnson', mobileNumber: '555-0102', email: 'bob.johnson@example.com', membership: 'free', registrationDate: '2023-03-22' },
-  { id: '3', userName: 'Carol Williams', mobileNumber: '555-0103', email: 'carol.williams@example.com', membership: 'free', registrationDate: '2023-05-10' },
-  { id: '4', userName: 'David Brown', mobileNumber: '555-0104', email: 'david.brown@example.com', membership: 'premium', registrationDate: '2023-07-01', expirationDate: '2024-07-01' },
-  { id: '5', userName: 'Eve Davis', mobileNumber: '555-0105', email: 'eve.davis@example.com', membership: 'free', registrationDate: '2023-09-18' },
-];
-
 export default function UsersView() {
   const settings = useSettingsContext();
   const [membershipFilter, setMembershipFilter] = useState<'all' | 'free' | 'premium'>('all');
+  const [users, setUsers] = useState<User[]>([]);
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [total, setTotal] = useState(0);
+  const [loading, setLoading] = useState(true);
   const { t } = useTranslate();
+  const { showSnackbar } = useSnackbar();
+
+  useEffect(() => {
+    const fetchUsers = async () => {
+      setLoading(true);
+      try {
+        const response = await getUsers(page + 1, rowsPerPage, membershipFilter);
+        setUsers(response.result.users);
+        setTotal(response.result.total);
+      } catch (error) {
+        console.error('Failed to fetch users', error);
+        showSnackbar(t('alerts.fetchUsersFail'), 'error');
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchUsers();
+  }, [page, rowsPerPage, membershipFilter, showSnackbar, t]);
 
   const handleMembershipFilterChange = (event: SelectChangeEvent<'all' | 'free' | 'premium'>) => {
     setMembershipFilter(event.target.value as 'all' | 'free' | 'premium');
+    setPage(0);
   };
 
-  const filteredUsers = sampleUsers.filter(user => 
-    membershipFilter === 'all' || user.membership === membershipFilter
-  );
+  const handleChangePage = (event: unknown, newPage: number) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
 
   return (
     <Container maxWidth={settings.themeStretch ? false : 'xl'}>
@@ -76,37 +101,52 @@ export default function UsersView() {
         </FormControl>
       </Box>
 
-      <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 650 }} aria-label="simple table">
-          <TableHead>
-            <TableRow>
-              <TableCell>{t('userList.table.userName')}</TableCell>
-              <TableCell>{t('userList.table.mobileNumber')}</TableCell>
-              <TableCell>{t('userList.table.email')}</TableCell>
-              <TableCell>{t('userList.table.membership')}</TableCell>
-              <TableCell>{t('userList.table.registrationDate')}</TableCell>
-              <TableCell>{t('userList.table.expirationDate')}</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {filteredUsers.map((user) => (
-              <TableRow
-                key={user.id}
-                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-              >
-                <TableCell component="th" scope="row">
-                  {user.userName}
-                </TableCell>
-                <TableCell>{user.mobileNumber}</TableCell>
-                <TableCell>{user.email}</TableCell>
-                <TableCell>{t(user.membership)}</TableCell>
-                <TableCell>{user.registrationDate}</TableCell>
-                <TableCell>{user.expirationDate || t('userList.na')}</TableCell>
+      {loading ? (
+        <CircularProgress />
+      ) : (
+        <TableContainer component={Paper}>
+          <Table sx={{ minWidth: 650 }} aria-label="simple table">
+            <TableHead>
+              <TableRow>
+                <TableCell>S.No.</TableCell>
+                <TableCell>{t('userList.table.userName')}</TableCell>
+                <TableCell>{t('userList.table.mobileNumber')}</TableCell>
+                <TableCell>{t('userList.table.email')}</TableCell>
+                <TableCell>{t('userList.table.membership')}</TableCell>
+                <TableCell>{t('userList.table.registrationDate')}</TableCell>
+                <TableCell>{t('userList.table.expirationDate')}</TableCell>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+            </TableHead>
+            <TableBody>
+              {users.map((user, index) => (
+                <TableRow
+                  key={user.id}
+                  sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                >
+                  <TableCell>{page * rowsPerPage + index + 1}</TableCell>
+                  <TableCell component="th" scope="row">
+                    {user.userName}
+                  </TableCell>
+                  <TableCell>{user.mobileNumber}</TableCell>
+                  <TableCell>{user.email}</TableCell>
+                  <TableCell>{t(user.membership)}</TableCell>
+                  <TableCell>{user.registrationDate}</TableCell>
+                  <TableCell>{user.expirationDate || t('userList.na')}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+          <TablePagination
+            rowsPerPageOptions={[5, 10, 25]}
+            component="div"
+            count={total}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+          />
+        </TableContainer>
+      )}
     </Container>
   );
 }

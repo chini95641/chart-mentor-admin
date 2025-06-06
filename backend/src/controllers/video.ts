@@ -1,4 +1,6 @@
 import { Request, Response } from 'express';
+import fs from 'fs';
+import path from 'path';
 import Video from '../models/video';
 
 export const createVideo = async (req: Request, res: Response) => {
@@ -62,10 +64,23 @@ export const updateVideo = async (req: Request, res: Response) => {
 
 export const deleteVideo = async (req: Request, res: Response) => {
     try {
-        const video = await Video.findByIdAndDelete(req.params.id);
+        const video = await Video.findById(req.params.id);
         if (!video) {
             return res.status(404).json({ message: 'Video not found' });
         }
+
+        if (video.filePath) {
+            const fullPath = path.join(__dirname, '..', '..', video.filePath);
+            fs.unlink(fullPath, (err) => {
+                if (err) {
+                    console.error('Failed to delete video file:', err);
+                    // Decide if you want to stop the process or just log the error
+                    // For now, we'll just log it and proceed with DB deletion
+                }
+            });
+        }
+
+        await Video.findByIdAndDelete(req.params.id);
         res.status(200).json({ message: 'Video deleted successfully' });
     } catch (error) {
         res.status(500).json({ message: 'Error deleting video', error });

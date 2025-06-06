@@ -106,7 +106,9 @@
     "successMessage": "Chart and description ready for upload! (Check console for data)",
     "errors": {
       "imageFile": "Please upload an image file",
-      "selectImage": "Please select an image to upload."
+      "selectImage": "Please select an image to upload.",
+      "description": "Description is required.",
+      "submit": "Failed to create chart."
     }
   },
   "videos": {
@@ -381,6 +383,7 @@
     "deleteChartSuccess": "Chart deleted successfully",
     "deleteChartFail": "Failed to delete chart",
     "imageUploadSuccess": "Image uploaded successfully!",
-    "imageUploadFail": "Image upload failed."
+    "imageUploadFail": "Image upload failed.",
+    "fetchUsersFail": "Failed to fetch users."
   }
 }

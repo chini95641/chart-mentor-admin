@@ -45,11 +45,16 @@ export const login = async (req: Request, res: Response) => {
 
 export const getUsers = async (req: Request, res: Response) => {
   const session: ClientSession = req.session!;
+  const page = parseInt(req.query.page as string) || 1;
+  const limit = parseInt(req.query.limit as string) || 10;
 
   try {
-    const users = await handleGetUsers(session);
+    const { users, total } = await handleGetUsers(page, limit, session);
     return sendResponse(res, 200, 'Get Users', {
       users,
+      total,
+      page,
+      limit,
     });
   } catch (error) {
     throw new RequestError(`${error}`, 500);

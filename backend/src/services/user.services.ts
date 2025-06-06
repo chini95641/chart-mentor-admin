@@ -84,16 +84,24 @@ export const handleUserLogin = async (
 };
 
 export const handleGetUsers = async (
+  page: number,
+  limit: number,
   session?: ClientSession
-): Promise<User[]> => {
+): Promise<{ users: User[], total: number }> => {
   const users = await UserModel.find(
     {
-      role: { $in: ['COMPANY', 'FELLESRAAD', 'CLIENT'] },
+      role: { $in: ['ADMIN', 'COMPANY', 'FELLESRAAD', 'CLIENT'] },
     },
     { _id: 0, __v: 0, password: 0 }
-  );
+  )
+    .skip((page - 1) * limit)
+    .limit(limit);
 
-  return users;
+  const total = await UserModel.countDocuments({
+    role: { $in: ['ADMIN', 'COMPANY', 'FELLESRAAD', 'CLIENT'] },
+  });
+
+  return { users, total };
 };
 
 export const handleAssignRole = async (
