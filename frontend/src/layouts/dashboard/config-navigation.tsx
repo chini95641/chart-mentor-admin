@@ -53,7 +53,7 @@ export function useNavData() {
       // OVERVIEW
       // ----------------------------------------------------------------------
       {
-        subheader: '',
+        subheader: 'Dashboard',
         items: [
           // { title: t('nav.home'), path: paths.dashboard.root, icon: ICONS.dashboard },
           {

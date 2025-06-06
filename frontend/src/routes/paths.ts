@@ -19,8 +19,8 @@ export const paths = {
   // DASHBOARD
   dashboard: {
     home: {
-      root: ROOTS.DASHBOARD,
-      list: `${ROOTS.DASHBOARD}/list`,
+      root: `${ROOTS.DASHBOARD}/home`,
+      list: `${ROOTS.DASHBOARD}/home/list`,
     },
     root: ROOTS.DASHBOARD,
     chart_of_day: {
