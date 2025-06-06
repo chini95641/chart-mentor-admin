@@ -68,8 +68,12 @@ export function useNavData() {
 
           {
             title: t('nav.chartOfTheDay'),
-            path: paths.dashboard.chart_of_day,
+            path: paths.dashboard.chart_of_day.root,
             icon: ICONS.analytics,
+            children: [
+              { title: t('create'), path: paths.dashboard.chart_of_day.root },
+              { title: t('list'), path: paths.dashboard.chart_of_day.list },
+            ],
           },
           { title: t('nav.videos'), path: paths.dashboard.videos, icon: ICONS.folder },
           { title: t('nav.users'), path: paths.dashboard.usax, icon: ICONS.user },

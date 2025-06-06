@@ -9,8 +9,9 @@ import { LoadingScreen } from 'src/components/loading-screen';
 // ----------------------------------------------------------------------
 
 const IndexPage = lazy(() => import('src/pages/dashboard/home/create'));
-const HomeListPage = lazy(() => import('src/pages/dashboard/home/create'));
-const PageChartOfDay = lazy(() => import('src/pages/dashboard/chart_of_day'));
+const HomeListPage = lazy(() => import('src/pages/dashboard/home/list'));
+const ChartOfDayListPage = lazy(() => import('src/pages/dashboard/chart_of_day/list'));
+const ChartOfDayCreatePage = lazy(() => import('src/pages/dashboard/chart_of_day/create'));
 const PageVideos = lazy(() => import('src/pages/dashboard/videos'));
 const PageUsers = lazy(() => import('src/pages/dashboard/users'));
 const PageQuizes = lazy(() => import('src/pages/dashboard/quizes'));
@@ -45,15 +46,13 @@ export const dashboardRoutes = [
           { path: 'list', element: <HomeListPage /> },
         ],
       },
-      // {
-      //   path: 'order',
-      //   children: [
-      //     { element: <OrderListPage />, index: true },
-      //     { path: 'list', element: <OrderListPage /> },
-      //     { path: ':id', element: <OrderDetailsPage /> },
-      //   ],
-      // },
-      { path: 'chart_of_day', element: <PageChartOfDay /> },
+      {
+        path: 'chart_of_day',
+        children: [
+          { element: <ChartOfDayCreatePage />, index: true },
+          { path: 'list', element: <ChartOfDayListPage /> },
+        ],
+      },
       { path: 'videos', element: <PageVideos /> },
       { path: 'usax', element: <PageUsers /> },
       { path: 'quizes', element: <PageQuizes /> },

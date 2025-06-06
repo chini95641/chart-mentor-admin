@@ -55,9 +55,21 @@ export const endpoints = {
     search: '/api/product/search',
   },
   quote: {
+    list: '/api/quotes',
     create: '/api/quotes',
+    update: (id: string) => `/api/quotes/${id}`,
+    delete: (id: string) => `/api/quotes/${id}`,
   },
   comment: {
+    list: '/api/comments',
     create: '/api/comments',
+    update: (id: string) => `/api/comments/${id}`,
+    delete: (id: string) => `/api/comments/${id}`,
+  },
+  chartOfDay: {
+    list: '/api/charts',
+    create: '/api/charts',
+    update: (id: string) => `/api/charts/${id}`,
+    delete: (id: string) => `/api/charts/${id}`,
   },
 };

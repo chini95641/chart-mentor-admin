@@ -2,7 +2,7 @@ dist
 
 # Logs
 build/ 
-upload/
+uploads/
 
 
 # Compiled binary addons (https://nodejs.org/api/addons.html)

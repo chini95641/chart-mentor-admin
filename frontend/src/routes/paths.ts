@@ -23,7 +23,10 @@ export const paths = {
       list: `${ROOTS.DASHBOARD}/list`,
     },
     root: ROOTS.DASHBOARD,
-    chart_of_day: `${ROOTS.DASHBOARD}/chart_of_day`,
+    chart_of_day: {
+      root: `${ROOTS.DASHBOARD}/chart_of_day`,
+      list: `${ROOTS.DASHBOARD}/chart_of_day/list`,
+    },
     videos: `${ROOTS.DASHBOARD}/videos`,
     usax: `${ROOTS.DASHBOARD}/usax`,
     quizes: `${ROOTS.DASHBOARD}/quizes`,

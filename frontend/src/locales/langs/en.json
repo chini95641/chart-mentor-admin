@@ -98,7 +98,7 @@
   },
   "chartOfDay": {
     "title": "Chart of the Day",
-    "uploadChart": "Upload Chart",
+    "uploadChart": "Upload Chart Image",
     "dragAndDrop": "Drag and drop an image here, or click to select",
     "description": "Description",
     "descriptionPlaceholder": "Enter a description for the chart...",

@@ -35,13 +35,14 @@ const initMongo = async () => {
 const initServer = async () => {
   try {
     await initMongo();
-    app.use(express.json());
     app.use(
       cors({
         origin: '*',
         exposedHeaders: 'location',
       })
     );
+    app.use(express.json({ limit: '50mb' }));
+    app.use(express.urlencoded({ limit: '50mb', extended: true }));
     app.use(routes);
     app.use(handleGlobalError);
 
