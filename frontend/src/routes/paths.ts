@@ -27,7 +27,10 @@ export const paths = {
       root: `${ROOTS.DASHBOARD}/chart_of_day`,
       list: `${ROOTS.DASHBOARD}/chart_of_day/list`,
     },
-    videos: `${ROOTS.DASHBOARD}/videos`,
+    videos: {
+      root: `${ROOTS.DASHBOARD}/videos`,
+      list: `${ROOTS.DASHBOARD}/videos/list`,
+    },
     usax: `${ROOTS.DASHBOARD}/usax`,
     quizes: `${ROOTS.DASHBOARD}/quizes`,
     admin_videos: `${ROOTS.DASHBOARD}/admin_videos`,

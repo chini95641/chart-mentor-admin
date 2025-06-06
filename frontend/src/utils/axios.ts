@@ -72,4 +72,10 @@ export const endpoints = {
     update: (id: string) => `/api/charts/${id}`,
     delete: (id: string) => `/api/charts/${id}`,
   },
+  video: {
+    list: '/api/videos',
+    create: '/api/videos',
+    update: (id: string) => `/api/videos/${id}`,
+    delete: (id: string) => `/api/videos/${id}`,
+  },
 };

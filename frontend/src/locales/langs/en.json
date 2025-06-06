@@ -111,6 +111,7 @@
   },
   "videos": {
     "title": "Manage Videos",
+    "listTitle": "Video List",
     "uploadTitle": "Upload Video File",
     "chooseVideo": "Choose Video File",
     "selectedFile": "Selected file: {{fileName}}",
@@ -119,10 +120,13 @@
     "youtubeLabel": "YouTube Video URL",
     "youtubePlaceholder": "e.g., https://www.youtube.com/watch?v=dQw4w9WgXcQ",
     "submit": "Add Video",
+    "uploading": "Uploading...",
     "alerts": {
-      "fileReady": "File \"{{fileName}}\" ready for upload!",
-      "youtubeReady": "YouTube URL \"{{youtubeUrl}}\" ready for submission!",
+      "fileUploaded": "File uploaded successfully!",
+      "uploadFailed": "File upload failed.",
       "noInput": "Please select a video file or enter a YouTube URL.",
+      "videoCreated": "Video created successfully!",
+      "creationFailed": "Failed to create video.",
       "dropVideo": "Please drop a video file."
     }
   },
@@ -360,5 +364,23 @@
         "notes": "Global cues important."
       }
     }
+  },
+  "modals": {
+    "editChartTitle": "Edit Chart Description",
+    "save": "Save"
+  },
+  "alerts": {
+    "fetchVideosFail": "Failed to fetch videos",
+    "updateVideoSuccess": "Video updated successfully",
+    "updateVideoFail": "Failed to update video",
+    "deleteVideoSuccess": "Video deleted successfully",
+    "deleteVideoFail": "Failed to delete video",
+    "fetchChartFail": "Failed to fetch charts",
+    "updateChartSuccess": "Chart updated successfully",
+    "updateChartFail": "Failed to update chart",
+    "deleteChartSuccess": "Chart deleted successfully",
+    "deleteChartFail": "Failed to delete chart",
+    "imageUploadSuccess": "Image uploaded successfully!",
+    "imageUploadFail": "Image upload failed."
   }
 }

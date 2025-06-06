@@ -12,7 +12,8 @@ const IndexPage = lazy(() => import('src/pages/dashboard/home/create'));
 const HomeListPage = lazy(() => import('src/pages/dashboard/home/list'));
 const ChartOfDayListPage = lazy(() => import('src/pages/dashboard/chart_of_day/list'));
 const ChartOfDayCreatePage = lazy(() => import('src/pages/dashboard/chart_of_day/create'));
-const PageVideos = lazy(() => import('src/pages/dashboard/videos'));
+const VideoCreatePage = lazy(() => import('src/pages/dashboard/videos/create'));
+const VideoListPage = lazy(() => import('src/pages/dashboard/videos/list'));
 const PageUsers = lazy(() => import('src/pages/dashboard/users'));
 const PageQuizes = lazy(() => import('src/pages/dashboard/quizes'));
 const PageAdminViews = lazy(() => import('src/pages/dashboard/admin_views'));
@@ -54,7 +55,13 @@ export const dashboardRoutes = [
           { path: 'list', element: <ChartOfDayListPage /> },
         ],
       },
-      { path: 'videos', element: <PageVideos /> },
+      {
+        path: 'videos',
+        children: [
+          { element: <VideoCreatePage />, index: true },
+          { path: 'list', element: <VideoListPage /> },
+        ],
+      },
       { path: 'usax', element: <PageUsers /> },
       { path: 'quizes', element: <PageQuizes /> },
       { path: 'admin_videos', element: <PageAdminViews /> },

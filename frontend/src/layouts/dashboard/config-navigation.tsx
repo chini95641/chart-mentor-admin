@@ -75,7 +75,15 @@ export function useNavData() {
               { title: t('list'), path: paths.dashboard.chart_of_day.list },
             ],
           },
-          { title: t('nav.videos'), path: paths.dashboard.videos, icon: ICONS.folder },
+          {
+            title: t('nav.videos'),
+            path: paths.dashboard.videos.root,
+            icon: ICONS.folder,
+            children: [
+              { title: t('create'), path: paths.dashboard.videos.root },
+              { title: t('list'), path: paths.dashboard.videos.list },
+            ],
+          },
           { title: t('nav.users'), path: paths.dashboard.usax, icon: ICONS.user },
           { title: t('nav.quizzes'), path: paths.dashboard.quizes, icon: ICONS.ecommerce },
           { title: t('nav.adminViews'), path: paths.dashboard.admin_videos, icon: ICONS.booking },

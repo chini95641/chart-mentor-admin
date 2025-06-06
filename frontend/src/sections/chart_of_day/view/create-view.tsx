@@ -33,18 +33,21 @@ const VisuallyHiddenInput = styled('input')({
   width: 1,
 });
 
-const ImagePreview = ({ src }: { src: string }) => (
-  <Box
-    component="img"
-    src={src}
-    alt="Uploaded chart"
-    sx={{
-      width: '100%',
-      height: '100%',
-      objectFit: 'contain',
-    }}
-  />
-);
+const ImagePreview = ({ src }: { src: string }) => {
+  const { t } = useTranslate();
+  return (
+    <Box
+      component="img"
+      src={src}
+      alt={t('chartOfDay.uploadedChartAlt')}
+      sx={{
+        width: '100%',
+        height: '100%',
+        objectFit: 'contain',
+      }}
+    />
+  );
+};
 
 const UploadPrompt = ({
   onFileSelect,
@@ -55,7 +58,7 @@ const UploadPrompt = ({
   return (
     <>
       <Button component="label" variant="outlined" startIcon={<CloudUploadIcon />} sx={{ mb: 2 }}>
-        {t('chartOfDay.uploadChartImage')}
+        {t('chartOfDay.uploadChart')}
         <VisuallyHiddenInput type="file" accept="image/*" onChange={onFileSelect} />
       </Button>
       <Typography variant="body2" color="text.secondary">
@@ -95,11 +98,11 @@ export default function ChartOfdayCreateView() {
         const { image_urls } = response.data.result;
         if (image_urls && image_urls.length > 0) {
           setUploadedImageUrl(image_urls[0]);
-          showSnackbar('Image uploaded successfully!', 'success');
+          showSnackbar(t('alerts.imageUploadSuccess'), 'success');
         }
       } catch (error) {
         console.error(error);
-        showSnackbar('Image upload failed.', 'error');
+        showSnackbar(t('alerts.imageUploadFail'), 'error');
       } finally {
         setIsUploading(false);
       }
@@ -178,7 +181,7 @@ export default function ChartOfdayCreateView() {
       </Typography>
 
       <Typography variant="h6" sx={{ mb: 2 }}>
-        {t('video.uploadTitle')}
+        {t('chartOfDay.uploadChart')}
       </Typography>
 
       <Box

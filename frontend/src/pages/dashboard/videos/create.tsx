@@ -1,14 +1,14 @@
 import { Helmet } from 'react-helmet-async';
 
-import VideosView from 'src/sections/videos/view';
+import VideosView from 'src/sections/videos/view/create-view';
 
 // ----------------------------------------------------------------------
 
-export default function PageVideos() {
+export default function VideoCreatePage() {
   return (
     <>
       <Helmet>
-        <title> Videos</title>
+        <title> Videos: Create</title>
       </Helmet>
 
       <VideosView />

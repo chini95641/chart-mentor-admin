@@ -17,6 +17,7 @@ import {
   CircularProgress,
 } from '@mui/material';
 
+import { useTranslate } from 'src/locales';
 import { HOST_API } from 'src/config-global';
 import {
   getChartsOfDay,
@@ -50,6 +51,7 @@ const style = {
 export default function ChartOfDayListView() {
   const settings = useSettingsContext();
   const { showSnackbar } = useSnackbar();
+  const { t } = useTranslate();
   const [charts, setCharts] = useState<Chart[]>([]);
   const [loading, setLoading] = useState(true);
   const [editingItem, setEditingItem] = useState<Chart | null>(null);
@@ -64,13 +66,13 @@ export default function ChartOfDayListView() {
         setCharts(response.data.result);
       } catch (error) {
         console.error('Failed to fetch charts', error);
-        showSnackbar('Failed to fetch charts', 'error');
+        showSnackbar(t('alerts.fetchChartFail'), 'error');
       } finally {
         setLoading(false);
       }
     };
     fetchCharts();
-  }, [showSnackbar]);
+  }, [showSnackbar, t]);
 
   const handleOpenModal = (item: Chart) => {
     setEditingItem(item);
@@ -97,10 +99,10 @@ export default function ChartOfDayListView() {
           c._id === editingItem._id ? { ...c, description: editedDescription } : c
         )
       );
-      showSnackbar('Chart updated successfully', 'success');
+      showSnackbar(t('alerts.updateChartSuccess'), 'success');
       handleCloseModal();
     } catch (error) {
-      showSnackbar('Failed to update chart', 'error');
+      showSnackbar(t('alerts.updateChartFail'), 'error');
     }
   };
 
@@ -108,9 +110,9 @@ export default function ChartOfDayListView() {
     try {
       await deleteChartOfDay(id);
       setCharts(charts.filter((c) => c._id !== id));
-      showSnackbar('Chart deleted successfully', 'success');
+      showSnackbar(t('alerts.deleteChartSuccess'), 'success');
     } catch (error) {
-      showSnackbar('Failed to delete chart', 'error');
+      showSnackbar(t('alerts.deleteChartFail'), 'error');
     }
   };
 
@@ -128,7 +130,7 @@ export default function ChartOfDayListView() {
   return (
     <Container maxWidth={settings.themeStretch ? false : 'xl'}>
       <Typography variant="h4" sx={{ mb: 5 }}>
-        Chart of the Day List
+        {t('chartOfDay.title')} List
       </Typography>
       <Grid container spacing={3}>
         {charts.map((chart) => (
@@ -160,7 +162,7 @@ export default function ChartOfDayListView() {
       <Modal open={isModalOpen} onClose={handleCloseModal}>
         <Box sx={style}>
           <Typography variant="h6" component="h2">
-            Edit Chart Description
+            {t('modals.editChartTitle')}
           </Typography>
           <TextField
             fullWidth
@@ -171,7 +173,7 @@ export default function ChartOfDayListView() {
             sx={{ mt: 2, mb: 2 }}
           />
           <Button onClick={handleUpdate} variant="contained">
-            Save
+            {t('modals.save')}
           </Button>
         </Box>
       </Modal>
