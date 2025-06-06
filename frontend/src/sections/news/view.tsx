@@ -10,6 +10,8 @@ import Typography from '@mui/material/Typography';
 import CardContent from '@mui/material/CardContent';
 import CardActions from '@mui/material/CardActions';
 
+import { useTranslate } from 'src/locales';
+
 import { useSettingsContext } from 'src/components/settings';
 
 // ----------------------------------------------------------------------
@@ -24,60 +26,62 @@ interface NewsItem {
   articleUrl: string;
 }
 
-// Sample Data
-const sampleNewsItems: NewsItem[] = [
-  {
-    id: 'news1',
-    title: 'Global Markets Rally on Positive Economic Outlook',
-    source: 'Financial Times',
-    timestamp: new Date(Date.now() - 1 * 60 * 60 * 1000), // 1 hour ago
-    summary:
-      'Stock markets worldwide saw a significant surge today following the release of strong manufacturing data and optimistic growth forecasts from leading economists.',
-    imageUrl: '/assets/images/placeholder.svg', // Replace with actual or better placeholder
-    articleUrl: '#', // Replace with actual article link
-  },
-  {
-    id: 'news2',
-    title: 'Tech Giants Announce Breakthrough in AI Development',
-    source: 'TechCrunch',
-    timestamp: new Date(Date.now() - 3 * 60 * 60 * 1000), // 3 hours ago
-    summary:
-      'A consortium of leading technology companies has unveiled a new AI model that promises to revolutionize natural language processing and machine learning capabilities.',
-    imageUrl: '/assets/images/placeholder.svg', // Replace with actual or better placeholder
-    articleUrl: '#',
-  },
-  {
-    id: 'news3',
-    title: 'Central Bank Hints at Interest Rate Adjustments Amid Inflation Concerns',
-    source: 'Reuters',
-    timestamp: new Date(Date.now() - 5 * 60 * 60 * 1000), // 5 hours ago
-    summary:
-      'In a recent address, the Central Bank governor suggested potential shifts in monetary policy to curb rising inflation, causing ripples in bond and currency markets.',
-    // No image for this one to show how it renders
-    articleUrl: '#',
-  },
-  {
-    id: 'news4',
-    title: 'Crude Oil Prices Fluctuate as OPEC+ Deliberates Output Levels',
-    source: 'Bloomberg',
-    timestamp: new Date(Date.now() - 8 * 60 * 60 * 1000), // 8 hours ago
-    summary:
-      'Oil markets remain on edge as OPEC+ nations meet to discuss future production quotas, with analysts predicting continued volatility based on the outcome.',
-    imageUrl: '/assets/images/placeholder.svg',
-    articleUrl: '#',
-  },
-];
+const useSampleNewsItems = () => {
+  const { t } = useTranslate();
+  // Sample Data
+  const sampleNewsItems: NewsItem[] = [
+    {
+      id: 'news1',
+      title: t('news.items.marketRally.title'),
+      source: 'Financial Times',
+      timestamp: new Date(Date.now() - 1 * 60 * 60 * 1000), // 1 hour ago
+      summary: t('news.items.marketRally.summary'),
+      imageUrl: '/assets/images/placeholder.svg', // Replace with actual or better placeholder
+      articleUrl: '#', // Replace with actual article link
+    },
+    {
+      id: 'news2',
+      title: t('news.items.aiBreakthrough.title'),
+      source: 'TechCrunch',
+      timestamp: new Date(Date.now() - 3 * 60 * 60 * 1000), // 3 hours ago
+      summary: t('news.items.aiBreakthrough.summary'),
+      imageUrl: '/assets/images/placeholder.svg', // Replace with actual or better placeholder
+      articleUrl: '#',
+    },
+    {
+      id: 'news3',
+      title: t('news.items.centralBank.title'),
+      source: 'Reuters',
+      timestamp: new Date(Date.now() - 5 * 60 * 60 * 1000), // 5 hours ago
+      summary: t('news.items.centralBank.summary'),
+      // No image for this one to show how it renders
+      articleUrl: '#',
+    },
+    {
+      id: 'news4',
+      title: t('news.items.oilPrices.title'),
+      source: 'Bloomberg',
+      timestamp: new Date(Date.now() - 8 * 60 * 60 * 1000), // 8 hours ago
+      summary: t('news.items.oilPrices.summary'),
+      imageUrl: '/assets/images/placeholder.svg',
+      articleUrl: '#',
+    },
+  ];
+  return sampleNewsItems;
+};
 
 export default function NewsView() {
   const settings = useSettingsContext();
+  const sampleNewsItems = useSampleNewsItems();
   const [newsItems] = useState<NewsItem[]>(sampleNewsItems);
+  const { t } = useTranslate();
 
   // In a real application, newsItems would be fetched from an API
 
   return (
     <Container maxWidth={settings.themeStretch ? false : 'xl'}>
       <Typography variant="h4" sx={{ mb: 5 }}>
-        Latest News
+        {t('news.title')}
       </Typography>
 
       <Grid container spacing={3}>
@@ -137,7 +141,7 @@ export default function NewsView() {
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    Read More
+                    {t('news.readMore')}
                   </Button>
                 </CardActions>
               </Card>
@@ -146,7 +150,7 @@ export default function NewsView() {
         ) : (
           <Grid item xs={12}>
             <Typography variant="body1" color="text.secondary" sx={{ textAlign: 'center', mt: 5 }}>
-              No news items available at the moment.
+              {t('news.noItems')}
             </Typography>
           </Grid>
         )}

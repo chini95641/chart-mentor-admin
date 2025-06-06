@@ -15,6 +15,8 @@ import { Theme, styled } from '@mui/material/styles';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 
+import { useTranslate } from 'src/locales';
+
 import { useSettingsContext } from 'src/components/settings';
 
 // ----------------------------------------------------------------------
@@ -41,80 +43,82 @@ const handleAdminAction = (actionLabel: string, itemId: string) => {
   alert(`${actionLabel} clicked for item ${itemId}`);
 };
 
-const sampleAdminFeedItems: AdminFeedItem[] = [
-  {
-    id: 'item1',
-    avatarUrl: '/assets/images/avatar/avatar_1.jpg',
-    actorName: 'User Submission',
-    actorHandle: '@user_jane_doe',
-    timestamp: new Date(Date.now() - 1 * 60 * 60 * 1000),
-    content:
-      'A new travel blog post titled "Exploring the Alps" has been submitted and is awaiting approval. Please review for content guidelines and quality.',
-    imageUrl: '/assets/images/placeholder.svg',
-    actions: [
-      {
-        id: 'approve1',
-        label: 'Approve',
-        icon: <ThumbUpIcon fontSize="small" />,
-        onClick: () => handleAdminAction('Approve', 'item1'),
-      },
-      {
-        id: 'reject1',
-        label: 'Reject',
-        icon: <DeleteIcon fontSize="small" />,
-        onClick: () => handleAdminAction('Reject', 'item1'),
-      },
-      {
-        id: 'edit1',
-        label: 'Edit',
-        icon: <EditIcon fontSize="small" />,
-        onClick: () => handleAdminAction('Edit', 'item1'),
-      },
-    ],
-  },
-  {
-    id: 'item2',
-    actorName: 'System Alert',
-    actorHandle: '@system_monitor',
-    timestamp: new Date(Date.now() - 2 * 60 * 60 * 1000),
-    content:
-      'Unusual login activity detected for admin account @admin_ops. Multiple failed attempts from an unrecognized IP address. Recommend immediate investigation.',
-    actions: [
-      {
-        id: 'view_details2',
-        label: 'View Details',
-        onClick: () => handleAdminAction('View Details', 'item2'),
-      },
-      {
-        id: 'acknowledge2',
-        label: 'Acknowledge',
-        onClick: () => handleAdminAction('Acknowledge', 'item2'),
-      },
-    ],
-  },
-  {
-    id: 'item3',
-    avatarUrl: '/assets/images/avatar/avatar_2.jpg',
-    actorName: 'Content Flag',
-    actorHandle: '@moderation_bot',
-    timestamp: new Date(Date.now() - 5 * 60 * 60 * 1000),
-    content:
-      'A comment on post ID #P5678 has been flagged for potentially violating community guidelines regarding hate speech. Please review immediately.',
-    actions: [
-      {
-        id: 'review_comment3',
-        label: 'Review Comment',
-        onClick: () => handleAdminAction('Review Comment', 'item3'),
-      },
-      {
-        id: 'remove_comment3',
-        label: 'Remove Comment',
-        icon: <DeleteIcon fontSize="small" />,
-        onClick: () => handleAdminAction('Remove Comment', 'item3'),
-      },
-    ],
-  },
-];
+const useSampleAdminFeedItems = () => {
+  const { t } = useTranslate();
+
+  const sampleAdminFeedItems: AdminFeedItem[] = [
+    {
+      id: 'item1',
+      avatarUrl: '/assets/images/avatar/avatar_1.jpg',
+      actorName: t('adminViews.feed.userSubmission.actorName'),
+      actorHandle: '@user_jane_doe',
+      timestamp: new Date(Date.now() - 1 * 60 * 60 * 1000),
+      content: t('adminViews.feed.userSubmission.content'),
+      imageUrl: '/assets/images/placeholder.svg',
+      actions: [
+        {
+          id: 'approve1',
+          label: t('adminViews.actions.approve'),
+          icon: <ThumbUpIcon fontSize="small" />,
+          onClick: () => handleAdminAction('Approve', 'item1'),
+        },
+        {
+          id: 'reject1',
+          label: t('adminViews.actions.reject'),
+          icon: <DeleteIcon fontSize="small" />,
+          onClick: () => handleAdminAction('Reject', 'item1'),
+        },
+        {
+          id: 'edit1',
+          label: t('adminViews.actions.edit'),
+          icon: <EditIcon fontSize="small" />,
+          onClick: () => handleAdminAction('Edit', 'item1'),
+        },
+      ],
+    },
+    {
+      id: 'item2',
+      actorName: t('adminViews.feed.systemAlert.actorName'),
+      actorHandle: '@system_monitor',
+      timestamp: new Date(Date.now() - 2 * 60 * 60 * 1000),
+      content: t('adminViews.feed.systemAlert.content'),
+      actions: [
+        {
+          id: 'view_details2',
+          label: t('adminViews.actions.viewDetails'),
+          onClick: () => handleAdminAction('View Details', 'item2'),
+        },
+        {
+          id: 'acknowledge2',
+          label: t('adminViews.actions.acknowledge'),
+          onClick: () => handleAdminAction('Acknowledge', 'item2'),
+        },
+      ],
+    },
+    {
+      id: 'item3',
+      avatarUrl: '/assets/images/avatar/avatar_2.jpg',
+      actorName: t('adminViews.feed.contentFlag.actorName'),
+      actorHandle: '@moderation_bot',
+      timestamp: new Date(Date.now() - 5 * 60 * 60 * 1000),
+      content: t('adminViews.feed.contentFlag.content'),
+      actions: [
+        {
+          id: 'review_comment3',
+          label: t('adminViews.actions.reviewComment'),
+          onClick: () => handleAdminAction('Review Comment', 'item3'),
+        },
+        {
+          id: 'remove_comment3',
+          label: t('adminViews.actions.removeComment'),
+          icon: <DeleteIcon fontSize="small" />,
+          onClick: () => handleAdminAction('Remove Comment', 'item3'),
+        },
+      ],
+    },
+  ];
+  return sampleAdminFeedItems;
+};
 
 const StyledPaper = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(2),
@@ -188,12 +192,14 @@ function AdminFeedItemCard({ item }: AdminFeedItemCardProps) {
 
 export default function AdminViewsView() {
   const settings = useSettingsContext();
+  const sampleAdminFeedItems = useSampleAdminFeedItems();
   const [feedItems] = useState<AdminFeedItem[]>(sampleAdminFeedItems);
+  const { t } = useTranslate();
 
   return (
     <Container maxWidth={settings.themeStretch ? false : 'xl'}>
       <Typography variant="h4" sx={{ mb: 3 }}>
-        Admin Activity Feed
+        {t('adminViews.title')}
       </Typography>
 
       <Box sx={{ maxWidth: 800, mx: 'auto' }}>
@@ -201,7 +207,7 @@ export default function AdminViewsView() {
           feedItems.map((item) => <AdminFeedItemCard key={item.id} item={item} />)
         ) : (
           <Typography variant="body1" color="text.secondary" sx={{ textAlign: 'center', mt: 5 }}>
-            No items in the admin feed.
+            {t('adminViews.noItems')}
           </Typography>
         )}
       </Box>

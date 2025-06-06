@@ -18,6 +18,8 @@ import TableCell from '@mui/material/TableCell';
 import TableHead from '@mui/material/TableHead';
 import TableContainer from '@mui/material/TableContainer';
 
+import { useTranslate } from 'src/locales';
+
 import { useSettingsContext } from 'src/components/settings';
 
 // ----------------------------------------------------------------------
@@ -43,6 +45,7 @@ const sampleUsers: User[] = [
 export default function UsersView() {
   const settings = useSettingsContext();
   const [membershipFilter, setMembershipFilter] = useState<'all' | 'free' | 'premium'>('all');
+  const { t } = useTranslate();
 
   const handleMembershipFilterChange = (event: SelectChangeEvent<'all' | 'free' | 'premium'>) => {
     setMembershipFilter(event.target.value as 'all' | 'free' | 'premium');
@@ -54,21 +57,21 @@ export default function UsersView() {
 
   return (
     <Container maxWidth={settings.themeStretch ? false : 'xl'}>
-      <Typography variant="h4" sx={{ mb: 3 }}>User List</Typography>
+      <Typography variant="h4" sx={{ mb: 3 }}>{t('userList.title')}</Typography>
 
       <Box sx={{ mb: 3, width: '100%', maxWidth: 300 }}>
         <FormControl fullWidth>
-          <InputLabel id="membership-filter-label">Filter by Membership</InputLabel>
+          <InputLabel id="membership-filter-label">{t('userList.filterByMembership')}</InputLabel>
           <Select
             labelId="membership-filter-label"
             id="membership-filter-select"
             value={membershipFilter}
-            label="Filter by Membership"
+            label={t('userList.filterByMembership')}
             onChange={handleMembershipFilterChange}
           >
-            <MenuItem value="all">All</MenuItem>
-            <MenuItem value="free">Free</MenuItem>
-            <MenuItem value="premium">Premium</MenuItem>
+            <MenuItem value="all">{t('userList.all')}</MenuItem>
+            <MenuItem value="free">{t('userList.free')}</MenuItem>
+            <MenuItem value="premium">{t('userList.premium')}</MenuItem>
           </Select>
         </FormControl>
       </Box>
@@ -77,12 +80,12 @@ export default function UsersView() {
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>
-              <TableCell>User Name</TableCell>
-              <TableCell>Mobile Number</TableCell>
-              <TableCell>Email</TableCell>
-              <TableCell>Membership</TableCell>
-              <TableCell>Registration Date</TableCell>
-              <TableCell>Expiration Date</TableCell>
+              <TableCell>{t('userList.table.userName')}</TableCell>
+              <TableCell>{t('userList.table.mobileNumber')}</TableCell>
+              <TableCell>{t('userList.table.email')}</TableCell>
+              <TableCell>{t('userList.table.membership')}</TableCell>
+              <TableCell>{t('userList.table.registrationDate')}</TableCell>
+              <TableCell>{t('userList.table.expirationDate')}</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -96,9 +99,9 @@ export default function UsersView() {
                 </TableCell>
                 <TableCell>{user.mobileNumber}</TableCell>
                 <TableCell>{user.email}</TableCell>
-                <TableCell>{user.membership}</TableCell>
+                <TableCell>{t(user.membership)}</TableCell>
                 <TableCell>{user.registrationDate}</TableCell>
-                <TableCell>{user.expirationDate || 'N/A'}</TableCell>
+                <TableCell>{user.expirationDate || t('userList.na')}</TableCell>
               </TableRow>
             ))}
           </TableBody>

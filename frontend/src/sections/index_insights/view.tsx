@@ -13,6 +13,8 @@ import Container from '@mui/material/Container';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 
+import { useTranslate } from 'src/locales';
+
 import { useSettingsContext } from 'src/components/settings';
 
 // ----------------------------------------------------------------------
@@ -52,62 +54,101 @@ interface IndexData extends MarketStats {
 
 type IndexId = 'nifty' | 'bank_nifty' | 'fin_nifty' | 'midcap' | 'sensex';
 
-const initialIndicesData: Record<IndexId, IndexData> = {
-  nifty: {
-    id: 'nifty',
-    name: 'Nifty 50',
-    chartPlaceholder: 'Chart data for Nifty 50 (placeholder)',
-    daysRange: '22,300.50 - 22,450.75',
-    fiftyTwoWeekRange: '18,800.00 - 22,800.00',
-    previousClose: '22,350.10',
-    openPrice: '22,380.00',
-    volume: '150.75M',
-    avgVolume3m: '120.50M',
-    currentTwoLinerText: 'Key support at 22,200. Watch for breakout or breakdown.',
-    observationHistory: [
-      { id: 'obsN1', timestamp: new Date(Date.now() - 2 * 60 * 60 * 1000), marketStats: { daysRange: '22,250 - 22,350', fiftyTwoWeekRange: '18,750 - 22,750', previousClose: '22,200', openPrice: '22,280', volume: '140M', avgVolume3m: '115M' }, twoLinerText: 'Opened gap up, then consolidated.' },
-    ],
-  },
-  bank_nifty: {
-    id: 'bank_nifty',
-    name: 'Bank Nifty',
-    chartPlaceholder: 'Chart data for Bank Nifty (placeholder)',
-    ...initialMarketStats,
-    previousClose: '48,000',
-    currentTwoLinerText: 'Awaiting PSU bank participation.',
-    observationHistory: [],
-  },
-  fin_nifty: {
-    id: 'fin_nifty',
-    name: 'Fin Nifty',
-    chartPlaceholder: 'Chart data for Fin Nifty (placeholder)',
-    ...initialMarketStats,
-    previousClose: '21,500',
-    currentTwoLinerText: 'NBFCs in focus.',
-    observationHistory: [],
-  },
-  midcap: {
-    id: 'midcap',
-    name: 'Nifty Midcap 100',
-    chartPlaceholder: 'Chart data for Nifty Midcap 100 (placeholder)',
-    ...initialMarketStats,
-    previousClose: '40,000',
-    currentTwoLinerText: 'Stock-specific action.',
-    observationHistory: [],
-  },
-  sensex: {
-    id: 'sensex',
-    name: 'BSE Sensex',
-    chartPlaceholder: 'Chart data for BSE Sensex (placeholder)',
-    ...initialMarketStats,
-    previousClose: '73,000',
-    currentTwoLinerText: 'Global cues important.',
-    observationHistory: [],
-  },
+const useInitialIndicesData = () => {
+  const { t } = useTranslate();
+  const initialIndicesData: Record<IndexId, IndexData> = {
+    nifty: {
+      id: 'nifty',
+      name: t('indexInsights.indices.nifty.name'),
+      chartPlaceholder: t('indexInsights.chartPlaceholder', {
+        indexName: t('indexInsights.indices.nifty.name'),
+      }),
+      daysRange: '22,300.50 - 22,450.75',
+      fiftyTwoWeekRange: '18,800.00 - 22,800.00',
+      previousClose: '22,350.10',
+      openPrice: '22,380.00',
+      volume: '150.75M',
+      avgVolume3m: '120.50M',
+      currentTwoLinerText: t('indexInsights.indices.nifty.notes'),
+      observationHistory: [
+        {
+          id: 'obsN1',
+          timestamp: new Date(Date.now() - 2 * 60 * 60 * 1000),
+          marketStats: {
+            daysRange: '22,250 - 22,350',
+            fiftyTwoWeekRange: '18,750 - 22,750',
+            previousClose: '22,200',
+            openPrice: '22,280',
+            volume: '140M',
+            avgVolume3m: '115M',
+          },
+          twoLinerText: t('indexInsights.indices.nifty.history.0'),
+        },
+      ],
+    },
+    bank_nifty: {
+      id: 'bank_nifty',
+      name: t('indexInsights.indices.bank_nifty.name'),
+      chartPlaceholder: t('indexInsights.chartPlaceholder', {
+        indexName: t('indexInsights.indices.bank_nifty.name'),
+      }),
+      ...initialMarketStats,
+      previousClose: '48,000',
+      currentTwoLinerText: t('indexInsights.indices.bank_nifty.notes'),
+      observationHistory: [],
+    },
+    fin_nifty: {
+      id: 'fin_nifty',
+      name: t('indexInsights.indices.fin_nifty.name'),
+      chartPlaceholder: t('indexInsights.chartPlaceholder', {
+        indexName: t('indexInsights.indices.fin_nifty.name'),
+      }),
+      ...initialMarketStats,
+      previousClose: '21,500',
+      currentTwoLinerText: t('indexInsights.indices.fin_nifty.notes'),
+      observationHistory: [],
+    },
+    midcap: {
+      id: 'midcap',
+      name: t('indexInsights.indices.midcap.name'),
+      chartPlaceholder: t('indexInsights.chartPlaceholder', {
+        indexName: t('indexInsights.indices.midcap.name'),
+      }),
+      ...initialMarketStats,
+      previousClose: '40,000',
+      currentTwoLinerText: t('indexInsights.indices.midcap.notes'),
+      observationHistory: [],
+    },
+    sensex: {
+      id: 'sensex',
+      name: t('indexInsights.indices.sensex.name'),
+      chartPlaceholder: t('indexInsights.chartPlaceholder', {
+        indexName: t('indexInsights.indices.sensex.name'),
+      }),
+      ...initialMarketStats,
+      previousClose: '73,000',
+      currentTwoLinerText: t('indexInsights.indices.sensex.notes'),
+      observationHistory: [],
+    },
+  };
+  return initialIndicesData;
 };
+
+const marketStatLabels = (
+  t: (key: string) => string
+): Record<keyof MarketStats, string> => ({
+  daysRange: t('indexInsights.marketStats.daysRange'),
+  fiftyTwoWeekRange: t('indexInsights.marketStats.fiftyTwoWeekRange'),
+  previousClose: t('indexInsights.marketStats.previousClose'),
+  openPrice: t('indexInsights.marketStats.openPrice'),
+  volume: t('indexInsights.marketStats.volume'),
+  avgVolume3m: t('indexInsights.marketStats.avgVolume3m'),
+});
 
 export default function IndexInsightsView() {
   const settings = useSettingsContext();
+  const { t } = useTranslate();
+  const initialIndicesData = useInitialIndicesData();
   const [selectedIndexId, setSelectedIndexId] = useState<IndexId>('nifty');
   const [indicesData, setIndicesData] = useState<Record<IndexId, IndexData>>(initialIndicesData);
   
@@ -131,7 +172,7 @@ export default function IndexInsightsView() {
   const handleSubmitObservation = useCallback(() => {
     const isAnyStatFilled = Object.values(newMarketStatsInput).some(val => val.trim() !== '');
     if (!isAnyStatFilled && !newTwoLinerNote.trim()) {
-      alert('Please enter some market data or a note.');
+      alert(t('indexInsights.alerts.noData'));
       return;
     }
 
@@ -166,34 +207,35 @@ export default function IndexInsightsView() {
 
     setNewMarketStatsInput(initialMarketStats);
     setNewTwoLinerNote('');
-  }, [newMarketStatsInput, newTwoLinerNote, selectedIndexId]);
+  }, [newMarketStatsInput, newTwoLinerNote, selectedIndexId, t]);
 
   const selectedIndex = indicesData[selectedIndexId];
+  const labels = marketStatLabels(t);
 
   const renderMarketStats = (stats: MarketStats) => (
     <Box sx={{ fontSize: '0.875rem', '& p': { my: 0.5 } }}>
-        <Typography variant="body2"><strong>Day&apos;s Range:</strong> {stats.daysRange || 'N/A'}</Typography>
-        <Typography variant="body2"><strong>52 Week Range:</strong> {stats.fiftyTwoWeekRange || 'N/A'}</Typography>
-        <Typography variant="body2"><strong>Prev. Close:</strong> {stats.previousClose || 'N/A'}</Typography>
-        <Typography variant="body2"><strong>Open:</strong> {stats.openPrice || 'N/A'}</Typography>
-        <Typography variant="body2"><strong>Volume:</strong> {stats.volume || 'N/A'}</Typography>
-        <Typography variant="body2"><strong>Avg. Vol (3m):</strong> {stats.avgVolume3m || 'N/A'}</Typography>
+        <Typography variant="body2"><strong>{labels.daysRange}:</strong> {stats.daysRange || 'N/A'}</Typography>
+        <Typography variant="body2"><strong>{labels.fiftyTwoWeekRange}:</strong> {stats.fiftyTwoWeekRange || 'N/A'}</Typography>
+        <Typography variant="body2"><strong>{labels.previousClose}:</strong> {stats.previousClose || 'N/A'}</Typography>
+        <Typography variant="body2"><strong>{labels.openPrice}:</strong> {stats.openPrice || 'N/A'}</Typography>
+        <Typography variant="body2"><strong>{labels.volume}:</strong> {stats.volume || 'N/A'}</Typography>
+        <Typography variant="body2"><strong>{labels.avgVolume3m}:</strong> {stats.avgVolume3m || 'N/A'}</Typography>
     </Box>
   );
 
   return (
     <Container maxWidth={settings.themeStretch ? false : 'xl'}>
       <Typography variant="h4" sx={{ mb: 3 }}>
-        Index Insights
+        {t('indexInsights.title')}
       </Typography>
 
       <Box sx={{ borderBottom: 1, borderColor: 'divider', mb: 3 }}>
         <Tabs value={selectedIndexId} onChange={handleTabChange} aria-label="index selection tabs" variant="scrollable" scrollButtons="auto">
-          <Tab label="Nifty 50" value="nifty" />
-          <Tab label="Bank Nifty" value="bank_nifty" />
-          <Tab label="Fin Nifty" value="fin_nifty" />
-          <Tab label="Midcap 100" value="midcap" />
-          <Tab label="Sensex" value="sensex" />
+          <Tab label={t('indexInsights.indices.nifty.name')} value="nifty" />
+          <Tab label={t('indexInsights.indices.bank_nifty.name')} value="bank_nifty" />
+          <Tab label={t('indexInsights.indices.fin_nifty.name')} value="fin_nifty" />
+          <Tab label={t('indexInsights.indices.midcap.name')} value="midcap" />
+          <Tab label={t('indexInsights.indices.sensex.name')} value="sensex" />
         </Tabs>
       </Box>
 
@@ -207,22 +249,22 @@ export default function IndexInsightsView() {
             </Typography>
           </Box>
 
-          <Typography variant="h6" sx={{ mt: 3 }}>Current Market Data:</Typography>
+          <Typography variant="h6" sx={{ mt: 3 }}>{t('indexInsights.currentDataTitle')}</Typography>
           {renderMarketStats(selectedIndex)}
 
-          <Typography variant="h6" sx={{ mt: 2 }}>Key Notes:</Typography>
+          <Typography variant="h6" sx={{ mt: 2 }}>{t('indexInsights.keyNotesTitle')}</Typography>
           <Typography variant="body2" paragraph sx={{ fontStyle: 'italic', whiteSpace: 'pre-line' }}>
-            {selectedIndex.currentTwoLinerText || "No key notes."}
+            {selectedIndex.currentTwoLinerText || t('indexInsights.noNotes')}
           </Typography>
 
-          <Typography variant="h6" sx={{ mt: 3, mb: 2 }}>Add New Update:</Typography>
+          <Typography variant="h6" sx={{ mt: 3, mb: 2 }}>{t('indexInsights.addUpdateTitle')}</Typography>
           <Grid container spacing={2}>
             {(Object.keys(initialMarketStats) as Array<keyof MarketStats>).map((key) => (
                 <Grid item xs={12} sm={6} key={key}>
                     <TextField 
                         fullWidth 
                         size="small"
-                        label={key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}
+                        label={labels[key]}
                         value={newMarketStatsInput[key]}
                         onChange={(e: ChangeEvent<HTMLInputElement>) => handleMarketStatInputChange(key, e)}
                     />
@@ -233,16 +275,16 @@ export default function IndexInsightsView() {
             fullWidth
             multiline
             rows={2}
-            label={`Additional Notes (2 lines) for ${selectedIndex.name}...`}
+            label={t('indexInsights.notesLabel', { indexName: selectedIndex.name })}
             value={newTwoLinerNote}
             onChange={handleTwoLinerNoteChange}
             sx={{ my: 2 }}
           />
           <Button variant="contained" color="primary" onClick={handleSubmitObservation}>
-            Submit Update
+            {t('indexInsights.submitUpdate')}
           </Button>
 
-          <Typography variant="h6" sx={{ mt: 4, mb: 2 }}>Observation History:</Typography>
+          <Typography variant="h6" sx={{ mt: 4, mb: 2 }}>{t('indexInsights.historyTitle')}</Typography>
           {selectedIndex.observationHistory.length > 0 ? (
             <List dense sx={{ maxHeight: 400, overflow: 'auto', border: (theme: Theme) => `1px solid ${theme.palette.divider}`, borderRadius: 1, p:1 }}>
               {selectedIndex.observationHistory.map((obs) => (

@@ -11,6 +11,8 @@ import { alpha, styled } from '@mui/material/styles';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import CircularProgress from '@mui/material/CircularProgress';
 
+import { useTranslate } from 'src/locales';
+
 // Internal imports
 import { useSettingsContext } from 'src/components/settings';
 
@@ -41,26 +43,24 @@ const ImagePreview = ({ src }: { src: string }) => (
   />
 );
 
-const UploadPrompt = ({ onFileSelect }: { onFileSelect: (e: React.ChangeEvent<HTMLInputElement>) => void }) => (
-  <>
-    <Button
-      component="label"
-      variant="contained"
-      startIcon={<CloudUploadIcon />}
-      sx={{ mb: 2 }}
-    >
-      Upload Chart
-      <VisuallyHiddenInput
-        type="file"
-        accept="image/*"
-        onChange={onFileSelect}
-      />
-    </Button>
-    <Typography variant="body2" color="text.secondary">
-      Drag and drop an image here, or click to select
-    </Typography>
-  </>
-);
+const UploadPrompt = ({
+  onFileSelect,
+}: {
+  onFileSelect: (e: React.ChangeEvent<HTMLInputElement>) => void;
+}) => {
+  const { t } = useTranslate();
+  return (
+    <>
+      <Button component="label" variant="contained" startIcon={<CloudUploadIcon />} sx={{ mb: 2 }}>
+        {t('chartOfDay.uploadChart')}
+        <VisuallyHiddenInput type="file" accept="image/*" onChange={onFileSelect} />
+      </Button>
+      <Typography variant="body2" color="text.secondary">
+        {t('chartOfDay.dragAndDrop')}
+      </Typography>
+    </>
+  );
+};
 
 export default function ChartOfdayView() {
   const settings = useSettingsContext();
@@ -68,23 +68,27 @@ export default function ChartOfdayView() {
   const [isUploading, setIsUploading] = useState(false);
   const [dragActive, setDragActive] = useState(false);
   const [description, setDescription] = useState('');
+  const { t } = useTranslate();
 
-  const handleImageUpload = useCallback((file: File) => {
-    if (!file) return;
+  const handleImageUpload = useCallback(
+    (file: File) => {
+      if (!file) return;
 
-    if (!file.type.startsWith('image/')) {
-      alert('Please upload an image file');
-      return;
-    }
+      if (!file.type.startsWith('image/')) {
+        alert(t('chartOfDay.errors.imageFile'));
+        return;
+      }
 
-    setIsUploading(true);
-    const reader = new FileReader();
-    reader.onload = () => {
-      setSelectedImage(reader.result as string);
-      setIsUploading(false);
-    };
-    reader.readAsDataURL(file);
-  }, []);
+      setIsUploading(true);
+      const reader = new FileReader();
+      reader.onload = () => {
+        setSelectedImage(reader.result as string);
+        setIsUploading(false);
+      };
+      reader.readAsDataURL(file);
+    },
+    [t]
+  );
 
   const handleDrag = useCallback((e: React.DragEvent) => {
     e.preventDefault();
@@ -130,17 +134,19 @@ export default function ChartOfdayView() {
     console.log('Description:', description);
 
     if (!selectedImage) {
-      alert('Please select an image to upload.');
+      alert(t('chartOfDay.errors.selectImage'));
       return;
     }
     // Here you would typically trigger an API call to upload the image and description
     // For example: await uploadChartApi({ image: selectedImage, description });
-    alert('Chart and description ready for upload! (Check console for data)');
-  }, [selectedImage, description]);
+    alert(t('chartOfDay.successMessage'));
+  }, [selectedImage, description, t]);
 
   return (
     <Container maxWidth={settings.themeStretch ? false : 'xl'}>
-      <Typography variant="h4" sx={{ mb: 5 }}> Chart Of the Day </Typography>
+      <Typography variant="h4" sx={{ mb: 5 }}>
+        {t('chartOfDay.title')}
+      </Typography>
 
       <Box
         onDragEnter={handleDrag}
@@ -170,8 +176,8 @@ export default function ChartOfdayView() {
         fullWidth
         multiline
         rows={4}
-        label="Description"
-        placeholder="Enter a description for the chart..."
+        label={t('chartOfDay.description')}
+        placeholder={t('chartOfDay.descriptionPlaceholder')}
         value={description}
         onChange={(e) => setDescription(e.target.value)}
         sx={{ mt: 3 }}
@@ -184,7 +190,7 @@ export default function ChartOfdayView() {
           onClick={handleSubmit}
           disabled={!selectedImage || isUploading}
         >
-          Upload Chart Data
+          {t('chartOfDay.submit')}
         </Button>
       </Box>
     </Container>

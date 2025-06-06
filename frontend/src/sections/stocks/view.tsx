@@ -13,6 +13,8 @@ import CircularProgress from '@mui/material/CircularProgress';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 
+import { useTranslate } from 'src/locales';
+
 import { useSettingsContext } from 'src/components/settings';
 
 // ----------------------------------------------------------------------
@@ -46,21 +48,25 @@ const ImagePreview = ({ src }: ImagePreviewProps) => (
 interface UploadUserPromptProps {
   onFileChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
-const UploadUserPrompt = ({ onFileChange }: UploadUserPromptProps) => (
-  <>
-    <Button component="label" variant="outlined" startIcon={<CloudUploadIcon />} sx={{ mb: 1 }}>
-      Upload Image
-      <VisuallyHiddenInput type="file" accept="image/*" onChange={onFileChange} />
-    </Button>
-    <Typography variant="body2" color="text.secondary">
-      Or drag and drop an image
-    </Typography>
-  </>
-);
+const UploadUserPrompt = ({ onFileChange }: UploadUserPromptProps) => {
+  const { t } = useTranslate();
+  return (
+    <>
+      <Button component="label" variant="outlined" startIcon={<CloudUploadIcon />} sx={{ mb: 1 }}>
+        {t('stocks.uploadImage')}
+        <VisuallyHiddenInput type="file" accept="image/*" onChange={onFileChange} />
+      </Button>
+      <Typography variant="body2" color="text.secondary">
+        {t('stocks.dragAndDrop')}
+      </Typography>
+    </>
+  );
+};
 
 // Renamed from FourView to StocksView
 export default function StocksView() {
   const settings = useSettingsContext();
+  const { t } = useTranslate();
 
   const [optionType, setOptionType] = useState<'' | 'swing' | 'long'>('');
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
@@ -71,7 +77,7 @@ export default function StocksView() {
   const handleImageFileSelect = useCallback((file: File) => {
     if (!file) return;
     if (!file.type.startsWith('image/')) {
-      alert('Please upload an image file.');
+      alert(t('stocks.alerts.imageFile'));
       return;
     }
     setIsUploading(true);
@@ -81,11 +87,11 @@ export default function StocksView() {
       setIsUploading(false);
     };
     reader.onerror = () => {
-        setIsUploading(false);
-        alert('Failed to read file.');
+      setIsUploading(false);
+      alert(t('stocks.alerts.fileReadError'));
     };
     reader.readAsDataURL(file);
-  }, []);
+  }, [t]);
 
   const handleDrag = useCallback((e: React.DragEvent) => {
     e.preventDefault();
@@ -114,11 +120,11 @@ export default function StocksView() {
 
   const handleSubmit = useCallback(() => {
     if (!optionType) {
-      alert('Please select an option type.');
+      alert(t('stocks.alerts.selectOptionType'));
       return;
     }
     if (!selectedImage) {
-      alert('Please upload an image.');
+      alert(t('stocks.alerts.uploadImage'));
       return;
     }
     console.log('Stock Data:', {
@@ -126,12 +132,12 @@ export default function StocksView() {
       image: selectedImage, // This will be a base64 string
       description,
     });
-    alert('Stock data submitted! Check console for details.');
+    alert(t('stocks.alerts.submitSuccess'));
     // Optionally reset form
     setOptionType('');
     setSelectedImage(null);
     setDescription('');
-  }, [optionType, selectedImage, description]);
+  }, [optionType, selectedImage, description, t]);
 
   // Function to render image upload content, replacing nested ternary
   const renderImageUploadContent = () => {
@@ -146,20 +152,26 @@ export default function StocksView() {
 
   return (
     <Container maxWidth={settings.themeStretch ? false : 'xl'}>
-      <Typography variant="h4" sx={{ mb: 5 }}>Manage Stocks</Typography>
+      <Typography variant="h4" sx={{ mb: 5 }}>
+        {t('stocks.title')}
+      </Typography>
 
       <Box sx={{ display: 'grid', gap: 3, gridTemplateColumns: { xs: '1fr', md: '1fr' } }}>
         <FormControl fullWidth required>
-          <InputLabel id="option-type-select-label">Option Type</InputLabel>
+          <InputLabel id="option-type-select-label">{t('stocks.optionType')}</InputLabel>
           <Select
             labelId="option-type-select-label"
             value={optionType}
-            label="Option Type"
-            onChange={(e: SelectChangeEvent<'' | 'swing' | 'long'>) => setOptionType(e.target.value as '' | 'swing' | 'long')}
+            label={t('stocks.optionType')}
+            onChange={(e: SelectChangeEvent<'' | 'swing' | 'long'>) =>
+              setOptionType(e.target.value as '' | 'swing' | 'long')
+            }
           >
-            <MenuItem value=""><em>None</em></MenuItem>
-            <MenuItem value="swing">Swing</MenuItem>
-            <MenuItem value="long">Long</MenuItem>
+            <MenuItem value="">
+              <em>{t('stocks.optionTypes.none')}</em>
+            </MenuItem>
+            <MenuItem value="swing">{t('stocks.optionTypes.swing')}</MenuItem>
+            <MenuItem value="long">{t('stocks.optionTypes.long')}</MenuItem>
           </Select>
         </FormControl>
 
@@ -190,20 +202,20 @@ export default function StocksView() {
           fullWidth
           multiline
           rows={4}
-          label="Description"
-          placeholder="Enter a description for the stock..."
+          label={t('stocks.descriptionLabel')}
+          placeholder={t('stocks.descriptionPlaceholder')}
           value={description}
           onChange={(e) => setDescription(e.target.value)}
         />
 
         <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-          <Button 
-            variant="contained" 
-            color="primary" 
+          <Button
+            variant="contained"
+            color="primary"
             onClick={handleSubmit}
             disabled={!optionType || !selectedImage || isUploading}
           >
-            Add Stock Entry
+            {t('stocks.submit')}
           </Button>
         </Box>
       </Box>

@@ -49,6 +49,316 @@
   "only_admin_can_see_this_item": "Only admin can see this item",
   "upgrade_to_pro": "Upgrade to Pro",
   "demo": {
-    "title": "English"
+    "title": "English",
+    "indexInsights": "Index Insights"
+  },
+  "userList": {
+    "title": "User List",
+    "filterByMembership": "Filter by Membership",
+    "all": "All",
+    "free": "Free",
+    "premium": "Premium",
+    "na": "N/A",
+    "table": {
+      "userName": "User Name",
+      "mobileNumber": "Mobile Number",
+      "email": "Email",
+      "membership": "Membership",
+      "registrationDate": "Registration Date",
+      "expirationDate": "Expiration Date"
+    }
+  },
+  "free": "Free",
+  "premium": "Premium",
+
+  "home": {
+    "todaysQuotes": "Today's Quotes",
+    "quote": "Quote",
+    "submitQuote": "Submit Quote",
+    "niftyComment": "Enter your nifty comment",
+    "submitComment": "Submit Comment"
+  },
+  "nav": {
+    "home": "Home",
+    "chartOfTheDay": "Chart of the Day",
+    "videos": "Videos",
+    "users": "Users",
+    "quizzes": "Quizzes",
+    "adminViews": "Admin Views",
+    "news": "News",
+    "stocks": "Stocks",
+    "learn": "Learn",
+    "commodity": "Commodity",
+    "quotes": "Quotes",
+    "roleManagement": "Role Management",
+    "indexInsights": "Index Insights"
+  },
+  "account": {
+    "logout": "Logout"
+  },
+  "chartOfDay": {
+    "title": "Chart of the Day",
+    "uploadChart": "Upload Chart",
+    "dragAndDrop": "Drag and drop an image here, or click to select",
+    "description": "Description",
+    "descriptionPlaceholder": "Enter a description for the chart...",
+    "submit": "Upload Chart Data",
+    "successMessage": "Chart and description ready for upload! (Check console for data)",
+    "errors": {
+      "imageFile": "Please upload an image file",
+      "selectImage": "Please select an image to upload."
+    }
+  },
+  "videos": {
+    "title": "Manage Videos",
+    "uploadTitle": "Upload Video File",
+    "chooseVideo": "Choose Video File",
+    "selectedFile": "Selected file: {{fileName}}",
+    "dragAndDrop": "Drag and drop a video file here, or click to select",
+    "youtubeTitle": "Or Add YouTube URL",
+    "youtubeLabel": "YouTube Video URL",
+    "youtubePlaceholder": "e.g., https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+    "submit": "Add Video",
+    "alerts": {
+      "fileReady": "File \"{{fileName}}\" ready for upload!",
+      "youtubeReady": "YouTube URL \"{{youtubeUrl}}\" ready for submission!",
+      "noInput": "Please select a video file or enter a YouTube URL.",
+      "dropVideo": "Please drop a video file."
+    }
+  },
+  "quizzes": {
+    "title": "Create Quiz",
+    "chooseOption": "Choose an Option",
+    "input1Label": "Text Input 1",
+    "input2Label": "Text Input 2",
+    "submit": "Submit Quiz",
+    "alerts": {
+      "selectOption": "Please select an option (a, b, c, or d).",
+      "fillInputs": "Please fill in both text input areas.",
+      "submitSuccess": "Quiz data submitted! Check console for details."
+    }
+  },
+  "adminViews": {
+    "title": "Admin Activity Feed",
+    "noItems": "No items in the admin feed.",
+    "actions": {
+      "approve": "Approve",
+      "reject": "Reject",
+      "edit": "Edit",
+      "viewDetails": "View Details",
+      "acknowledge": "Acknowledge",
+      "reviewComment": "Review Comment",
+      "removeComment": "Remove Comment"
+    },
+    "feed": {
+      "userSubmission": {
+        "actorName": "User Submission",
+        "content": "A new travel blog post titled \"Exploring the Alps\" has been submitted and is awaiting approval. Please review for content guidelines and quality."
+      },
+      "systemAlert": {
+        "actorName": "System Alert",
+        "content": "Unusual login activity detected for admin account @admin_ops. Multiple failed attempts from an unrecognized IP address. Recommend immediate investigation."
+      },
+      "contentFlag": {
+        "actorName": "Content Flag",
+        "content": "A comment on post ID #P5678 has been flagged for potentially violating community guidelines regarding hate speech. Please review immediately."
+      }
+    }
+  },
+  "news": {
+    "title": "Latest News",
+    "noItems": "No news items available at the moment.",
+    "readMore": "Read More",
+    "items": {
+      "marketRally": {
+        "title": "Global Markets Rally on Positive Economic Outlook",
+        "summary": "Stock markets worldwide saw a significant surge today following the release of strong manufacturing data and optimistic growth forecasts from leading economists."
+      },
+      "aiBreakthrough": {
+        "title": "Tech Giants Announce Breakthrough in AI Development",
+        "summary": "A consortium of leading technology companies has unveiled a new AI model that promises to revolutionize natural language processing and machine learning capabilities."
+      },
+      "centralBank": {
+        "title": "Central Bank Hints at Interest Rate Adjustments Amid Inflation Concerns",
+        "summary": "In a recent address, the Central Bank governor suggested potential shifts in monetary policy to curb rising inflation, causing ripples in bond and currency markets."
+      },
+      "oilPrices": {
+        "title": "Crude Oil Prices Fluctuate as OPEC+ Deliberates Output Levels",
+        "summary": "Oil markets remain on edge as OPEC+ nations meet to discuss future production quotas, with analysts predicting continued volatility based on the outcome."
+      }
+    }
+  },
+  "stocks": {
+    "title": "Manage Stocks",
+    "uploadImage": "Upload Image",
+    "dragAndDrop": "Or drag and drop an image",
+    "optionType": "Option Type",
+    "optionTypes": {
+      "none": "None",
+      "swing": "Swing",
+      "long": "Long"
+    },
+    "descriptionLabel": "Description",
+    "descriptionPlaceholder": "Enter a description for the stock...",
+    "submit": "Add Stock Entry",
+    "alerts": {
+      "imageFile": "Please upload an image file.",
+      "fileReadError": "Failed to read file.",
+      "selectOptionType": "Please select an option type.",
+      "uploadImage": "Please upload an image.",
+      "submitSuccess": "Stock data submitted! Check console for details."
+    }
+  },
+  "learn": {
+    "title": "Learn",
+    "submit": "Submit Current Tab Data",
+    "tabs": {
+      "chartInsights": "Chart Insights",
+      "articleSummary": "Article Summary",
+      "videoNotes": "Video Notes"
+    },
+    "alerts": {
+      "fillData": "Please fill in some data for the {{tabName}} tab before submitting.",
+      "submitSuccess": "Data for {{tabName}} submitted! Check console for details."
+    },
+    "chartAnalysis": {
+      "title": "Chart Analysis",
+      "imageUrlLabel": "Chart Image URL (Optional)",
+      "imageUrlPlaceholder": "Enter URL of the chart image or leave blank",
+      "chartPreviewAlt": "Chart Preview",
+      "previewArea": "Chart Preview Area",
+      "takeawaysLabel": "Key Takeaways & Analysis"
+    },
+    "articleSummary": {
+      "title": "Article Summary",
+      "articleTitleLabel": "Article Title",
+      "fullTextLabel": "Full Article Text (or paste content here)",
+      "summaryLabel": "Your Summary"
+    },
+    "videoNotes": {
+      "title": "Video Notes",
+      "videoUrlLabel": "Video URL",
+      "videoTitleLabel": "Video Title (Optional)",
+      "notesLabel": "Key Notes & Timestamps"
+    }
+  },
+  "commodity": {
+    "title": "Commodity Market Observations",
+    "chartPlaceholder": "Chart data for {{commodityName}} (placeholder)",
+    "currentObservationTitle": "Current Market Observation:",
+    "addObservationTitle": "Add New Observation:",
+    "observationLabel": "Observation for {{commodityName}}...",
+    "submitObservation": "Submit Observation",
+    "historyTitle": "Observation History:",
+    "noHistory": "No past observations for {{commodityName}}.",
+    "alerts": {
+      "enterObservation": "Please enter an observation."
+    },
+    "crude": {
+      "name": "Crude Oil",
+      "observation": "Crude looking bullish, might test $80.",
+      "history": [
+        "Initial observation: Crude stable around $78.",
+        "Correction: Slight dip to $77.50 due to inventory news."
+      ]
+    },
+    "naturalGas": {
+      "name": "Natural Gas",
+      "observation": "Natural Gas prices are volatile.",
+      "history": [
+        "Natural Gas futures up slightly."
+      ]
+    },
+    "gold": {
+      "name": "Gold",
+      "observation": "Gold holding steady above $2000.",
+      "history": [
+        "Gold reached a new high yesterday.",
+        "Minor pullback in Gold prices."
+      ]
+    },
+    "silver": {
+      "name": "Silver",
+      "observation": "Silver following Gold's trend.",
+      "history": [
+        "Silver showing resilience."
+      ]
+    }
+  },
+  "quotes": {
+    "title": "Upload Quote Image",
+    "uploadButton": "Upload Quote Image",
+    "uploadPrompt": "Click the button to select an image",
+    "submitButton": "Submit Quote",
+    "previewAlt": "Preview of {{fileName}}",
+    "alerts": {
+      "imageFile": "Please upload an image file.",
+      "fileReadError": "Failed to read file.",
+      "selectImage": "Please select an image file first.",
+      "submitSuccess": "Quote (image) ready for submission! Check console for file details."
+    }
+  },
+  "roleManagement": {
+    "title": "Role Management",
+    "table": {
+      "name": "Name",
+      "email": "Email",
+      "currentRole": "Current Role",
+      "changeRole": "Change Role",
+      "ariaLabel": "Change role for {{userName}}"
+    },
+    "roles": {
+      "admin": "Admin",
+      "staff": "Staff",
+      "none": "None"
+    }
+  },
+  "indexInsights": {
+    "title": "Index Insights",
+    "chartPlaceholder": "Chart data for {{indexName}} (placeholder)",
+    "currentDataTitle": "Current Market Data:",
+    "keyNotesTitle": "Key Notes:",
+    "noNotes": "No key notes.",
+    "addUpdateTitle": "Add New Update:",
+    "notesLabel": "Additional Notes (2 lines) for {{indexName}}...",
+    "submitUpdate": "Submit Update",
+    "historyTitle": "Observation History:",
+    "noHistory": "No past observations for {{indexName}}.",
+    "alerts": {
+      "noData": "Please enter some market data or a note."
+    },
+    "marketStats": {
+      "daysRange": "Day's Range",
+      "fiftyTwoWeekRange": "52 Week Range",
+      "previousClose": "Prev. Close",
+      "openPrice": "Open",
+      "volume": "Volume",
+      "avgVolume3m": "Avg. Vol (3m)"
+    },
+    "indices": {
+      "nifty": {
+        "name": "Nifty 50",
+        "notes": "Key support at 22,200. Watch for breakout or breakdown.",
+        "history": [
+          "Opened gap up, then consolidated."
+        ]
+      },
+      "bank_nifty": {
+        "name": "Bank Nifty",
+        "notes": "Awaiting PSU bank participation."
+      },
+      "fin_nifty": {
+        "name": "Fin Nifty",
+        "notes": "NBFCs in focus."
+      },
+      "midcap": {
+        "name": "Nifty Midcap 100",
+        "notes": "Stock-specific action."
+      },
+      "sensex": {
+        "name": "BSE Sensex",
+        "notes": "Global cues important."
+      }
+    }
   }
 }

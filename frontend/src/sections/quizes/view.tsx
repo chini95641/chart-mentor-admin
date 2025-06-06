@@ -11,6 +11,8 @@ import RadioGroup from '@mui/material/RadioGroup';
 import FormControl from '@mui/material/FormControl';
 import FormControlLabel from '@mui/material/FormControlLabel';
 
+import { useTranslate } from 'src/locales';
+
 import { useSettingsContext } from 'src/components/settings';
 
 // ----------------------------------------------------------------------
@@ -21,6 +23,7 @@ export default function QuizesView() {
   const [selectedOption, setSelectedOption] = useState('');
   const [textInput1, setTextInput1] = useState('');
   const [textInput2, setTextInput2] = useState('');
+  const { t } = useTranslate();
 
   const handleOptionChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
     setSelectedOption((event.target as HTMLInputElement).value);
@@ -29,11 +32,11 @@ export default function QuizesView() {
   const handleSubmit = useCallback(() => {
     // Basic validation
     if (!selectedOption) {
-      alert('Please select an option (a, b, c, or d).');
+      alert(t('quizzes.alerts.selectOption'));
       return;
     }
     if (!textInput1.trim() || !textInput2.trim()) {
-      alert('Please fill in both text input areas.');
+      alert(t('quizzes.alerts.fillInputs'));
       return;
     }
     console.log('Submitted Data:', {
@@ -41,16 +44,18 @@ export default function QuizesView() {
       input1: textInput1,
       input2: textInput2,
     });
-    alert('Quiz data submitted! Check console for details.');
+    alert(t('quizzes.alerts.submitSuccess'));
     // Optionally reset fields
     setSelectedOption('');
     setTextInput1('');
     setTextInput2('');
-  }, [selectedOption, textInput1, textInput2]);
+  }, [selectedOption, textInput1, textInput2, t]);
 
   return (
     <Container maxWidth={settings.themeStretch ? false : 'xl'}>
-      <Typography variant="h4" sx={{ mb: 5 }}> Create Quiz </Typography>
+      <Typography variant="h4" sx={{ mb: 5 }}>
+        {t('quizzes.title')}
+      </Typography>
 
       <Box
         component="form"
@@ -63,7 +68,7 @@ export default function QuizesView() {
         autoComplete="off"
       >
         <FormControl component="fieldset">
-          <FormLabel component="legend">Choose an Option</FormLabel>
+          <FormLabel component="legend">{t('quizzes.chooseOption')}</FormLabel>
           <RadioGroup
             row
             aria-label="quiz-option"
@@ -80,7 +85,7 @@ export default function QuizesView() {
 
         <TextField
           required
-          label="Text Input 1"
+          label={t('quizzes.input1Label')}
           value={textInput1}
           onChange={(e) => setTextInput1(e.target.value)}
           fullWidth
@@ -90,7 +95,7 @@ export default function QuizesView() {
 
         <TextField
           required
-          label="Text Input 2"
+          label={t('quizzes.input2Label')}
           value={textInput2}
           onChange={(e) => setTextInput2(e.target.value)}
           fullWidth
@@ -100,7 +105,7 @@ export default function QuizesView() {
         
         <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
           <Button variant="contained" color="primary" onClick={handleSubmit}>
-            Submit Quiz
+            {t('quizzes.submit')}
           </Button>
         </Box>
       </Box>

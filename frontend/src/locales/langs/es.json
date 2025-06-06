@@ -1,0 +1,362 @@
+{
+  "app": "aplicación",
+  "job": "trabajo",
+  "user": "usuario",
+  "list": "lista",
+  "edit": "editar",
+  "shop": "tienda",
+  "blog": "blog",
+  "post": "publicación",
+  "mail": "correo",
+  "chat": "chat",
+  "file": "archivo",
+  "tour": "recorrido",
+  "cards": "tarjetas",
+  "blank": "en blanco",
+  "order": "pedido",
+  "lists": "listas",
+  "create": "crear",
+  "kanban": "kanban",
+  "general": "general",
+  "banking": "bancario",
+  "booking": "reserva",
+  "profile": "perfil",
+  "account": "cuenta",
+  "product": "producto",
+  "invoice": "factura",
+  "details": "detalles",
+  "checkout": "pago",
+  "calendar": "calendario",
+  "overview": "visión general",
+  "analytics": "analítica",
+  "ecommerce": "comercio electrónico",
+  "management": "gestión",
+  "menu_level": "nivel de menú",
+  "item_label": "etiqueta del artículo",
+  "description": "descripción",
+  "other_cases": "otros casos",
+  "item_caption": "leyenda del artículo",
+  "file_manager": "gestor de archivos",
+  "menu_level_1a": "nivel de menú 1a",
+  "menu_level_1b": "nivel de menú 1b",
+  "menu_level_2a": "nivel de menú 2a",
+  "menu_level_2b": "nivel de menú 2b",
+  "menu_level_3a": "nivel de menú 3a",
+  "menu_level_3b": "nivel de menú 4b",
+  "item_disabled": "artículo deshabilitado",
+  "item_by_roles": "artículo por roles",
+  "item_external_link": "enlace externo del artículo",
+  "only_admin_can_see_this_item": "Solo el administrador puede ver este artículo",
+  "upgrade_to_pro": "Actualizar a Pro",
+  "demo": {
+    "title": "Spanish"
+  },
+  "userList": {
+    "title": "Lista de Usuarios",
+    "filterByMembership": "Filtrar por Membresía",
+    "all": "Todos",
+    "free": "Gratis",
+    "premium": "Premium",
+    "na": "N/A",
+    "table": {
+      "userName": "Nombre de Usuario",
+      "mobileNumber": "Número de Móvil",
+      "email": "Correo Electrónico",
+      "membership": "Membresía",
+      "registrationDate": "Fecha de Registro",
+      "expirationDate": "Fecha de Vencimiento"
+    }
+  },
+  "free": "Gratis",
+  "premium": "Premium",
+  "home": {
+    "todaysQuotes": "Frases de Hoy",
+    "quote": "Frase",
+    "submitQuote": "Enviar Frase",
+    "niftyComment": "Escriba su comentario ingenioso",
+    "submitComment": "Enviar Comentario"
+  },
+  "nav": {
+    "home": "Inicio",
+    "chartOfTheDay": "Gráfico del Día",
+    "videos": "Videos",
+    "users": "Usuarios",
+    "quizzes": "Cuestionarios",
+    "adminViews": "Vistas de Admin",
+    "news": "Noticias",
+    "stocks": "Acciones",
+    "learn": "Aprender",
+    "commodity": "Mercancía",
+    "quotes": "Frases",
+    "roleManagement": "Gestión de Roles",
+    "indexInsights": "Ideas de Índice"
+  },
+  "account": {
+    "logout": "Cerrar sesión"
+  },
+  "chartOfDay": {
+    "title": "Gráfico del Día",
+    "uploadChart": "Subir Gráfico",
+    "dragAndDrop": "Arrastre y suelte una imagen aquí, o haga clic para seleccionar",
+    "description": "Descripción",
+    "descriptionPlaceholder": "Introduzca una descripción para el gráfico...",
+    "submit": "Subir Datos del Gráfico",
+    "successMessage": "¡Gráfico y descripción listos para subir! (Revise la consola para ver los datos)",
+    "errors": {
+      "imageFile": "Por favor, suba un archivo de imagen",
+      "selectImage": "Por favor, seleccione una imagen para subir."
+    }
+  },
+  "videos": {
+    "title": "Gestionar Videos",
+    "uploadTitle": "Subir Archivo de Video",
+    "chooseVideo": "Elegir Archivo de Video",
+    "selectedFile": "Archivo seleccionado: {{fileName}}",
+    "dragAndDrop": "Arrastre y suelte un archivo de video aquí, o haga clic para seleccionar",
+    "youtubeTitle": "O Añadir URL de YouTube",
+    "youtubeLabel": "URL del Video de YouTube",
+    "youtubePlaceholder": "ej., https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+    "submit": "Añadir Video",
+    "alerts": {
+      "fileReady": "¡Archivo \"{{fileName}}\" listo para subir!",
+      "youtubeReady": "¡URL de YouTube \"{{youtubeUrl}}\" lista para enviar!",
+      "noInput": "Por favor, seleccione un archivo de video o ingrese una URL de YouTube.",
+      "dropVideo": "Por favor, suelte un archivo de video."
+    }
+  },
+  "quizzes": {
+    "title": "Crear Cuestionario",
+    "chooseOption": "Elija una Opción",
+    "input1Label": "Entrada de Texto 1",
+    "input2Label": "Entrada de Texto 2",
+    "submit": "Enviar Cuestionario",
+    "alerts": {
+      "selectOption": "Por favor, seleccione una opción (a, b, c, o d).",
+      "fillInputs": "Por favor, complete ambas áreas de entrada de texto.",
+      "submitSuccess": "¡Datos del cuestionario enviados! Revise la consola para más detalles."
+    }
+  },
+  "adminViews": {
+    "title": "Fuente de Actividad del Administrador",
+    "noItems": "No hay elementos en la fuente de administrador.",
+    "actions": {
+      "approve": "Aprobar",
+      "reject": "Rechazar",
+      "edit": "Editar",
+      "viewDetails": "Ver Detalles",
+      "acknowledge": "Confirmar",
+      "reviewComment": "Revisar Comentario",
+      "removeComment": "Eliminar Comentario"
+    },
+    "feed": {
+      "userSubmission": {
+        "actorName": "Envío de Usuario",
+        "content": "Se ha enviado una nueva publicación de blog de viajes titulada \"Explorando los Alpes\" y está pendiente de aprobación. Por favor, revísela para asegurar que cumple con las directrices de contenido y calidad."
+      },
+      "systemAlert": {
+        "actorName": "Alerta del Sistema",
+        "content": "Se ha detectado una actividad de inicio de sesión inusual en la cuenta de administrador @admin_ops. Múltiples intentos fallidos desde una dirección IP no reconocida. Se recomienda una investigación inmediata."
+      },
+      "contentFlag": {
+        "actorName": "Contenido Marcado",
+        "content": "Un comentario en la publicación ID #P5678 ha sido marcado por violar potencialmente las directrices de la comunidad sobre el discurso de odio. Por favor, revíselo de inmediato."
+      }
+    }
+  },
+  "news": {
+    "title": "Últimas Noticias",
+    "noItems": "No hay noticias disponibles en este momento.",
+    "readMore": "Leer Más",
+    "items": {
+      "marketRally": {
+        "title": "Los Mercados Globales se Recuperan por Perspectivas Económicas Positivas",
+        "summary": "Los mercados de valores de todo el mundo experimentaron un aumento significativo hoy tras la publicación de sólidos datos de manufactura y pronósticos de crecimiento optimistas de los principales economistas."
+      },
+      "aiBreakthrough": {
+        "title": "Gigantes Tecnológicos Anuncian Avance en el Desarrollo de IA",
+        "summary": "Un consorcio de empresas tecnológicas líderes ha presentado un nuevo modelo de IA que promete revolucionar el procesamiento del lenguaje natural y las capacidades de aprendizaje automático."
+      },
+      "centralBank": {
+        "title": "Banco Central Insinúa Ajustes de Tasas de Interés en Medio de Preocupaciones por la Inflación",
+        "summary": "En un discurso reciente, el gobernador del Banco Central sugirió posibles cambios en la política monetaria para frenar la creciente inflación, lo que provocó fluctuaciones en los mercados de bonos y divisas."
+      },
+      "oilPrices": {
+        "title": "Los Precios del Petróleo Crudo Fluctúan Mientras la OPEP+ Delibera los Niveles de Producción",
+        "summary": "Los mercados petroleros permanecen en vilo mientras las naciones de la OPEP+ se reúnen para discutir las futuras cuotas de producción, y los analistas predicen una volatilidad continua según el resultado."
+      }
+    }
+  },
+  "stocks": {
+    "title": "Gestionar Acciones",
+    "uploadImage": "Subir Imagen",
+    "dragAndDrop": "O arrastre y suelte una imagen",
+    "optionType": "Tipo de Opción",
+    "optionTypes": {
+      "none": "Ninguna",
+      "swing": "Swing",
+      "long": "Largo Plazo"
+    },
+    "descriptionLabel": "Descripción",
+    "descriptionPlaceholder": "Introduzca una descripción para la acción...",
+    "submit": "Añadir Entrada de Acción",
+    "alerts": {
+      "imageFile": "Por favor, suba un archivo de imagen.",
+      "fileReadError": "Error al leer el archivo.",
+      "selectOptionType": "Por favor, seleccione un tipo de opción.",
+      "uploadImage": "Por favor, suba una imagen.",
+      "submitSuccess": "¡Datos de la acción enviados! Revise la consola para más detalles."
+    }
+  },
+  "learn": {
+    "title": "Aprender",
+    "submit": "Enviar Datos de la Pestaña Actual",
+    "tabs": {
+      "chartInsights": "Análisis de Gráficos",
+      "articleSummary": "Resumen de Artículo",
+      "videoNotes": "Notas de Video"
+    },
+    "alerts": {
+      "fillData": "Por favor, rellene algunos datos para la pestaña {{tabName}} antes de enviar.",
+      "submitSuccess": "¡Datos para {{tabName}} enviados! Revise la consola para más detalles."
+    },
+    "chartAnalysis": {
+      "title": "Análisis de Gráfico",
+      "imageUrlLabel": "URL de la Imagen del Gráfico (Opcional)",
+      "imageUrlPlaceholder": "Ingrese la URL de la imagen del gráfico o déjelo en blanco",
+      "chartPreviewAlt": "Vista Previa del Gráfico",
+      "previewArea": "Área de Vista Previa del Gráfico",
+      "takeawaysLabel": "Puntos Clave y Análisis"
+    },
+    "articleSummary": {
+      "title": "Resumen de Artículo",
+      "articleTitleLabel": "Título del Artículo",
+      "fullTextLabel": "Texto Completo del Artículo (o pegue el contenido aquí)",
+      "summaryLabel": "Su Resumen"
+    },
+    "videoNotes": {
+      "title": "Notas de Video",
+      "videoUrlLabel": "URL del Video",
+      "videoTitleLabel": "Título del Video (Opcional)",
+      "notesLabel": "Notas Clave y Marcas de Tiempo"
+    }
+  },
+  "commodity": {
+    "title": "Observaciones del Mercado de Materias Primas",
+    "chartPlaceholder": "Datos del gráfico para {{commodityName}} (marcador de posición)",
+    "currentObservationTitle": "Observación Actual del Mercado:",
+    "addObservationTitle": "Añadir Nueva Observación:",
+    "observationLabel": "Observación para {{commodityName}}...",
+    "submitObservation": "Enviar Observación",
+    "historyTitle": "Historial de Observaciones:",
+    "noHistory": "No hay observaciones pasadas para {{commodityName}}.",
+    "alerts": {
+      "enterObservation": "Por favor, introduzca una observación."
+    },
+    "crude": {
+      "name": "Petróleo Crudo",
+      "observation": "El crudo parece alcista, podría probar los $80.",
+      "history": [
+        "Observación inicial: El crudo se mantiene estable en torno a los $78.",
+        "Corrección: Ligera caída a $77.50 debido a noticias de inventario."
+      ]
+    },
+    "naturalGas": {
+      "name": "Gas Natural",
+      "observation": "Los precios del gas natural son volátiles.",
+      "history": [
+        "Los futuros del gas natural suben ligeramente."
+      ]
+    },
+    "gold": {
+      "name": "Oro",
+      "observation": "El oro se mantiene estable por encima de los $2000.",
+      "history": [
+        "El oro alcanzó un nuevo máximo ayer.",
+        "Pequeño retroceso en los precios del oro."
+      ]
+    },
+    "silver": {
+      "name": "Plata",
+      "observation": "La plata sigue la tendencia del oro.",
+      "history": [
+        "La plata muestra resiliencia."
+      ]
+    }
+  },
+  "quotes": {
+    "title": "Subir Imagen de Cita",
+    "uploadButton": "Subir Imagen de Cita",
+    "uploadPrompt": "Haga clic en el botón para seleccionar una imagen",
+    "submitButton": "Enviar Cita",
+    "previewAlt": "Vista previa de {{fileName}}",
+    "alerts": {
+      "imageFile": "Por favor, suba un archivo de imagen.",
+      "fileReadError": "Error al leer el archivo.",
+      "selectImage": "Por favor, seleccione primero un archivo de imagen.",
+      "submitSuccess": "¡Cita (imagen) lista para enviar! Revise la consola para más detalles."
+    }
+  },
+  "roleManagement": {
+    "title": "Gestión de Roles",
+    "table": {
+      "name": "Nombre",
+      "email": "Correo Electrónico",
+      "currentRole": "Rol Actual",
+      "changeRole": "Cambiar Rol",
+      "ariaLabel": "Cambiar rol para {{userName}}"
+    },
+    "roles": {
+      "admin": "Administrador",
+      "staff": "Personal",
+      "none": "Ninguno"
+    }
+  },
+  "indexInsights": {
+    "title": "Perspectivas de Índices",
+    "chartPlaceholder": "Datos del gráfico para {{indexName}} (marcador de posición)",
+    "currentDataTitle": "Datos de Mercado Actuales:",
+    "keyNotesTitle": "Notas Clave:",
+    "noNotes": "No hay notas clave.",
+    "addUpdateTitle": "Añadir Nueva Actualización:",
+    "notesLabel": "Notas adicionales (2 líneas) para {{indexName}}...",
+    "submitUpdate": "Enviar Actualización",
+    "historyTitle": "Historial de Observaciones:",
+    "noHistory": "No hay observaciones pasadas para {{indexName}}.",
+    "alerts": {
+      "noData": "Por favor, ingrese algunos datos de mercado o una nota."
+    },
+    "marketStats": {
+      "daysRange": "Rango del Día",
+      "fiftyTwoWeekRange": "Rango de 52 Semanas",
+      "previousClose": "Cierre Ant.",
+      "openPrice": "Apertura",
+      "volume": "Volumen",
+      "avgVolume3m": "Vol. Prom. (3m)"
+    },
+    "indices": {
+      "nifty": {
+        "name": "Nifty 50",
+        "notes": "Soporte clave en 22,200. Vigilar ruptura o quiebre.",
+        "history": [
+          "Abrió con gap alcista y luego consolidó."
+        ]
+      },
+      "bank_nifty": {
+        "name": "Bank Nifty",
+        "notes": "A la espera de la participación de los bancos del sector público."
+      },
+      "fin_nifty": {
+        "name": "Fin Nifty",
+        "notes": "Las NBFCs en el punto de mira."
+      },
+      "midcap": {
+        "name": "Nifty Midcap 100",
+        "notes": "Acción específica de acciones."
+      },
+      "sensex": {
+        "name": "BSE Sensex",
+        "notes": "Las señales globales son importantes."
+      }
+    }
+  }
+} 

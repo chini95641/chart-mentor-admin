@@ -8,6 +8,8 @@ import { alpha, Theme, styled } from '@mui/material/styles';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import CircularProgress from '@mui/material/CircularProgress';
 
+import { useTranslate } from 'src/locales';
+
 import { useSettingsContext } from 'src/components/settings';
 
 // ----------------------------------------------------------------------
@@ -38,30 +40,33 @@ const QuoteImagePreview = ({ src, altText }: { src: string; altText: string }) =
   />
 );
 
-const UploadQuotePrompt = ({ onFileSelect }: { onFileSelect: (e: ChangeEvent<HTMLInputElement>) => void }) => (
-  <>
-    <Button
-      component="label"
-      variant="contained"
-      startIcon={<CloudUploadIcon />}
-      sx={{ mb: 2 }}
-    >
-      Upload Quote Image
-      <VisuallyHiddenInput
-        id="quote-image-upload-styled"
-        type="file"
-        accept="image/*"
-        onChange={onFileSelect}
-      />
-    </Button>
-    <Typography variant="body2" color="text.secondary">
-      Click the button to select an image
-    </Typography>
-  </>
-);
+const UploadQuotePrompt = ({
+  onFileSelect,
+}: {
+  onFileSelect: (e: ChangeEvent<HTMLInputElement>) => void;
+}) => {
+  const { t } = useTranslate();
+  return (
+    <>
+      <Button component="label" variant="contained" startIcon={<CloudUploadIcon />} sx={{ mb: 2 }}>
+        {t('quotes.uploadButton')}
+        <VisuallyHiddenInput
+          id="quote-image-upload-styled"
+          type="file"
+          accept="image/*"
+          onChange={onFileSelect}
+        />
+      </Button>
+      <Typography variant="body2" color="text.secondary">
+        {t('quotes.uploadPrompt')}
+      </Typography>
+    </>
+  );
+};
 
 export default function QuotesView() {
   const settings = useSettingsContext();
+  const { t } = useTranslate();
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [isUploading, setIsUploading] = useState(false);
@@ -75,7 +80,7 @@ export default function QuotesView() {
     }
 
     if (!file.type.startsWith('image/')) {
-      alert('Please upload an image file.');
+      alert(t('quotes.alerts.imageFile'));
       setSelectedFile(null);
       setPreviewUrl(null);
       setIsUploading(false);
@@ -93,10 +98,10 @@ export default function QuotesView() {
       setIsUploading(false);
       setSelectedFile(null);
       setPreviewUrl(null);
-      alert('Failed to read file.');
+      alert(t('quotes.alerts.fileReadError'));
     };
     reader.readAsDataURL(file);
-  }, []);
+  }, [t]);
 
   const handleFileSelect = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files?.[0]) {
@@ -109,27 +114,34 @@ export default function QuotesView() {
 
   const handleSubmit = useCallback(() => {
     if (!selectedFile) {
-      alert('Please select an image file first.');
+      alert(t('quotes.alerts.selectImage'));
       return;
     }
     console.log('Selected File:', selectedFile.name, selectedFile.type, selectedFile.size);
-    alert('Quote (image) ready for submission! Check console for file details.');
+    alert(t('quotes.alerts.submitSuccess'));
     handleImageUpload(null);
-  }, [selectedFile, handleImageUpload]);
+  }, [selectedFile, handleImageUpload, t]);
 
   const renderUploadAreaContent = () => {
     if (isUploading) {
       return <CircularProgress />;
     }
     if (previewUrl && selectedFile) {
-      return <QuoteImagePreview src={previewUrl} altText={`Preview of ${selectedFile.name}`} />;
+      return (
+        <QuoteImagePreview
+          src={previewUrl}
+          altText={t('quotes.previewAlt', { fileName: selectedFile.name })}
+        />
+      );
     }
     return <UploadQuotePrompt onFileSelect={handleFileSelect} />;
   };
 
   return (
     <Container maxWidth={settings.themeStretch ? false : 'xl'}>
-      <Typography variant="h4" sx={{ mb: 5 }}>Upload Quote Image</Typography>
+      <Typography variant="h4" sx={{ mb: 5 }}>
+        {t('quotes.title')}
+      </Typography>
 
       <Box
         sx={{
@@ -160,13 +172,13 @@ export default function QuotesView() {
       )}
 
       <Box sx={{ mt: 3, display: 'flex', justifyContent: 'flex-end' }}>
-        <Button 
-          variant="contained" 
-          color="primary" 
-          onClick={handleSubmit} 
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={handleSubmit}
           disabled={!selectedFile || isUploading}
         >
-          Submit Quote
+          {t('quotes.submitButton')}
         </Button>
       </Box>
     </Container>

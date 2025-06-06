@@ -13,6 +13,8 @@ import FormControl from '@mui/material/FormControl';
 import TableContainer from '@mui/material/TableContainer';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 
+import { useTranslate } from 'src/locales';
+
 import { useSettingsContext } from 'src/components/settings';
 
 // ----------------------------------------------------------------------
@@ -34,15 +36,21 @@ const sampleUsers: UserWithRole[] = [
   { id: 'user5', name: 'Edward Scissorhands', email: 'edward@example.com', currentRole: 'none' },
 ];
 
-const roleOptions: { value: Role; label: string }[] = [
-  { value: 'admin', label: 'Admin' },
-  { value: 'staff', label: 'Staff' },
-  { value: 'none', label: 'None' },
-];
+const useRoleOptions = () => {
+  const { t } = useTranslate();
+  const roleOptions: { value: Role; label: string }[] = [
+    { value: 'admin', label: t('roleManagement.roles.admin') },
+    { value: 'staff', label: t('roleManagement.roles.staff') },
+    { value: 'none', label: t('roleManagement.roles.none') },
+  ];
+  return roleOptions;
+};
 
 export default function RoleView() {
   const settings = useSettingsContext();
   const [usersList, setUsersList] = useState<UserWithRole[]>(sampleUsers);
+  const { t } = useTranslate();
+  const roleOptions = useRoleOptions();
 
   const handleRoleChange = useCallback((userId: string, event: SelectChangeEvent<Role>) => {
     const newRole = event.target.value as Role;
@@ -57,16 +65,18 @@ export default function RoleView() {
 
   return (
     <Container maxWidth={settings.themeStretch ? false : 'xl'}>
-      <Typography variant="h4" sx={{ mb: 5 }}>Role Management</Typography>
+      <Typography variant="h4" sx={{ mb: 5 }}>
+        {t('roleManagement.title')}
+      </Typography>
 
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="role management table">
           <TableHead>
             <TableRow>
-              <TableCell>Name</TableCell>
-              <TableCell>Email</TableCell>
-              <TableCell>Current Role</TableCell>
-              <TableCell align="center">Change Role</TableCell>
+              <TableCell>{t('roleManagement.table.name')}</TableCell>
+              <TableCell>{t('roleManagement.table.email')}</TableCell>
+              <TableCell>{t('roleManagement.table.currentRole')}</TableCell>
+              <TableCell align="center">{t('roleManagement.table.changeRole')}</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -76,17 +86,27 @@ export default function RoleView() {
                   {user.name}
                 </TableCell>
                 <TableCell>{user.email}</TableCell>
-                <TableCell sx={{ textTransform: 'capitalize' }}>{user.currentRole}</TableCell>
+                <TableCell sx={{ textTransform: 'capitalize' }}>
+                  {t(`roleManagement.roles.${user.currentRole}`)}
+                </TableCell>
                 <TableCell align="center">
                   <FormControl size="small" sx={{ minWidth: 120 }}>
                     <Select
                       value={user.currentRole}
                       onChange={(event) => handleRoleChange(user.id, event)}
                       displayEmpty
-                      inputProps={{ 'aria-label': `Change role for ${user.name}` }}
+                      inputProps={{
+                        'aria-label': t('roleManagement.table.ariaLabel', {
+                          userName: user.name,
+                        }),
+                      }}
                     >
-                      {roleOptions.map(option => (
-                        <MenuItem key={option.value} value={option.value} sx={{ textTransform: 'capitalize' }}>
+                      {roleOptions.map((option) => (
+                        <MenuItem
+                          key={option.value}
+                          value={option.value}
+                          sx={{ textTransform: 'capitalize' }}
+                        >
                           {option.label}
                         </MenuItem>
                       ))}

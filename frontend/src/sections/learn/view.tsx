@@ -10,6 +10,8 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import { alpha, Theme } from '@mui/material/styles';
 
+import { useTranslate } from 'src/locales';
+
 import { useSettingsContext } from 'src/components/settings';
 
 // ----------------------------------------------------------------------
@@ -47,6 +49,8 @@ function a11yProps(index: number) {
 interface ChartInsightsData {
   chartImageUrl: string; // For now, just a string, could be File object later
   keyTakeaways: string;
+  videoTitle: string;
+  notes: string;
 }
 
 interface ArticleSummaryData {
@@ -64,11 +68,14 @@ interface VideoNotesData {
 export default function LearnView() {
   const settings = useSettingsContext();
   const [activeTab, setActiveTab] = useState(0);
+  const { t } = useTranslate();
 
   // State for Chart Insights Tab
   const [chartInsights, setChartInsights] = useState<ChartInsightsData>({
     chartImageUrl: '', // Or a default placeholder image URL
     keyTakeaways: '',
+    videoTitle: '',
+    notes: '',
   });
 
   // State for Article Summary Tab
@@ -101,16 +108,16 @@ export default function LearnView() {
     let submittedTabName = '';
 
     if (activeTab === 0) {
-      submittedTabName = 'Chart Insights';
+      submittedTabName = t('learn.tabs.chartInsights');
       dataToSubmit = chartInsights;
       // Optionally clear fields after submit
       // setChartInsights({ chartImageUrl: '', keyTakeaways: '' });
     } else if (activeTab === 1) {
-      submittedTabName = 'Article Summary';
+      submittedTabName = t('learn.tabs.articleSummary');
       dataToSubmit = articleSummary;
       // setArticleSummary({ articleTitle: '', fullText: '', summary: '' });
     } else if (activeTab === 2) {
-      submittedTabName = 'Video Notes';
+      submittedTabName = t('learn.tabs.videoNotes');
       dataToSubmit = videoNotes;
       // setVideoNotes({ videoUrl: '', videoTitle: '', notes: '' });
     }
@@ -118,18 +125,18 @@ export default function LearnView() {
     if (
       !Object.values(dataToSubmit).some((value) => typeof value === 'string' && value.trim() !== '')
     ) {
-      alert(`Please fill in some data for the ${submittedTabName} tab before submitting.`);
+      alert(t('learn.alerts.fillData', { tabName: submittedTabName }));
       return;
     }
 
     console.log(`Submitting data for tab: ${submittedTabName}`, dataToSubmit);
-    alert(`Data for ${submittedTabName} submitted! Check console for details.`);
-  }, [activeTab, chartInsights, articleSummary, videoNotes]);
+    alert(t('learn.alerts.submitSuccess', { tabName: submittedTabName }));
+  }, [activeTab, chartInsights, articleSummary, videoNotes, t]);
 
   return (
     <Container maxWidth={settings.themeStretch ? false : 'xl'}>
       <Typography variant="h4" sx={{ mb: 3 }}>
-        Learn
+        {t('learn.title')}
       </Typography>
 
       <Paper elevation={2} sx={{ flexGrow: 1 }}>
@@ -140,23 +147,23 @@ export default function LearnView() {
             aria-label="Learn page tabs"
             variant="fullWidth"
           >
-            <Tab label="Chart Insights" {...a11yProps(0)} />
-            <Tab label="Article Summary" {...a11yProps(1)} />
-            <Tab label="Video Notes" {...a11yProps(2)} />
+            <Tab label={t('learn.tabs.chartInsights')} {...a11yProps(0)} />
+            <Tab label={t('learn.tabs.articleSummary')} {...a11yProps(1)} />
+            <Tab label={t('learn.tabs.videoNotes')} {...a11yProps(2)} />
           </Tabs>
         </Box>
 
         <TabPanel value={activeTab} index={0}>
           <Typography variant="h6" sx={{ mb: 2 }}>
-            Chart Analysis
+            {t('learn.chartAnalysis.title')}
           </Typography>
           <TextField
             fullWidth
-            label="Chart Image URL (Optional)"
+            label={t('learn.chartAnalysis.imageUrlLabel')}
             value={chartInsights.chartImageUrl}
             onChange={handleInputChange(setChartInsights, 'chartImageUrl')}
             sx={{ mb: 2 }}
-            placeholder="Enter URL of the chart image or leave blank"
+            placeholder={t('learn.chartAnalysis.imageUrlPlaceholder')}
           />
           <Box
             sx={{
@@ -174,18 +181,18 @@ export default function LearnView() {
             {chartInsights.chartImageUrl ? (
               <img
                 src={chartInsights.chartImageUrl}
-                alt="Chart Preview"
+                alt={t('learn.chartAnalysis.chartPreviewAlt')}
                 style={{ maxWidth: '100%', maxHeight: '250px' }}
               />
             ) : (
-              <Typography color="text.secondary">Chart Preview Area</Typography>
+              <Typography color="text.secondary">{t('learn.chartAnalysis.previewArea')}</Typography>
             )}
           </Box>
           <TextField
             fullWidth
             multiline
             rows={4}
-            label="Key Takeaways & Analysis"
+            label={t('learn.chartAnalysis.takeawaysLabel')}
             value={chartInsights.keyTakeaways}
             onChange={handleInputChange(setChartInsights, 'keyTakeaways')}
           />
@@ -193,11 +200,11 @@ export default function LearnView() {
 
         <TabPanel value={activeTab} index={1}>
           <Typography variant="h6" sx={{ mb: 2 }}>
-            Article Summary
+            {t('learn.articleSummary.title')}
           </Typography>
           <TextField
             fullWidth
-            label="Article Title"
+            label={t('learn.articleSummary.articleTitleLabel')}
             value={articleSummary.articleTitle}
             onChange={handleInputChange(setArticleSummary, 'articleTitle')}
             sx={{ mb: 2 }}
@@ -206,7 +213,7 @@ export default function LearnView() {
             fullWidth
             multiline
             rows={6}
-            label="Full Article Text (or paste content here)"
+            label={t('learn.articleSummary.fullTextLabel')}
             value={articleSummary.fullText}
             onChange={handleInputChange(setArticleSummary, 'fullText')}
             sx={{ mb: 2 }}
@@ -215,7 +222,7 @@ export default function LearnView() {
             fullWidth
             multiline
             rows={4}
-            label="Your Summary"
+            label={t('learn.articleSummary.summaryLabel')}
             value={articleSummary.summary}
             onChange={handleInputChange(setArticleSummary, 'summary')}
           />
@@ -223,18 +230,18 @@ export default function LearnView() {
 
         <TabPanel value={activeTab} index={2}>
           <Typography variant="h6" sx={{ mb: 2 }}>
-            Video Notes
+            {t('learn.videoNotes.title')}
           </Typography>
           <TextField
             fullWidth
-            label="Video URL"
+            label={t('learn.videoNotes.videoUrlLabel')}
             value={videoNotes.videoUrl}
             onChange={handleInputChange(setVideoNotes, 'videoUrl')}
             sx={{ mb: 2 }}
           />
           <TextField
             fullWidth
-            label="Video Title (Optional)"
+            label={t('learn.videoNotes.videoTitleLabel')}
             value={videoNotes.videoTitle}
             onChange={handleInputChange(setVideoNotes, 'videoTitle')}
             sx={{ mb: 2 }}
@@ -243,18 +250,18 @@ export default function LearnView() {
             fullWidth
             multiline
             rows={6}
-            label="Key Notes & Timestamps"
+            label={t('learn.videoNotes.notesLabel')}
             value={videoNotes.notes}
             onChange={handleInputChange(setVideoNotes, 'notes')}
           />
         </TabPanel>
-      </Paper>
 
-      <Box sx={{ mt: 3, display: 'flex', justifyContent: 'flex-end' }}>
-        <Button variant="contained" color="primary" size="large" onClick={handleSubmit}>
-          Submit Current Tab Data
-        </Button>
-      </Box>
+        <Box sx={{ p: 2, display: 'flex', justifyContent: 'flex-end', borderTop: 1, borderColor: 'divider' }}>
+          <Button variant="contained" color="primary" onClick={handleSubmit}>
+            {t('learn.submit')}
+          </Button>
+        </Box>
+      </Paper>
     </Container>
   );
 }

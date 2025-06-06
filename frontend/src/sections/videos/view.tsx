@@ -8,6 +8,8 @@ import Typography from '@mui/material/Typography';
 import { alpha, styled } from '@mui/material/styles';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 
+import { useTranslate } from 'src/locales';
+
 import { useSettingsContext } from 'src/components/settings';
 
 // ----------------------------------------------------------------------
@@ -29,6 +31,7 @@ export default function VideosView() {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [youtubeUrl, setYoutubeUrl] = useState('');
   const [dragActive, setDragActive] = useState(false);
+  const { t } = useTranslate();
 
   const handleFileChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
@@ -48,15 +51,15 @@ export default function VideosView() {
     if (selectedFile) {
       console.log('Selected Video File:', selectedFile.name);
       // Add actual file upload logic here
-      alert(`File "${selectedFile.name}" ready for upload!`);
+      alert(t('videos.alerts.fileReady', { fileName: selectedFile.name }));
     } else if (youtubeUrl) {
       console.log('YouTube URL:', youtubeUrl);
       // Add logic to process YouTube URL here
-      alert(`YouTube URL "${youtubeUrl}" ready for submission!`);
+      alert(t('videos.alerts.youtubeReady', { youtubeUrl }));
     } else {
-      alert('Please select a video file or enter a YouTube URL.');
+      alert(t('videos.alerts.noInput'));
     }
-  }, [selectedFile, youtubeUrl]);
+  }, [selectedFile, youtubeUrl, t]);
 
   const handleDrag = useCallback((e: React.DragEvent) => {
     e.preventDefault();
@@ -77,18 +80,22 @@ export default function VideosView() {
         setSelectedFile(e.dataTransfer.files[0]);
         setYoutubeUrl(''); // Clear YouTube URL if a file is dropped
       } else {
-        alert('Please drop a video file.');
+        alert(t('videos.alerts.dropVideo'));
       }
     }
-  }, []);
+  }, [t]);
 
 
   return (
     <Container maxWidth={settings.themeStretch ? false : 'xl'}>
-      <Typography variant="h4" sx={{ mb: 5 }}> Manage Videos </Typography>
+      <Typography variant="h4" sx={{ mb: 5 }}>
+        {t('videos.title')}
+      </Typography>
 
       {/* Video File Upload Section */}
-      <Typography variant="h6" sx={{ mb: 2 }}>Upload Video File</Typography>
+      <Typography variant="h6" sx={{ mb: 2 }}>
+        {t('videos.uploadTitle')}
+      </Typography>
       <Box
         onDragEnter={handleDrag}
         onDragLeave={handleDrag}
@@ -116,25 +123,27 @@ export default function VideosView() {
           startIcon={<CloudUploadIcon />}
           sx={{ mb: 1 }}
         >
-          Choose Video File
+          {t('videos.chooseVideo')}
           <VisuallyHiddenInput type="file" accept="video/*" onChange={handleFileChange} />
         </Button>
         {selectedFile ? (
           <Typography variant="body2" color="text.secondary">
-            Selected file: {selectedFile.name}
+            {t('videos.selectedFile', { fileName: selectedFile.name })}
           </Typography>
         ) : (
           <Typography variant="body2" color="text.secondary">
-            Drag and drop a video file here, or click to select
+            {t('videos.dragAndDrop')}
           </Typography>
         )}
       </Box>
 
-      <Typography variant="h6" sx={{ mb: 2, mt: 4 }}>Or Add YouTube URL</Typography>
+      <Typography variant="h6" sx={{ mb: 2, mt: 4 }}>
+        {t('videos.youtubeTitle')}
+      </Typography>
       <TextField
         fullWidth
-        label="YouTube Video URL"
-        placeholder="e.g., https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+        label={t('videos.youtubeLabel')}
+        placeholder={t('videos.youtubePlaceholder')}
         value={youtubeUrl}
         onChange={handleYoutubeUrlChange}
         sx={{ mb: 3 }}
@@ -149,7 +158,7 @@ export default function VideosView() {
           onClick={handleVideoSubmit}
           disabled={!selectedFile && !youtubeUrl} // Disable if neither is provided
         >
-          Add Video
+          {t('videos.submit')}
         </Button>
       </Box>
     </Container>

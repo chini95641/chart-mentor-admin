@@ -2,6 +2,8 @@ import { useMemo } from 'react';
 
 import { paths } from 'src/routes/paths';
 
+import { useTranslate } from 'src/locales';
+
 import SvgColor from 'src/components/svg-color';
 
 // ----------------------------------------------------------------------
@@ -44,6 +46,8 @@ const ICONS = {
 // ----------------------------------------------------------------------
 
 export function useNavData() {
+  const { t } = useTranslate();
+
   const data = useMemo(
     () => [
       // OVERVIEW
@@ -51,23 +55,31 @@ export function useNavData() {
       {
         subheader: '',
         items: [
-          { title: 'Home', path: paths.dashboard.root, icon: ICONS.dashboard },
-          { title: 'Chart of the Day', path: paths.dashboard.chart_of_day, icon: ICONS.analytics },
-          { title: 'Videos', path: paths.dashboard.videos, icon: ICONS.folder },
-          { title: 'Users', path: paths.dashboard.usax, icon: ICONS.user },
-          { title: 'Quizes', path: paths.dashboard.quizes, icon: ICONS.ecommerce },
-          { title: 'Admin Views', path: paths.dashboard.admin_videos, icon: ICONS.booking },
-          { title: 'News', path: paths.dashboard.news, icon: ICONS.blog },
-          { title: 'Stocks', path: paths.dashboard.stocks, icon: ICONS.banking },
-          { title: 'Learn', path: paths.dashboard.learn, icon: ICONS.menuItem },
-          { title: 'Commodity', path: paths.dashboard.commodity, icon: ICONS.chat },
-          { title: 'Quotes', path: paths.dashboard.quotes, icon: ICONS.job },
-          { title: 'Role Management', path: paths.dashboard.role, icon: ICONS.user },
-          { title: 'Index Insights', path: paths.dashboard.index_insights, icon: ICONS.dashboard },
+          { title: t('nav.home'), path: paths.dashboard.root, icon: ICONS.dashboard },
+          {
+            title: t('nav.chartOfTheDay'),
+            path: paths.dashboard.chart_of_day,
+            icon: ICONS.analytics,
+          },
+          { title: t('nav.videos'), path: paths.dashboard.videos, icon: ICONS.folder },
+          { title: t('nav.users'), path: paths.dashboard.usax, icon: ICONS.user },
+          { title: t('nav.quizzes'), path: paths.dashboard.quizes, icon: ICONS.ecommerce },
+          { title: t('nav.adminViews'), path: paths.dashboard.admin_videos, icon: ICONS.booking },
+          { title: t('nav.news'), path: paths.dashboard.news, icon: ICONS.blog },
+          { title: t('nav.stocks'), path: paths.dashboard.stocks, icon: ICONS.banking },
+          { title: t('nav.learn'), path: paths.dashboard.learn, icon: ICONS.menuItem },
+          { title: t('nav.commodity'), path: paths.dashboard.commodity, icon: ICONS.chat },
+          { title: t('nav.quotes'), path: paths.dashboard.quotes, icon: ICONS.job },
+          { title: t('nav.roleManagement'), path: paths.dashboard.role, icon: ICONS.user },
+          {
+            title: t('nav.indexInsights'),
+            path: paths.dashboard.index_insights,
+            icon: ICONS.dashboard,
+          },
         ],
       },
     ],
-    []
+    [t]
   );
 
   return data;

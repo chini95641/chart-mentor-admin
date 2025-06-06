@@ -8,6 +8,7 @@ import IconButton from '@mui/material/IconButton';
 import { useRouter } from 'src/routes/hooks';
 
 import { _mock } from 'src/_mock';
+import { useTranslate } from 'src/locales';
 import { useAuthContext } from 'src/auth/hooks';
 
 import { varHover } from 'src/components/animate';
@@ -19,8 +20,7 @@ export default function AccountPopover() {
   const router = useRouter();
 
   const { user, logout } = useAuthContext();
-
-  console.log('=========', user);
+  const { t } = useTranslate();
 
   const popover = usePopover();
 
@@ -66,13 +66,11 @@ export default function AccountPopover() {
       </IconButton>
 
       <CustomPopover open={popover.open} onClose={popover.onClose} sx={{ width: 200, p: 0 }}>
-       
-
         <MenuItem
           onClick={handleLogout}
           sx={{ m: 1, fontWeight: 'fontWeightBold', color: 'error.main' }}
         >
-          Logout
+          {t('account.logout')}
         </MenuItem>
       </CustomPopover>
     </>

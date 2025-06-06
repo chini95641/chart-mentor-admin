@@ -15,6 +15,8 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import ListItemText from '@mui/material/ListItemText'; // For explicit theme typing
 
+import { useTranslate } from 'src/locales';
+
 // Internal imports
 import { useSettingsContext } from 'src/components/settings';
 
@@ -36,49 +38,83 @@ interface Commodity {
 
 type CommodityId = 'crude' | 'natural_gas' | 'gold' | 'silver';
 
-const initialCommoditiesData: Record<CommodityId, Commodity> = {
-  crude: {
-    id: 'crude',
-    name: 'Crude Oil',
-    chartPlaceholder: 'Chart data for Crude Oil (placeholder)',
-    currentObservation: 'Crude looking bullish, might test $80.',
-    observationHistory: [
-      { id: 'obsC1', timestamp: new Date(Date.now() - 2 * 60 * 60 * 1000), text: 'Initial observation: Crude stable around $78.' },
-      { id: 'obsC2', timestamp: new Date(Date.now() - 1 * 60 * 60 * 1000), text: 'Correction: Slight dip to $77.50 due to inventory news.' },
-    ],
-  },
-  natural_gas: {
-    id: 'natural_gas',
-    name: 'Natural Gas',
-    chartPlaceholder: 'Chart data for Natural Gas (placeholder)',
-    currentObservation: 'Natural Gas prices are volatile.',
-    observationHistory: [
-      { id: 'obsNG1', timestamp: new Date(Date.now() - 3 * 60 * 60 * 1000), text: 'Natural Gas futures up slightly.' },
-    ],
-  },
-  gold: {
-    id: 'gold',
-    name: 'Gold',
-    chartPlaceholder: 'Chart data for Gold (placeholder)',
-    currentObservation: 'Gold holding steady above $2000.',
-    observationHistory: [
-      { id: 'obsG1', timestamp: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000), text: 'Gold reached a new high yesterday.' },
-      { id: 'obsG2', timestamp: new Date(Date.now() - 0.5 * 60 * 60 * 1000), text: 'Minor pullback in Gold prices.' },
-    ],
-  },
-  silver: {
-    id: 'silver',
-    name: 'Silver',
-    chartPlaceholder: 'Chart data for Silver (placeholder)',
-    currentObservation: 'Silver following Gold\'s trend.',
-    observationHistory: [
-      { id: 'obsS1', timestamp: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000), text: 'Silver showing resilience.' },
-    ],
-  },
+const useInitialCommoditiesData = () => {
+  const { t } = useTranslate();
+  const initialCommoditiesData: Record<CommodityId, Commodity> = {
+    crude: {
+      id: 'crude',
+      name: t('commodity.crude.name'),
+      chartPlaceholder: t('commodity.chartPlaceholder', { commodityName: t('commodity.crude.name') }),
+      currentObservation: t('commodity.crude.observation'),
+      observationHistory: [
+        {
+          id: 'obsC1',
+          timestamp: new Date(Date.now() - 2 * 60 * 60 * 1000),
+          text: t('commodity.crude.history.0'),
+        },
+        {
+          id: 'obsC2',
+          timestamp: new Date(Date.now() - 1 * 60 * 60 * 1000),
+          text: t('commodity.crude.history.1'),
+        },
+      ],
+    },
+    natural_gas: {
+      id: 'natural_gas',
+      name: t('commodity.naturalGas.name'),
+      chartPlaceholder: t('commodity.chartPlaceholder', {
+        commodityName: t('commodity.naturalGas.name'),
+      }),
+      currentObservation: t('commodity.naturalGas.observation'),
+      observationHistory: [
+        {
+          id: 'obsNG1',
+          timestamp: new Date(Date.now() - 3 * 60 * 60 * 1000),
+          text: t('commodity.naturalGas.history.0'),
+        },
+      ],
+    },
+    gold: {
+      id: 'gold',
+      name: t('commodity.gold.name'),
+      chartPlaceholder: t('commodity.chartPlaceholder', { commodityName: t('commodity.gold.name') }),
+      currentObservation: t('commodity.gold.observation'),
+      observationHistory: [
+        {
+          id: 'obsG1',
+          timestamp: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000),
+          text: t('commodity.gold.history.0'),
+        },
+        {
+          id: 'obsG2',
+          timestamp: new Date(Date.now() - 0.5 * 60 * 60 * 1000),
+          text: t('commodity.gold.history.1'),
+        },
+      ],
+    },
+    silver: {
+      id: 'silver',
+      name: t('commodity.silver.name'),
+      chartPlaceholder: t('commodity.chartPlaceholder', {
+        commodityName: t('commodity.silver.name'),
+      }),
+      currentObservation: t('commodity.silver.observation'),
+      observationHistory: [
+        {
+          id: 'obsS1',
+          timestamp: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000),
+          text: t('commodity.silver.history.0'),
+        },
+      ],
+    },
+  };
+  return initialCommoditiesData;
 };
 
 export default function CommodityView() {
   const settings = useSettingsContext();
+  const { t } = useTranslate();
+  const initialCommoditiesData = useInitialCommoditiesData();
   const [selectedCommodityId, setSelectedCommodityId] = useState<CommodityId>('crude');
   const [commoditiesData, setCommoditiesData] = useState<Record<CommodityId, Commodity>>(initialCommoditiesData);
   const [newObservationText, setNewObservationText] = useState('');
@@ -94,7 +130,7 @@ export default function CommodityView() {
 
   const handleSubmitObservation = useCallback(() => {
     if (!newObservationText.trim()) {
-      alert('Please enter an observation.');
+      alert(t('commodity.alerts.enterObservation'));
       return;
     }
 
@@ -117,26 +153,34 @@ export default function CommodityView() {
     });
 
     setNewObservationText(''); // Clear input field
-  }, [newObservationText, selectedCommodityId]);
+  }, [newObservationText, selectedCommodityId, t]);
 
   const selectedCommodity = commoditiesData[selectedCommodityId];
 
   return (
     <Container maxWidth={settings.themeStretch ? false : 'xl'}>
-      <Typography variant="h4" sx={{ mb: 3 }}>Commodity Market Observations</Typography>
+      <Typography variant="h4" sx={{ mb: 3 }}>
+        {t('commodity.title')}
+      </Typography>
 
       <Box sx={{ borderBottom: 1, borderColor: 'divider', mb: 3 }}>
-        <Tabs value={selectedCommodityId} onChange={handleTabChange} aria-label="commodity selection tabs">
-          <Tab label="Crude Oil" value="crude" />
-          <Tab label="Natural Gas" value="natural_gas" />
-          <Tab label="Gold" value="gold" />
-          <Tab label="Silver" value="silver" />
+        <Tabs
+          value={selectedCommodityId}
+          onChange={handleTabChange}
+          aria-label="commodity selection tabs"
+        >
+          <Tab label={t('commodity.crude.name')} value="crude" />
+          <Tab label={t('commodity.naturalGas.name')} value="natural_gas" />
+          <Tab label={t('commodity.gold.name')} value="gold" />
+          <Tab label={t('commodity.silver.name')} value="silver" />
         </Tabs>
       </Box>
 
       {selectedCommodity && (
         <Paper elevation={3} sx={{ p: 3 }}>
-          <Typography variant="h5" gutterBottom>{selectedCommodity.name}</Typography>
+          <Typography variant="h5" gutterBottom>
+            {selectedCommodity.name}
+          </Typography>
           
           <Box sx={{ my: 2, p: 2, border: '1px dashed grey', borderRadius: 1, minHeight: 100, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <Typography variant="body1" color="text.secondary">
@@ -144,26 +188,32 @@ export default function CommodityView() {
             </Typography>
           </Box>
 
-          <Typography variant="h6" sx={{ mt: 3 }}>Current Market Observation:</Typography>
+          <Typography variant="h6" sx={{ mt: 3 }}>
+            {t('commodity.currentObservationTitle')}
+          </Typography>
           <Typography variant="body1" paragraph sx={{ fontStyle: 'italic', mb:3 }}>
             {selectedCommodity.currentObservation}
           </Typography>
 
-          <Typography variant="h6" sx={{ mt: 3 }}>Add New Observation:</Typography>
+          <Typography variant="h6" sx={{ mt: 3 }}>
+            {t('commodity.addObservationTitle')}
+          </Typography>
           <TextField
             fullWidth
             multiline
             rows={2}
-            label={`Observation for ${selectedCommodity.name}...`}
+            label={t('commodity.observationLabel', { commodityName: selectedCommodity.name })}
             value={newObservationText}
             onChange={handleNewObservationChange}
             sx={{ mb: 2 }}
           />
           <Button variant="contained" color="primary" onClick={handleSubmitObservation}>
-            Submit Observation
+            {t('commodity.submitObservation')}
           </Button>
 
-          <Typography variant="h6" sx={{ mt: 4, mb: 2 }}>Observation History:</Typography>
+          <Typography variant="h6" sx={{ mt: 4, mb: 2 }}>
+            {t('commodity.historyTitle')}
+          </Typography>
           {selectedCommodity.observationHistory.length > 0 ? (
             <List dense sx={{ maxHeight: 300, overflow: 'auto', border: (theme: Theme) => `1px solid ${theme.palette.divider}`, borderRadius: 1, p:1 }}>
               {selectedCommodity.observationHistory.map((obs) => (
@@ -178,7 +228,9 @@ export default function CommodityView() {
               ))}
             </List>
           ) : (
-            <Typography variant="body2" color="text.secondary">No past observations for {selectedCommodity.name}.</Typography>
+            <Typography variant="body2" color="text.secondary">
+              {t('commodity.noHistory', { commodityName: selectedCommodity.name })}
+            </Typography>
           )}
         </Paper>
       )}
