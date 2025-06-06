@@ -27,9 +27,10 @@ export const paths = {
     news: `${ROOTS.DASHBOARD}/news`,
     stocks: `${ROOTS.DASHBOARD}/stocks`,
     learn: `${ROOTS.DASHBOARD}/learn`,
-    community: `${ROOTS.DASHBOARD}/community`,
+    commodity: `${ROOTS.DASHBOARD}/commodity`,
     quotes: `${ROOTS.DASHBOARD}/quotes`,
     role: `${ROOTS.DASHBOARD}/role`,
+    index_insights: `${ROOTS.DASHBOARD}/index_insights`,
     group: {
       root: `${ROOTS.DASHBOARD}/group`,
       five: `${ROOTS.DASHBOARD}/group/five`,

@@ -57,10 +57,7 @@ export default function QuizesView() {
         sx={{
           display: 'grid',
           gap: 3,
-          // For a single column layout
           gridTemplateColumns: '1fr' ,
-          maxWidth: '600px', // Limit form width for better readability
-          mx: 'auto', // Center the form
         }}
         noValidate
         autoComplete="off"

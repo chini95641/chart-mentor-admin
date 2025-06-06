@@ -60,34 +60,12 @@ export function useNavData() {
           { title: 'News', path: paths.dashboard.news, icon: ICONS.blog },
           { title: 'Stocks', path: paths.dashboard.stocks, icon: ICONS.banking },
           { title: 'Learn', path: paths.dashboard.learn, icon: ICONS.menuItem },
-          { title: 'Community', path: paths.dashboard.community, icon: ICONS.chat },
+          { title: 'Commodity', path: paths.dashboard.commodity, icon: ICONS.chat },
           { title: 'Quotes', path: paths.dashboard.quotes, icon: ICONS.job },
           { title: 'Role Management', path: paths.dashboard.role, icon: ICONS.user },
-          // {
-          //   title: 'three',
-          //   path: paths.dashboard.three,
-          //   icon: ICONS.analytics,
-          // },
+          { title: 'Index Insights', path: paths.dashboard.index_insights, icon: ICONS.dashboard },
         ],
       },
-
-      // MANAGEMENT
-      // ----------------------------------------------------------------------
-      // {
-      //   subheader: 'management',
-      //   items: [
-      //     {
-      //       title: 'user',
-      //       path: paths.dashboard.group.root,
-      //       icon: ICONS.user,
-      //       children: [
-      //         { title: 'four', path: paths.dashboard.group.root },
-      //         { title: 'five', path: paths.dashboard.group.five },
-      //         { title: 'six', path: paths.dashboard.group.six },
-      //       ],
-      //     },
-      //   ],
-      // },
     ],
     []
   );

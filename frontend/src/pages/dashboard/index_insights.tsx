@@ -1,6 +1,6 @@
 import { Helmet } from 'react-helmet-async';
 
-import CommunityView from 'src/sections/community/view';
+import IndexInsightsView from 'src/sections/index_insights/view';
 
 // ----------------------------------------------------------------------
 
@@ -8,10 +8,10 @@ export default function Page() {
   return (
     <>
       <Helmet>
-        <title> Community </title>
+        <title> Index Insights</title>
       </Helmet>
 
-      <CommunityView />
+      <IndexInsightsView />
     </>
   );
 }

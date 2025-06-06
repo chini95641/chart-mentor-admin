@@ -17,9 +17,10 @@ const PageAdminViews = lazy(() => import('src/pages/dashboard/admin_views'));
 const PageNews = lazy(() => import('src/pages/dashboard/news'));
 const PageStocks = lazy(() => import('src/pages/dashboard/stocks'));
 const PageLearn = lazy(() => import('src/pages/dashboard/learn'));
-const PageCommunity = lazy(() => import('src/pages/dashboard/community'));
+const PageCommodity = lazy(() => import('src/pages/dashboard/commodity'));
 const PageQuotes = lazy(() => import('src/pages/dashboard/quotes'));
 const PageRole = lazy(() => import('src/pages/dashboard/role'));
+const PageRIndexInsights = lazy(() => import('src/pages/dashboard/index_insights'));
 
 // ----------------------------------------------------------------------
 
@@ -45,9 +46,10 @@ export const dashboardRoutes = [
       { path: 'news', element: <PageNews /> },
       { path: 'stocks', element: <PageStocks /> },
       { path: 'learn', element: <PageLearn /> },
-      { path: 'community', element: <PageCommunity /> },
+      { path: 'commodity', element: <PageCommodity /> },
       { path: 'quotes', element: <PageQuotes /> },
       { path: 'role', element: <PageRole /> },
+      { path: 'index_insights', element: <PageRIndexInsights /> },
     ],
   },
 ];
