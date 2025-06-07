@@ -20,7 +20,9 @@ const QuizEditPage = lazy(() => import('src/pages/dashboard/quizes/edit'));
 const PageUsers = lazy(() => import('src/pages/dashboard/users'));
 const PageAdminViews = lazy(() => import('src/pages/dashboard/admin_views'));
 const PageNews = lazy(() => import('src/pages/dashboard/news'));
-const PageStocks = lazy(() => import('src/pages/dashboard/stocks'));
+const StockListPage = lazy(() => import('src/pages/dashboard/stock/list'));
+const StockCreatePage = lazy(() => import('src/pages/dashboard/stock/create'));
+const StockEditPage = lazy(() => import('src/pages/dashboard/stock/edit'));
 const PageLearn = lazy(() => import('src/pages/dashboard/learn'));
 const PageCommodity = lazy(() => import('src/pages/dashboard/commodity'));
 const PageQuotes = lazy(() => import('src/pages/dashboard/quotes'));
@@ -76,7 +78,15 @@ export const dashboardRoutes = [
       { path: 'usax', element: <PageUsers /> },
       { path: 'admin_videos', element: <PageAdminViews /> },
       { path: 'news', element: <PageNews /> },
-      { path: 'stocks', element: <PageStocks /> },
+      {
+        path: 'stocks',
+        children: [
+          { element: <Navigate to="/dashboard/stocks/list" replace />, index: true },
+          { path: 'list', element: <StockListPage /> },
+          { path: 'create', element: <StockCreatePage /> },
+          { path: ':id/edit', element: <StockEditPage /> },
+        ],
+      },
       { path: 'learn', element: <PageLearn /> },
       { path: 'commodity', element: <PageCommodity /> },
       { path: 'quotes', element: <PageQuotes /> },

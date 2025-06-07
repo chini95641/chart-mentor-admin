@@ -16,7 +16,7 @@ import Select, { SelectChangeEvent } from '@mui/material/Select';
 import { useTranslate } from 'src/locales';
 import { uploadImage } from 'src/api/upload';
 import { HOST_API } from 'src/config-global';
-import { getStock, saveStock } from 'src/api/stock';
+import { updateStock, getStockDetails } from 'src/api/stock';
 
 import { useSettingsContext } from 'src/components/settings';
 import { useSnackbar } from 'src/components/snackbar/use-snackbar';
@@ -67,13 +67,17 @@ const UploadUserPrompt = ({ onFileChange }: UploadUserPromptProps) => {
   );
 };
 
-// Renamed from FourView to StocksView
-export default function StocksView() {
+interface StockEditViewProps {
+  id: string;
+}
+
+export default function StockEditView({ id }: StockEditViewProps) {
   const settings = useSettingsContext();
   const { t } = useTranslate();
   const { showSnackbar } = useSnackbar();
 
   const [optionType, setOptionType] = useState<'' | 'swing' | 'long'>('');
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [description, setDescription] = useState('');
   const [isUploading, setIsUploading] = useState(false);
@@ -82,18 +86,21 @@ export default function StocksView() {
   useEffect(() => {
     const fetchStock = async () => {
       try {
-        const { data: stock } = await getStock();
+        const { result: stock } = await getStockDetails(id);
         if (stock) {
           setOptionType(stock.optionType);
-          setSelectedImage(stock.image ? `${HOST_API}/${stock.image}` : null);
+          setSelectedImage(stock.image);
+          setPreviewUrl(`${HOST_API}/${stock.image}`);
           setDescription(stock.description);
         }
       } catch (error) {
         showSnackbar('Failed to fetch stock data', 'error');
       }
     };
-    fetchStock();
-  }, [showSnackbar]);
+    if (id) {
+      fetchStock();
+    }
+  }, [id, showSnackbar]);
 
   const handleImageFileSelect = useCallback(
     async (file: File) => {
@@ -103,11 +110,18 @@ export default function StocksView() {
         return;
       }
       setIsUploading(true);
+      setPreviewUrl(URL.createObjectURL(file));
       try {
         const formData = new FormData();
         formData.append('images', file);
-        const { data: imageUrl } = await uploadImage(formData);
-        setSelectedImage(imageUrl);
+        const response = await uploadImage(formData);
+        if (response.data && response.data.result && response.data.result.image_urls) {
+          const { image_urls } = response.data.result;
+          if (image_urls && image_urls.length > 0) {
+            showSnackbar('Image uploaded successfully', 'success');
+            setSelectedImage(image_urls[0]);
+          }
+        }
       } catch (error) {
         showSnackbar('Failed to upload image', 'error');
       } finally {
@@ -155,24 +169,24 @@ export default function StocksView() {
       return;
     }
     try {
-      await saveStock({
+      await updateStock(id, {
         optionType,
         image: selectedImage,
         description,
       });
-      showSnackbar(t('stocks.alerts.submitSuccess'), 'success');
+      showSnackbar('Stock updated successfully', 'success');
     } catch (error) {
-      showSnackbar('Failed to save stock data', 'error');
+      showSnackbar('Failed to update stock data', 'error');
     }
-  }, [optionType, selectedImage, description, t, showSnackbar]);
+  }, [id, optionType, selectedImage, description, t, showSnackbar]);
 
   // Function to render image upload content, replacing nested ternary
   const renderImageUploadContent = () => {
     if (isUploading) {
       return <CircularProgress />;
     }
-    if (selectedImage) {
-      return <ImagePreview src={selectedImage} />;
+    if (previewUrl) {
+      return <ImagePreview src={previewUrl} />;
     }
     return <UploadUserPrompt onFileChange={handleInputChange} />;
   };
@@ -180,7 +194,7 @@ export default function StocksView() {
   return (
     <Container maxWidth={settings.themeStretch ? false : 'xl'}>
       <Typography variant="h4" sx={{ mb: 5 }}>
-        {t('stocks.title')}
+        {t('stocks.editTitle')}
       </Typography>
 
       <Box sx={{ display: 'grid', gap: 3, gridTemplateColumns: { xs: '1fr', md: '1fr' } }}>

@@ -1,0 +1,242 @@
+import { useState, useCallback } from 'react';
+
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import MenuItem from '@mui/material/MenuItem';
+import Container from '@mui/material/Container';
+import TextField from '@mui/material/TextField';
+import InputLabel from '@mui/material/InputLabel';
+import Typography from '@mui/material/Typography';
+import FormControl from '@mui/material/FormControl';
+import { alpha, styled } from '@mui/material/styles';
+import CircularProgress from '@mui/material/CircularProgress';
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
+
+import { useTranslate } from 'src/locales';
+import { createStock } from 'src/api/stock';
+import { uploadImage } from 'src/api/upload';
+
+import { useSettingsContext } from 'src/components/settings';
+import { useSnackbar } from 'src/components/snackbar/use-snackbar';
+
+// ----------------------------------------------------------------------
+
+const VisuallyHiddenInput = styled('input')({
+  clip: 'rect(0 0 0 0)',
+  clipPath: 'inset(50%)',
+  height: 1,
+  overflow: 'hidden',
+  position: 'absolute',
+  bottom: 0,
+  left: 0,
+  whiteSpace: 'nowrap',
+  width: 1,
+});
+
+// Moved ImagePreview outside StocksView
+interface ImagePreviewProps {
+  src: string;
+}
+const ImagePreview = ({ src }: ImagePreviewProps) => (
+  <Box
+    component="img"
+    src={src}
+    alt="Uploaded stock chart"
+    sx={{ width: '100%', height: '100%', objectFit: 'contain' }}
+  />
+);
+
+// Moved UploadUserPrompt outside StocksView
+interface UploadUserPromptProps {
+  onFileChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+}
+const UploadUserPrompt = ({ onFileChange }: UploadUserPromptProps) => {
+  const { t } = useTranslate();
+  return (
+    <>
+      <Button component="label" variant="outlined" startIcon={<CloudUploadIcon />} sx={{ mb: 1 }}>
+        {t('stocks.uploadImage')}
+        <VisuallyHiddenInput type="file" accept="image/*" onChange={onFileChange} />
+      </Button>
+      <Typography variant="body2" color="text.secondary">
+        {t('stocks.dragAndDrop')}
+      </Typography>
+    </>
+  );
+};
+
+// Renamed from FourView to StocksView
+export default function StockCreateView() {
+  const settings = useSettingsContext();
+  const { t } = useTranslate();
+  const { showSnackbar } = useSnackbar();
+
+  const [optionType, setOptionType] = useState<'' | 'swing' | 'long'>('');
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [description, setDescription] = useState('');
+  const [isUploading, setIsUploading] = useState(false);
+  const [dragActive, setDragActive] = useState(false);
+
+  const handleImageFileSelect = useCallback(
+    async (file: File) => {
+      if (!file) return;
+      if (!file.type.startsWith('image/')) {
+        showSnackbar(t('stocks.alerts.imageFile'), 'error');
+        return;
+      }
+      setIsUploading(true);
+      setPreviewUrl(URL.createObjectURL(file));
+      try {
+        const formData = new FormData();
+        formData.append('images', file);
+        const response = await uploadImage(formData);
+        if (response.data && response.data.result && response.data.result.image_urls) {
+          const { image_urls } = response.data.result;
+          if (image_urls && image_urls.length > 0) {
+            showSnackbar('Image uploaded successfully', 'success');
+            setSelectedImage(image_urls[0]);
+          }
+        }
+      } catch (error) {
+        showSnackbar('Failed to upload image', 'error');
+      } finally {
+        setIsUploading(false);
+      }
+    },
+    [showSnackbar, t]
+  );
+
+  const handleDrag = useCallback((e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (e.type === 'dragenter' || e.type === 'dragover') setDragActive(true);
+    else if (e.type === 'dragleave') setDragActive(false);
+  }, []);
+
+  const handleDrop = useCallback(
+    (e: React.DragEvent) => {
+      e.preventDefault();
+      e.stopPropagation();
+      setDragActive(false);
+      if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+        handleImageFileSelect(e.dataTransfer.files[0]);
+      }
+    },
+    [handleImageFileSelect]
+  );
+
+  const handleInputChange = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      if (event.target.files && event.target.files[0]) {
+        handleImageFileSelect(event.target.files[0]);
+      }
+    },
+    [handleImageFileSelect]
+  );
+
+  const handleSubmit = useCallback(async () => {
+    if (!optionType) {
+      showSnackbar(t('stocks.alerts.selectOptionType'), 'warning');
+      return;
+    }
+    if (!selectedImage) {
+      showSnackbar(t('stocks.alerts.uploadImage'), 'warning');
+      return;
+    }
+    try {
+      await createStock({
+        optionType,
+        image: selectedImage,
+        description,
+      });
+      showSnackbar(t('stocks.alerts.submitSuccess'), 'success');
+    } catch (error) {
+      showSnackbar('Failed to save stock data', 'error');
+    }
+  }, [optionType, selectedImage, description, t, showSnackbar]);
+
+  // Function to render image upload content, replacing nested ternary
+  const renderImageUploadContent = () => {
+    if (isUploading) {
+      return <CircularProgress />;
+    }
+    if (previewUrl) {
+      return <ImagePreview src={previewUrl} />;
+    }
+    return <UploadUserPrompt onFileChange={handleInputChange} />;
+  };
+
+  return (
+    <Container maxWidth={settings.themeStretch ? false : 'xl'}>
+      <Typography variant="h4" sx={{ mb: 5 }}>
+        {t('stocks.title')}
+      </Typography>
+
+      <Box sx={{ display: 'grid', gap: 3, gridTemplateColumns: { xs: '1fr', md: '1fr' } }}>
+        <FormControl fullWidth required>
+          <InputLabel id="option-type-select-label">{t('stocks.optionType')}</InputLabel>
+          <Select
+            labelId="option-type-select-label"
+            value={optionType}
+            label={t('stocks.optionType')}
+            onChange={(e: SelectChangeEvent<'' | 'swing' | 'long'>) =>
+              setOptionType(e.target.value as '' | 'swing' | 'long')
+            }
+          >
+            <MenuItem value="">
+              <em>{t('stocks.optionTypes.none')}</em>
+            </MenuItem>
+            <MenuItem value="swing">{t('stocks.optionTypes.swing')}</MenuItem>
+            <MenuItem value="long">{t('stocks.optionTypes.long')}</MenuItem>
+          </Select>
+        </FormControl>
+
+        <Box // Image Upload Area
+          onDragEnter={handleDrag}
+          onDragLeave={handleDrag}
+          onDragOver={handleDrag}
+          onDrop={handleDrop}
+          sx={{
+            p: 3,
+            width: 1,
+            minHeight: 200,
+            borderRadius: 2,
+            bgcolor: (theme) => alpha(theme.palette.grey[500], dragActive ? 0.08 : 0.04),
+            border: (theme) => `dashed 1px ${theme.palette.divider}`,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            textAlign: 'center',
+            transition: 'background-color 0.2s ease',
+          }}
+        >
+          {renderImageUploadContent()} {/* Using the new render function */}
+        </Box>
+
+        <TextField
+          fullWidth
+          multiline
+          rows={4}
+          label={t('stocks.descriptionLabel')}
+          placeholder={t('stocks.descriptionPlaceholder')}
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+        />
+
+        <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={handleSubmit}
+            disabled={!optionType || !selectedImage || isUploading}
+          >
+            {t('stocks.submit')}
+          </Button>
+        </Box>
+      </Box>
+    </Container>
+  );
+}

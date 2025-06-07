@@ -96,7 +96,15 @@ export function useNavData() {
           },
           { title: t('nav.adminViews'), path: paths.dashboard.admin_videos, icon: ICONS.booking },
           { title: t('nav.news'), path: paths.dashboard.news, icon: ICONS.blog },
-          { title: t('nav.stocks'), path: paths.dashboard.stocks, icon: ICONS.banking },
+          {
+            title: t('nav.stocks'),
+            path: paths.dashboard.stocks.root,
+            icon: ICONS.banking,
+            children: [
+              { title: t('create'), path: paths.dashboard.stocks.create },
+              { title: t('list'), path: paths.dashboard.stocks.list },
+            ],
+          },
           { title: t('nav.learn'), path: paths.dashboard.learn, icon: ICONS.menuItem },
           { title: t('nav.commodity'), path: paths.dashboard.commodity, icon: ICONS.chat },
           { title: t('nav.quotes'), path: paths.dashboard.quotes, icon: ICONS.job },
