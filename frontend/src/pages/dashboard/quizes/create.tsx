@@ -1,17 +1,17 @@
 import { Helmet } from 'react-helmet-async';
 
-import QuizesView from 'src/sections/quizes/view';
+import QuizCreateView from 'src/sections/quizes/view/create-view';
 
 // ----------------------------------------------------------------------
 
-export default function PageQuizes() {
+export default function QuizCreatePage() {
   return (
     <>
       <Helmet>
-        <title> Quizes</title>
+        <title> Quizzes: Create</title>
       </Helmet>
 
-      <QuizesView />
+      <QuizCreateView />
     </>
   );
-}
+} 

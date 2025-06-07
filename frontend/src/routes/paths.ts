@@ -31,6 +31,12 @@ export const paths = {
       root: `${ROOTS.DASHBOARD}/videos`,
       list: `${ROOTS.DASHBOARD}/videos/list`,
     },
+    quizzes: {
+      root: `${ROOTS.DASHBOARD}/quizes`,
+      list: `${ROOTS.DASHBOARD}/quizes/list`,
+      create: `${ROOTS.DASHBOARD}/quizes/create`,
+      edit: (id: string) => `${ROOTS.DASHBOARD}/quizes/${id}/edit`,
+    },
     usax: `${ROOTS.DASHBOARD}/usax`,
     quizes: `${ROOTS.DASHBOARD}/quizes`,
     admin_videos: `${ROOTS.DASHBOARD}/admin_videos`,
@@ -45,6 +51,11 @@ export const paths = {
       root: `${ROOTS.DASHBOARD}/group`,
       five: `${ROOTS.DASHBOARD}/group/five`,
       six: `${ROOTS.DASHBOARD}/group/six`,
+    },
+    stock: {
+      root: `${ROOTS.DASHBOARD}/stock`,
+      create: `${ROOTS.DASHBOARD}/stock/create`,
+      edit: (id: string) => `${ROOTS.DASHBOARD}/stock/${id}/edit`,
     },
   },
 };

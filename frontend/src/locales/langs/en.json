@@ -113,7 +113,7 @@
   },
   "videos": {
     "title": "Manage Videos",
-    "listTitle": "Video List",
+    "listTitle": "List Videos",
     "uploadTitle": "Upload Video File",
     "chooseVideo": "Choose Video File",
     "selectedFile": "Selected file: {{fileName}}",
@@ -129,11 +129,16 @@
       "noInput": "Please select a video file or enter a YouTube URL.",
       "videoCreated": "Video created successfully!",
       "creationFailed": "Failed to create video.",
-      "dropVideo": "Please drop a video file."
-    }
+      "dropVideo": "Please drop a video file.",
+      "newVideo": "New Video",
+      "youtubeUrl": "YouTube URL",
+      "videoFile": "Video File",
+      "upload": "Upload"
+    },
+    "newVideo": "New Video"
   },
   "quizzes": {
-    "title": "Create Quiz",
+    "title": "Manage Quizzes",
     "chooseOption": "Choose an Option",
     "input1Label": "Learn",
     "input2Label": "Live Market",
@@ -212,8 +217,28 @@
       "fileReadError": "Failed to read file.",
       "selectOptionType": "Please select an option type.",
       "uploadImage": "Please upload an image.",
-      "submitSuccess": "Stock data submitted! Check console for details."
-    }
+      "submitSuccess": "Stock data submitted! Check console for details.",
+      "listTitle": "List Stocks",
+      "newStock": "New Stock",
+      "table": {
+        "name": "Name",
+        "symbol": "Symbol",
+        "image": "Image",
+        "actions": "Actions"
+      },
+      "form": {
+        "name": "Name",
+        "symbol": "Symbol",
+        "description": "Description",
+        "sector": "Sector",
+        "industry": "Industry",
+        "image": "Image"
+      }
+    },
+    "listTitle": "List Stocks",
+    "newStock": "New Stock",
+    "createTitle": "Create a new stock",
+    "editTitle": "Edit stock"
   },
   "learn": {
     "title": "Learn",
@@ -372,18 +397,21 @@
     "save": "Save"
   },
   "alerts": {
+    "loginSuccess": "Login successful",
+    "loginFail": "Failed to login",
+    "registerSuccess": "Registration successful",
+    "registerFail": "Failed to register",
+    "fetchVideosSuccess": "Videos fetched successfully",
     "fetchVideosFail": "Failed to fetch videos",
-    "updateVideoSuccess": "Video updated successfully",
-    "updateVideoFail": "Failed to update video",
     "deleteVideoSuccess": "Video deleted successfully",
     "deleteVideoFail": "Failed to delete video",
-    "fetchChartFail": "Failed to fetch charts",
-    "updateChartSuccess": "Chart updated successfully",
-    "updateChartFail": "Failed to update chart",
-    "deleteChartSuccess": "Chart deleted successfully",
-    "deleteChartFail": "Failed to delete chart",
-    "imageUploadSuccess": "Image uploaded successfully!",
-    "imageUploadFail": "Image upload failed.",
-    "fetchUsersFail": "Failed to fetch users."
+    "fetchStocksFail": "Failed to fetch stocks",
+    "deleteStockSuccess": "Stock deleted successfully",
+    "deleteStockFail": "Failed to delete stock",
+    "createStockSuccess": "Stock created successfully",
+    "createStockFail": "Failed to create stock",
+    "updateStockSuccess": "Stock updated successfully",
+    "updateStockFail": "Failed to update stock",
+    "fetchUsersFail": "Failed to fetch users"
   }
 }

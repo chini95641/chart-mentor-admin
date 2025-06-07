@@ -85,7 +85,15 @@ export function useNavData() {
             ],
           },
           { title: t('nav.users'), path: paths.dashboard.usax, icon: ICONS.user },
-          { title: t('nav.quizzes'), path: paths.dashboard.quizes, icon: ICONS.ecommerce },
+          {
+            title: t('nav.quizzes'),
+            path: paths.dashboard.quizzes.root,
+            icon: ICONS.ecommerce,
+            children: [
+              { title: t('create'), path: paths.dashboard.quizzes.create },
+              { title: t('list'), path: paths.dashboard.quizzes.list },
+            ],
+          },
           { title: t('nav.adminViews'), path: paths.dashboard.admin_videos, icon: ICONS.booking },
           { title: t('nav.news'), path: paths.dashboard.news, icon: ICONS.blog },
           { title: t('nav.stocks'), path: paths.dashboard.stocks, icon: ICONS.banking },

@@ -14,8 +14,10 @@ const ChartOfDayListPage = lazy(() => import('src/pages/dashboard/chart_of_day/l
 const ChartOfDayCreatePage = lazy(() => import('src/pages/dashboard/chart_of_day/create'));
 const VideoCreatePage = lazy(() => import('src/pages/dashboard/videos/create'));
 const VideoListPage = lazy(() => import('src/pages/dashboard/videos/list'));
+const QuizListPage = lazy(() => import('src/pages/dashboard/quizes/list'));
+const QuizCreatePage = lazy(() => import('src/pages/dashboard/quizes/create'));
+const QuizEditPage = lazy(() => import('src/pages/dashboard/quizes/edit'));
 const PageUsers = lazy(() => import('src/pages/dashboard/users'));
-const PageQuizes = lazy(() => import('src/pages/dashboard/quizes'));
 const PageAdminViews = lazy(() => import('src/pages/dashboard/admin_views'));
 const PageNews = lazy(() => import('src/pages/dashboard/news'));
 const PageStocks = lazy(() => import('src/pages/dashboard/stocks'));
@@ -62,8 +64,16 @@ export const dashboardRoutes = [
           { path: 'list', element: <VideoListPage /> },
         ],
       },
+      {
+        path: 'quizes',
+        children: [
+          { element: <Navigate to="/dashboard/quizes/create" replace />, index: true },
+          { path: 'create', element: <QuizCreatePage /> },
+          { path: 'list', element: <QuizListPage /> },
+          { path: ':id/edit', element: <QuizEditPage /> },
+        ],
+      },
       { path: 'usax', element: <PageUsers /> },
-      { path: 'quizes', element: <PageQuizes /> },
       { path: 'admin_videos', element: <PageAdminViews /> },
       { path: 'news', element: <PageNews /> },
       { path: 'stocks', element: <PageStocks /> },

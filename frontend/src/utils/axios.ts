@@ -75,8 +75,20 @@ export const endpoints = {
   },
   video: {
     list: '/api/videos',
+    details: (id: string) => `/api/videos/video/${id}`,
     create: '/api/videos',
     update: (id: string) => `/api/videos/${id}`,
     delete: (id: string) => `/api/videos/${id}`,
+  },
+  stock: {
+    details: '/api/stocks',
+    save: '/api/stocks',
+  },
+  quiz: {
+    list: '/api/quizzes',
+    details: (id: string) => `/api/quizzes/${id}`,
+    create: '/api/quizzes',
+    update: (id: string) => `/api/quizzes/${id}`,
+    delete: (id: string) => `/api/quizzes/${id}`,
   },
 };

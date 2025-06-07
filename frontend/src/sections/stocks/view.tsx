@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -14,6 +14,9 @@ import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 
 import { useTranslate } from 'src/locales';
+import { uploadImage } from 'src/api/upload';
+import { HOST_API } from 'src/config-global';
+import { getStock, saveStock } from 'src/api/stock';
 
 import { useSettingsContext } from 'src/components/settings';
 import { useSnackbar } from 'src/components/snackbar/use-snackbar';
@@ -76,24 +79,43 @@ export default function StocksView() {
   const [isUploading, setIsUploading] = useState(false);
   const [dragActive, setDragActive] = useState(false);
 
-  const handleImageFileSelect = useCallback((file: File) => {
-    if (!file) return;
-    if (!file.type.startsWith('image/')) {
-      showSnackbar(t('stocks.alerts.imageFile'), 'error');
-      return;
-    }
-    setIsUploading(true);
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      setSelectedImage(reader.result as string);
-      setIsUploading(false);
+  useEffect(() => {
+    const fetchStock = async () => {
+      try {
+        const { data: stock } = await getStock();
+        if (stock) {
+          setOptionType(stock.optionType);
+          setSelectedImage(stock.image ? `${HOST_API}/${stock.image}` : null);
+          setDescription(stock.description);
+        }
+      } catch (error) {
+        showSnackbar('Failed to fetch stock data', 'error');
+      }
     };
-    reader.onerror = () => {
-      setIsUploading(false);
-      showSnackbar(t('stocks.alerts.fileReadError'), 'error');
-    };
-    reader.readAsDataURL(file);
-  }, [t, showSnackbar]);
+    fetchStock();
+  }, [showSnackbar]);
+
+  const handleImageFileSelect = useCallback(
+    async (file: File) => {
+      if (!file) return;
+      if (!file.type.startsWith('image/')) {
+        showSnackbar(t('stocks.alerts.imageFile'), 'error');
+        return;
+      }
+      setIsUploading(true);
+      try {
+        const formData = new FormData();
+        formData.append('image', file);
+        const { data: imageUrl } = await uploadImage(formData);
+        setSelectedImage(imageUrl);
+      } catch (error) {
+        showSnackbar('Failed to upload image', 'error');
+      } finally {
+        setIsUploading(false);
+      }
+    },
+    [showSnackbar, t]
+  );
 
   const handleDrag = useCallback((e: React.DragEvent) => {
     e.preventDefault();
@@ -120,7 +142,7 @@ export default function StocksView() {
     }
   }, [handleImageFileSelect]);
 
-  const handleSubmit = useCallback(() => {
+  const handleSubmit = useCallback(async () => {
     if (!optionType) {
       showSnackbar(t('stocks.alerts.selectOptionType'), 'warning');
       return;
@@ -129,16 +151,16 @@ export default function StocksView() {
       showSnackbar(t('stocks.alerts.uploadImage'), 'warning');
       return;
     }
-    console.log('Stock Data:', {
-      optionType,
-      image: selectedImage, // This will be a base64 string
-      description,
-    });
-    showSnackbar(t('stocks.alerts.submitSuccess'), 'success');
-    // Optionally reset form
-    setOptionType('');
-    setSelectedImage(null);
-    setDescription('');
+    try {
+      await saveStock({
+        optionType,
+        image: selectedImage,
+        description,
+      });
+      showSnackbar(t('stocks.alerts.submitSuccess'), 'success');
+    } catch (error) {
+      showSnackbar('Failed to save stock data', 'error');
+    }
   }, [optionType, selectedImage, description, t, showSnackbar]);
 
   // Function to render image upload content, replacing nested ternary
