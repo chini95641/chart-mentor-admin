@@ -4,7 +4,6 @@ import Box from '@mui/material/Box';
 import Tab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
 import List from '@mui/material/List';
-import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
 import { Theme } from '@mui/material/styles';
@@ -30,12 +29,12 @@ interface MarketStats {
 }
 
 const initialMarketStats: MarketStats = {
-    daysRange: '',
-    fiftyTwoWeekRange: '',
-    previousClose: '',
-    openPrice: '',
-    volume: '',
-    avgVolume3m: '',
+  daysRange: '',
+  fiftyTwoWeekRange: '',
+  previousClose: '',
+  openPrice: '',
+  volume: '',
+  avgVolume3m: '',
 };
 
 interface IndexObservationItem {
@@ -135,9 +134,7 @@ const useInitialIndicesData = () => {
   return initialIndicesData;
 };
 
-const marketStatLabels = (
-  t: (key: string) => string
-): Record<keyof MarketStats, string> => ({
+const marketStatLabels = (t: (key: string) => string): Record<keyof MarketStats, string> => ({
   daysRange: t('indexInsights.marketStats.daysRange'),
   fiftyTwoWeekRange: t('indexInsights.marketStats.fiftyTwoWeekRange'),
   previousClose: t('indexInsights.marketStats.previousClose'),
@@ -153,18 +150,14 @@ export default function IndexInsightsView() {
   const initialIndicesData = useInitialIndicesData();
   const [selectedIndexId, setSelectedIndexId] = useState<IndexId>('nifty');
   const [indicesData, setIndicesData] = useState<Record<IndexId, IndexData>>(initialIndicesData);
-  
+
   const [newMarketStatsInput, setNewMarketStatsInput] = useState<MarketStats>(initialMarketStats);
   const [newTwoLinerNote, setNewTwoLinerNote] = useState('');
 
   const handleTabChange = useCallback((event: SyntheticEvent, newValue: IndexId) => {
     setSelectedIndexId(newValue);
-    setNewMarketStatsInput(initialMarketStats); 
+    setNewMarketStatsInput(initialMarketStats);
     setNewTwoLinerNote('');
-  }, []);
-
-  const handleMarketStatInputChange = useCallback((field: keyof MarketStats, event: ChangeEvent<HTMLInputElement>) => {
-    setNewMarketStatsInput(prev => ({ ...prev, [field]: event.target.value }));
   }, []);
 
   const handleTwoLinerNoteChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
@@ -172,7 +165,7 @@ export default function IndexInsightsView() {
   }, []);
 
   const handleSubmitObservation = useCallback(() => {
-    const isAnyStatFilled = Object.values(newMarketStatsInput).some(val => val.trim() !== '');
+    const isAnyStatFilled = Object.values(newMarketStatsInput).some((val) => val.trim() !== '');
     if (!isAnyStatFilled && !newTwoLinerNote.trim()) {
       showSnackbar(t('indexInsights.alerts.noData'), 'warning');
       return;
@@ -185,11 +178,12 @@ export default function IndexInsightsView() {
       twoLinerText: newTwoLinerNote.trim(),
     };
 
-    setIndicesData(prevData => {
+    setIndicesData((prevData) => {
       const currentIndexData = prevData[selectedIndexId];
       const updatedStats: MarketStats = {
         daysRange: newMarketStatsInput.daysRange.trim() || currentIndexData.daysRange,
-        fiftyTwoWeekRange: newMarketStatsInput.fiftyTwoWeekRange.trim() || currentIndexData.fiftyTwoWeekRange,
+        fiftyTwoWeekRange:
+          newMarketStatsInput.fiftyTwoWeekRange.trim() || currentIndexData.fiftyTwoWeekRange,
         previousClose: newMarketStatsInput.previousClose.trim() || currentIndexData.previousClose,
         openPrice: newMarketStatsInput.openPrice.trim() || currentIndexData.openPrice,
         volume: newMarketStatsInput.volume.trim() || currentIndexData.volume,
@@ -216,12 +210,24 @@ export default function IndexInsightsView() {
 
   const renderMarketStats = (stats: MarketStats) => (
     <Box sx={{ fontSize: '0.875rem', '& p': { my: 0.5 } }}>
-        <Typography variant="body2"><strong>{labels.daysRange}:</strong> {stats.daysRange || 'N/A'}</Typography>
-        <Typography variant="body2"><strong>{labels.fiftyTwoWeekRange}:</strong> {stats.fiftyTwoWeekRange || 'N/A'}</Typography>
-        <Typography variant="body2"><strong>{labels.previousClose}:</strong> {stats.previousClose || 'N/A'}</Typography>
-        <Typography variant="body2"><strong>{labels.openPrice}:</strong> {stats.openPrice || 'N/A'}</Typography>
-        <Typography variant="body2"><strong>{labels.volume}:</strong> {stats.volume || 'N/A'}</Typography>
-        <Typography variant="body2"><strong>{labels.avgVolume3m}:</strong> {stats.avgVolume3m || 'N/A'}</Typography>
+      <Typography variant="body2">
+        <strong>{labels.daysRange}:</strong> {stats.daysRange || 'N/A'}
+      </Typography>
+      <Typography variant="body2">
+        <strong>{labels.fiftyTwoWeekRange}:</strong> {stats.fiftyTwoWeekRange || 'N/A'}
+      </Typography>
+      <Typography variant="body2">
+        <strong>{labels.previousClose}:</strong> {stats.previousClose || 'N/A'}
+      </Typography>
+      <Typography variant="body2">
+        <strong>{labels.openPrice}:</strong> {stats.openPrice || 'N/A'}
+      </Typography>
+      <Typography variant="body2">
+        <strong>{labels.volume}:</strong> {stats.volume || 'N/A'}
+      </Typography>
+      <Typography variant="body2">
+        <strong>{labels.avgVolume3m}:</strong> {stats.avgVolume3m || 'N/A'}
+      </Typography>
     </Box>
   );
 
@@ -232,7 +238,13 @@ export default function IndexInsightsView() {
       </Typography>
 
       <Box sx={{ borderBottom: 1, borderColor: 'divider', mb: 3 }}>
-        <Tabs value={selectedIndexId} onChange={handleTabChange} aria-label="index selection tabs" variant="scrollable" scrollButtons="auto">
+        <Tabs
+          value={selectedIndexId}
+          onChange={handleTabChange}
+          aria-label="index selection tabs"
+          variant="scrollable"
+          scrollButtons="auto"
+        >
           <Tab label={t('indexInsights.indices.nifty.name')} value="nifty" />
           <Tab label={t('indexInsights.indices.bank_nifty.name')} value="bank_nifty" />
           <Tab label={t('indexInsights.indices.fin_nifty.name')} value="fin_nifty" />
@@ -243,36 +255,44 @@ export default function IndexInsightsView() {
 
       {selectedIndex && (
         <Paper elevation={3} sx={{ p: 3 }}>
-          <Typography variant="h5" gutterBottom>{selectedIndex.name}</Typography>
-          
-          <Box sx={{ my: 2, p: 2, border: '1px dashed grey', borderRadius: 1, minHeight: 150, display: 'flex', alignItems: 'center', justifyContent: 'center', bgcolor: (theme: Theme) => theme.palette.action.hover }}>
+          <Typography variant="h5" gutterBottom>
+            {selectedIndex.name}
+          </Typography>
+
+          <Box
+            sx={{
+              my: 2,
+              p: 2,
+              border: '1px dashed grey',
+              borderRadius: 1,
+              minHeight: 150,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              bgcolor: (theme: Theme) => theme.palette.action.hover,
+            }}
+          >
             <Typography variant="body1" color="text.secondary">
               {selectedIndex.chartPlaceholder}
             </Typography>
           </Box>
 
-          <Typography variant="h6" sx={{ mt: 3 }}>{t('indexInsights.currentDataTitle')}</Typography>
+          <Typography variant="h6" sx={{ mt: 3 }}>
+            {t('indexInsights.currentDataTitle')}
+          </Typography>
           {renderMarketStats(selectedIndex)}
 
-          <Typography variant="h6" sx={{ mt: 2 }}>{t('indexInsights.keyNotesTitle')}</Typography>
-          <Typography variant="body2" paragraph sx={{ fontStyle: 'italic', whiteSpace: 'pre-line' }}>
+          <Typography variant="h6" sx={{ mt: 2 }}>
+            {t('indexInsights.keyNotesTitle')}
+          </Typography>
+          <Typography
+            variant="body2"
+            paragraph
+            sx={{ fontStyle: 'italic', whiteSpace: 'pre-line' }}
+          >
             {selectedIndex.currentTwoLinerText || t('indexInsights.noNotes')}
           </Typography>
 
-          <Typography variant="h6" sx={{ mt: 3, mb: 2 }}>{t('indexInsights.addUpdateTitle')}</Typography>
-          <Grid container spacing={2}>
-            {(Object.keys(initialMarketStats) as Array<keyof MarketStats>).map((key) => (
-                <Grid item xs={12} sm={6} key={key}>
-                    <TextField 
-                        fullWidth 
-                        size="small"
-                        label={labels[key]}
-                        value={newMarketStatsInput[key]}
-                        onChange={(e: ChangeEvent<HTMLInputElement>) => handleMarketStatInputChange(key, e)}
-                    />
-                </Grid>
-            ))}
-          </Grid>
           <TextField
             fullWidth
             multiline
@@ -286,21 +306,47 @@ export default function IndexInsightsView() {
             {t('indexInsights.submitUpdate')}
           </Button>
 
-          <Typography variant="h6" sx={{ mt: 4, mb: 2 }}>{t('indexInsights.historyTitle')}</Typography>
+          <Typography variant="h6" sx={{ mt: 4, mb: 2 }}>
+            {t('indexInsights.historyTitle')}
+          </Typography>
           {selectedIndex.observationHistory.length > 0 ? (
-            <List dense sx={{ maxHeight: 400, overflow: 'auto', border: (theme: Theme) => `1px solid ${theme.palette.divider}`, borderRadius: 1, p:1 }}>
+            <List
+              dense
+              sx={{
+                maxHeight: 400,
+                overflow: 'auto',
+                border: (theme: Theme) => `1px solid ${theme.palette.divider}`,
+                borderRadius: 1,
+                p: 1,
+              }}
+            >
               {selectedIndex.observationHistory.map((obs) => (
-                <ListItem key={obs.id} divider sx={{ flexDirection: 'column', alignItems: 'flex-start', mb: 1, bgcolor: (theme: Theme) => theme.palette.action.disabledBackground }}>
-                    <Typography variant="caption" color="text.secondary" gutterBottom>{obs.timestamp.toLocaleString()}</Typography>
-                    {renderMarketStats(obs.marketStats)}
-                    {obs.twoLinerText && (
-                        <Typography variant="body2" sx={{ mt: 1, fontStyle:'italic' }}><strong>Notes:</strong> {obs.twoLinerText}</Typography>
-                    )}
+                <ListItem
+                  key={obs.id}
+                  divider
+                  sx={{
+                    flexDirection: 'column',
+                    alignItems: 'flex-start',
+                    mb: 1,
+                    bgcolor: (theme: Theme) => theme.palette.action.disabledBackground,
+                  }}
+                >
+                  <Typography variant="caption" color="text.secondary" gutterBottom>
+                    {obs.timestamp.toLocaleString()}
+                  </Typography>
+                  {renderMarketStats(obs.marketStats)}
+                  {obs.twoLinerText && (
+                    <Typography variant="body2" sx={{ mt: 1, fontStyle: 'italic' }}>
+                      <strong>Notes:</strong> {obs.twoLinerText}
+                    </Typography>
+                  )}
                 </ListItem>
               ))}
             </List>
           ) : (
-            <Typography variant="body2" color="text.secondary">No past observations for {selectedIndex.name}.</Typography>
+            <Typography variant="body2" color="text.secondary">
+              No past observations for {selectedIndex.name}.
+            </Typography>
           )}
         </Paper>
       )}
