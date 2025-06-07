@@ -105,7 +105,7 @@ export default function StocksView() {
       setIsUploading(true);
       try {
         const formData = new FormData();
-        formData.append('image', file);
+        formData.append('images', file);
         const { data: imageUrl } = await uploadImage(formData);
         setSelectedImage(imageUrl);
       } catch (error) {
@@ -136,11 +136,14 @@ export default function StocksView() {
     [handleImageFileSelect]
   );
 
-  const handleInputChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.files && event.target.files[0]) {
-      handleImageFileSelect(event.target.files[0]);
-    }
-  }, [handleImageFileSelect]);
+  const handleInputChange = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      if (event.target.files && event.target.files[0]) {
+        handleImageFileSelect(event.target.files[0]);
+      }
+    },
+    [handleImageFileSelect]
+  );
 
   const handleSubmit = useCallback(async () => {
     if (!optionType) {

@@ -7,6 +7,7 @@ import chartOfDayRoutes from './chart_of_day.routes';
 import videoRoutes from './video';
 import stockRoutes from './stock.routes';
 import quizRoutes from './quiz.routes';
+import adminPostRoutes from './adminPost.routes';
 import { sendResponse } from '../utils/response.utils';
 
 const router = express.Router();
@@ -20,4 +21,5 @@ router.use('/api/charts', chartOfDayRoutes);
 router.use('/api/videos', videoRoutes);
 router.use('/api/stocks', stockRoutes);
 router.use('/api/quizzes', quizRoutes);
+router.use('/api/admin-posts', adminPostRoutes);
 export default router;

@@ -91,4 +91,12 @@ export const endpoints = {
     update: (id: string) => `/api/quizzes/${id}`,
     delete: (id: string) => `/api/quizzes/${id}`,
   },
+  adminPost: {
+    list: '/api/admin-posts',
+    create: '/api/admin-posts',
+    like: (id: string) => `/api/admin-posts/${id}/like`,
+    addComment: (id: string) => `/api/admin-posts/${id}/comments`,
+    deleteComment: (postId: string, commentId: string) =>
+      `/api/admin-posts/${postId}/comments/${commentId}`,
+  },
 };
