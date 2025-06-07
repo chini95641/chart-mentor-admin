@@ -106,8 +106,20 @@ export function useNavData() {
             ],
           },
           { title: t('nav.learn'), path: paths.dashboard.learn, icon: ICONS.menuItem },
-          { title: t('nav.commodity'), path: paths.dashboard.commodity, icon: ICONS.chat },
-          { title: t('nav.quotes'), path: paths.dashboard.quotes, icon: ICONS.job },
+          {
+            title: t('nav.commodity'),
+            path: paths.dashboard.commodity,
+            icon: ICONS.chat,
+          },
+          {
+            title: t('nav.quotes'),
+            path: paths.dashboard.quotes.root,
+            icon: ICONS.job,
+            children: [
+              { title: t('create'), path: paths.dashboard.quotes.create },
+              { title: t('list'), path: paths.dashboard.quotes.list },
+            ],
+          },
           { title: t('nav.roleManagement'), path: paths.dashboard.role, icon: ICONS.user },
           {
             title: t('nav.indexInsights'),

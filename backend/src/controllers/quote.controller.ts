@@ -3,8 +3,8 @@ import Quote, { IQuote } from '../models/quote.model';
 import { sendResponse } from '../utils/response.utils';
 
 export const createQuote = async (req: Request, res: Response) => {
-  const { text } = req.body;
-  const quote: IQuote = new Quote({ text });
+  const { image } = req.body;
+  const quote: IQuote = new Quote({ image });
   await quote.save();
   sendResponse(res, 201, 'Quote created successfully', quote);
 };
@@ -23,10 +23,10 @@ export const getQuoteById = async (req: Request, res: Response) => {
 };
 
 export const updateQuote = async (req: Request, res: Response) => {
-  const { text } = req.body;
+  const { image } = req.body;
   const quote = await Quote.findByIdAndUpdate(
     req.params.id,
-    { text },
+    { image },
     { new: true }
   );
   if (!quote) {

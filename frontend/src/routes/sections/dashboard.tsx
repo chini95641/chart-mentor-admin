@@ -25,7 +25,8 @@ const StockCreatePage = lazy(() => import('src/pages/dashboard/stock/create'));
 const StockEditPage = lazy(() => import('src/pages/dashboard/stock/edit'));
 const PageLearn = lazy(() => import('src/pages/dashboard/learn'));
 const PageCommodity = lazy(() => import('src/pages/dashboard/commodity'));
-const PageQuotes = lazy(() => import('src/pages/dashboard/quotes'));
+const QuoteCreatePage = lazy(() => import('src/pages/dashboard/quote/create'));
+const QuoteListPage = lazy(() => import('src/pages/dashboard/quote/list'));
 const PageRole = lazy(() => import('src/pages/dashboard/role'));
 const PageRIndexInsights = lazy(() => import('src/pages/dashboard/index_insights'));
 
@@ -89,7 +90,14 @@ export const dashboardRoutes = [
       },
       { path: 'learn', element: <PageLearn /> },
       { path: 'commodity', element: <PageCommodity /> },
-      { path: 'quotes', element: <PageQuotes /> },
+      {
+        path: 'quotes',
+        children: [
+          { element: <Navigate to="/dashboard/quotes/list" replace />, index: true },
+          { path: 'list', element: <QuoteListPage /> },
+          { path: 'create', element: <QuoteCreatePage /> },
+        ],
+      },
       { path: 'role', element: <PageRole /> },
       { path: 'index_insights', element: <PageRIndexInsights /> },
     ],

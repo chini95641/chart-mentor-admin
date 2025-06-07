@@ -9,6 +9,8 @@ import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import CircularProgress from '@mui/material/CircularProgress';
 
 import { useTranslate } from 'src/locales';
+import { createQuote } from 'src/api/quote';
+import { uploadImage } from 'src/api/upload';
 
 import { useSettingsContext } from 'src/components/settings';
 import { useSnackbar } from 'src/components/snackbar/use-snackbar';
@@ -65,7 +67,7 @@ const UploadQuotePrompt = ({
   );
 };
 
-export default function QuotesView() {
+export default function QuoteCreateView() {
   const settings = useSettingsContext();
   const { t } = useTranslate();
   const { showSnackbar } = useSnackbar();
@@ -73,55 +75,55 @@ export default function QuotesView() {
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [isUploading, setIsUploading] = useState(false);
 
-  const handleImageUpload = useCallback((file: File | null) => {
-    if (!file) {
-      setSelectedFile(null);
-      setPreviewUrl(null);
-      setIsUploading(false);
-      return;
-    }
+  const handleImageUpload = useCallback(
+    async (file: File | null) => {
+      if (!file) {
+        setSelectedFile(null);
+        setPreviewUrl(null);
+        return;
+      }
 
-    if (!file.type.startsWith('image/')) {
-      showSnackbar(t('quotes.alerts.imageFile'), 'error');
-      setSelectedFile(null);
-      setPreviewUrl(null);
-      setIsUploading(false);
-      return;
-    }
+      if (!file.type.startsWith('image/')) {
+        showSnackbar(t('quotes.alerts.imageFile'), 'error');
+        return;
+      }
 
-    setIsUploading(true);
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      setPreviewUrl(reader.result as string);
+      setPreviewUrl(URL.createObjectURL(file));
       setSelectedFile(file);
-      setIsUploading(false);
-    };
-    reader.onerror = () => {
-      setIsUploading(false);
-      setSelectedFile(null);
-      setPreviewUrl(null);
-      showSnackbar(t('quotes.alerts.fileReadError'), 'error');
-    };
-    reader.readAsDataURL(file);
-  }, [t, showSnackbar]);
+    },
+    [showSnackbar, t]
+  );
 
-  const handleFileSelect = useCallback((e: ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files?.[0]) {
-      handleImageUpload(e.target.files[0]);
-    } else {
-      handleImageUpload(null);
-    }
-    e.target.value = '';
-  }, [handleImageUpload]);
+  const handleFileSelect = useCallback(
+    (e: ChangeEvent<HTMLInputElement>) => {
+      if (e.target.files?.[0]) {
+        handleImageUpload(e.target.files[0]);
+      }
+    },
+    [handleImageUpload]
+  );
 
-  const handleSubmit = useCallback(() => {
+  const handleSubmit = useCallback(async () => {
     if (!selectedFile) {
       showSnackbar(t('quotes.alerts.selectImage'), 'warning');
       return;
     }
-    console.log('Selected File:', selectedFile.name, selectedFile.type, selectedFile.size);
-    showSnackbar(t('quotes.alerts.submitSuccess'), 'success');
-    handleImageUpload(null);
+
+    setIsUploading(true);
+    try {
+      const formData = new FormData();
+      formData.append('images', selectedFile);
+      const uploadResponse = await uploadImage(formData);
+      const imageUrl = uploadResponse.data.result.image_urls[0];
+
+      await createQuote({ image: imageUrl });
+      showSnackbar(t('quotes.alerts.submitSuccess'), 'success');
+      handleImageUpload(null);
+    } catch (error) {
+      showSnackbar('Failed to create quote', 'error');
+    } finally {
+      setIsUploading(false);
+    }
   }, [selectedFile, handleImageUpload, t, showSnackbar]);
 
   const renderUploadAreaContent = () => {

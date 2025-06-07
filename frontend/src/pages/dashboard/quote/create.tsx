@@ -1,17 +1,17 @@
 import { Helmet } from 'react-helmet-async';
 
-import QuotesView from 'src/sections/quotes/view';
+import { QuoteCreateView } from 'src/sections/quotes';
 
 // ----------------------------------------------------------------------
 
-export default function PageQuotes() {
+export default function QuoteCreatePage() {
   return (
     <>
       <Helmet>
-        <title> Quotes</title>
+        <title>Quotes: Create</title>
       </Helmet>
 
-      <QuotesView />
+      <QuoteCreateView />
     </>
   );
 }

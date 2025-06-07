@@ -49,7 +49,11 @@ export const paths = {
     },
     learn: `${ROOTS.DASHBOARD}/learn`,
     commodity: `${ROOTS.DASHBOARD}/commodity`,
-    quotes: `${ROOTS.DASHBOARD}/quotes`,
+    quotes: {
+      root: `${ROOTS.DASHBOARD}/quotes`,
+      list: `${ROOTS.DASHBOARD}/quotes/list`,
+      create: `${ROOTS.DASHBOARD}/quotes/create`,
+    },
     role: `${ROOTS.DASHBOARD}/role`,
     index_insights: `${ROOTS.DASHBOARD}/index_insights`,
     group: {

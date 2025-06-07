@@ -58,6 +58,7 @@ export const endpoints = {
   quote: {
     list: '/api/quotes',
     create: '/api/quotes',
+    details: (id: string) => `/api/quotes/${id}`,
     update: (id: string) => `/api/quotes/${id}`,
     delete: (id: string) => `/api/quotes/${id}`,
   },
