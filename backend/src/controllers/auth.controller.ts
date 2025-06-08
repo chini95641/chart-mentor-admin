@@ -4,9 +4,11 @@ import mongoose, { ClientSession } from 'mongoose';
 import { RequestError } from '../utils/globalErrorHandler';
 import {
   handleAssignRole,
+  handleDeleteUser,
   handleGetUsers,
   handleUserCreation,
   handleUserLogin,
+  handleUpdateUser,
 } from '../services/user.services';
 
 export const create = async (req: Request, res: Response) => {
@@ -18,7 +20,12 @@ export const create = async (req: Request, res: Response) => {
     return sendResponse(res, 201, 'Created User Successfully', {
       user_id: newUser.id,
       email: newUser.email,
-      role: 'ADMIN',
+      role: newUser.role,
+      name: newUser.name,
+      phone_number: newUser.phone_number,
+      address: newUser.address,
+      membership: newUser.membership,
+      expiration_date: newUser.expiration_date,
     });
   } catch (error) {
     throw new RequestError(`${error}`, 500);
@@ -70,6 +77,33 @@ export const assignRole = async (req: Request, res: Response) => {
     return sendResponse(res, 201, 'Role assigned', {
       id: updatedUser.id,
       role: updatedUser.role,
+    });
+  } catch (error) {
+    throw new RequestError(`${error}`, 500);
+  }
+};
+
+export const deleteUser = async (req: Request, res: Response) => {
+  const session: ClientSession = req.session!;
+  const { id } = req.params;
+
+  try {
+    await handleDeleteUser(id, session);
+    return sendResponse(res, 200, 'User deleted successfully');
+  } catch (error) {
+    throw new RequestError(`${error}`, 500);
+  }
+};
+
+export const updateUser = async (req: Request, res: Response) => {
+  const session: ClientSession = req.session!;
+  const { id } = req.params;
+  const { user } = req.body;
+
+  try {
+    const updatedUser = await handleUpdateUser(id, user, session);
+    return sendResponse(res, 200, 'User updated successfully', {
+      user: updatedUser,
     });
   } catch (error) {
     throw new RequestError(`${error}`, 500);

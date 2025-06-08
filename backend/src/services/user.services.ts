@@ -16,11 +16,23 @@ export const handleUserCreation = async (
   user: Partial<User> & Document,
   session?: ClientSession
 ): Promise<User> => {
-  const { email, password, name } = user;
+  const {
+    email,
+    first_name,
+    last_name,
+    phone_number,
+    address,
+    membership,
+    expiration_date,
+    role,
+  } = user;
 
-  if (!name) throw new RequestError('Name must not be empty', 400);
+  if (!first_name) throw new RequestError('First name must not be empty', 400);
+  if (!last_name) throw new RequestError('Last name must not be empty', 400);
   if (!email) throw new RequestError('Invalid fields', 400);
-  if (!password) throw new RequestError('Password must not be empty', 400);
+  if (!phone_number) throw new RequestError('Phone number must not be empty', 400);
+  if (!address) throw new RequestError('Address must not be empty', 400);
+  if (!membership) throw new RequestError('Membership must not be empty', 400);
 
   const existingUser = await findOneUser({ email });
 
@@ -31,9 +43,21 @@ export const handleUserCreation = async (
     );
   }
 
+  const password = Math.random().toString(36).slice(-8);
   const hashedPassword = await bcrypt.hash(password, 10);
 
-  const newUser = await createNewUser(email, hashedPassword, name, session);
+  const newUser = await createNewUser(
+    email,
+    hashedPassword,
+    first_name,
+    last_name,
+    phone_number,
+    address,
+    membership,
+    expiration_date,
+    role,
+    session
+  );
 
   return newUser;
 };
@@ -89,17 +113,13 @@ export const handleGetUsers = async (
   session?: ClientSession
 ): Promise<{ users: User[], total: number }> => {
   const users = await UserModel.find(
-    {
-      role: { $in: ['ADMIN', 'COMPANY', 'FELLESRAAD', 'CLIENT'] },
-    },
+    {},
     { _id: 0, __v: 0, password: 0 }
   )
     .skip((page - 1) * limit)
     .limit(limit);
 
-  const total = await UserModel.countDocuments({
-    role: { $in: ['ADMIN', 'COMPANY', 'FELLESRAAD', 'CLIENT'] },
-  });
+  const total = await UserModel.countDocuments({});
 
   return { users, total };
 };
@@ -141,14 +161,26 @@ export async function findOneUser(
 export const createNewUser = async (
   email: string,
   password: string,
-  name: string,
+  first_name: string,
+  last_name: string,
+  phone_number: string,
+  address: string,
+  membership: 'free' | 'premium',
+  expiration_date: Date | null | undefined,
+  role: string | undefined,
   session?: ClientSession
 ): Promise<User> => {
   const newUser = new UserModel({
     email,
     password,
-    name,
-    role: 'ADMIN',
+    first_name,
+    last_name,
+    name: `${first_name} ${last_name}`,
+    phone_number,
+    address,
+    membership,
+    expiration_date,
+    role,
   });
 
   await newUser.save({ session });
@@ -163,5 +195,42 @@ export const findByIdAndUpdateUserDocument = async (
   return await UserModel.findOneAndUpdate({ id }, update, {
     ...options,
     returnDocument: 'after',
+  });
+};
+
+export const handleDeleteUser = async (id: string, session?: ClientSession) => {
+  const deletedUser = await findUserByIdAndDelete(id);
+
+  if (!deletedUser) {
+    throw new RequestError(`There is not ${id} user.`, 500);
+  }
+};
+
+export const handleUpdateUser = async (
+  id: string,
+  user: Partial<User> & Document,
+  session?: ClientSession
+) => {
+  const updatedUser = await findUserByIdAndUpdate(id, user);
+
+  if (!updatedUser) {
+    throw new RequestError(`There is not ${id} user.`, 500);
+  }
+
+  return updatedUser;
+};
+
+export const findUserByIdAndDelete = async (id: string, options?: QueryOptions<User>) => {
+  return await UserModel.findOneAndDelete({ id }, options);
+};
+
+export const findUserByIdAndUpdate = async (
+  id: string,
+  update: UpdateQuery<User>,
+  options?: QueryOptions<User>
+) => {
+  return await UserModel.findOneAndUpdate({ id }, update, {
+    ...options,
+    new: true,
   });
 };

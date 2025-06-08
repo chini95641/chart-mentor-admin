@@ -301,14 +301,71 @@
     "table": {
       "name": "Nombre",
       "email": "Correo Electrónico",
+      "phone_number": "Número de Teléfono",
+      "address": "Dirección",
+      "membership": "Membresía",
+      "expiration_date": "Fecha de Vencimiento",
       "currentRole": "Rol Actual",
-      "changeRole": "Cambiar Rol",
-      "ariaLabel": "Cambiar rol para {{userName}}"
+      "actions": "Acciones"
     },
     "roles": {
       "admin": "Administrador",
       "staff": "Personal",
       "none": "Ninguno"
+    },
+    "newUser": "Nuevo Usuario"
+  },
+  "userNewEditForm": {
+    "title": "Crear un nuevo usuario",
+    "titleCreate": "Crear un nuevo usuario",
+    "titleEdit": "Editar usuario",
+    "labels": {
+      "firstName": "Nombre",
+      "lastName": "Apellido",
+      "email": "Correo Electrónico",
+      "phoneNumber": "Número de Teléfono",
+      "address": "Dirección",
+      "role": "Rol",
+      "membership": "Membresía",
+      "expirationDate": "Fecha de Vencimiento"
+    },
+    "roles": {
+      "admin": "Administrador",
+      "staff": "Personal",
+      "none": "Ninguno"
+    },
+    "memberships": {
+      "free": "Gratis",
+      "premium": "Premium"
+    },
+    "buttons": {
+      "cancel": "Cancelar",
+      "create": "Crear",
+      "update": "Actualizar"
+    },
+    "errors": {
+      "firstName": {
+        "required": "El nombre es requerido"
+      },
+      "lastName": {
+        "required": "El apellido es requerido"
+      },
+      "email": {
+        "required": "El correo electrónico es requerido",
+        "invalid": "El correo electrónico debe ser una dirección de correo electrónico válida"
+      },
+      "phoneNumber": {
+        "required": "El número de teléfono es requerido"
+      },
+      "address": {
+        "required": "La dirección es requerida"
+      },
+      "role": {
+        "required": "El rol es requerido"
+      },
+      "membership": {
+        "required": "La membresía es requerida"
+      }
     }
   },
   "indexInsights": {

@@ -334,15 +334,19 @@
     "table": {
       "name": "Name",
       "email": "Email",
+      "phone_number": "Phone Number",
+      "address": "Address",
+      "membership": "Membership",
+      "expiration_date": "Expiration Date",
       "currentRole": "Current Role",
-      "changeRole": "Change Role",
-      "ariaLabel": "Change role for {{userName}}"
+      "actions": "Actions"
     },
     "roles": {
       "admin": "Admin",
       "staff": "Staff",
       "none": "None"
-    }
+    },
+    "newUser": "New User"
   },
   "indexInsights": {
     "title": "Index Insights",
@@ -413,5 +417,58 @@
     "updateStockSuccess": "Stock updated successfully",
     "updateStockFail": "Failed to update stock",
     "fetchUsersFail": "Failed to fetch users"
+  },
+  "userNewEditForm": {
+    "title": "Create a new user",
+    "titleCreate": "Create a new user",
+    "titleEdit": "Edit user",
+    "labels": {
+      "firstName": "First Name",
+      "lastName": "Last Name",
+      "email": "Email",
+      "phoneNumber": "Phone Number",
+      "address": "Address",
+      "role": "Role",
+      "membership": "Membership",
+      "expirationDate": "Expiration Date"
+    },
+    "roles": {
+      "admin": "Admin",
+      "staff": "Staff",
+      "none": "None"
+    },
+    "memberships": {
+      "free": "Free",
+      "premium": "Premium"
+    },
+    "buttons": {
+      "cancel": "Cancel",
+      "create": "Create",
+      "update": "Update"
+    },
+    "errors": {
+      "firstName": {
+        "required": "First name is required"
+      },
+      "lastName": {
+        "required": "Last name is required"
+      },
+      "email": {
+        "required": "Email is required",
+        "invalid": "Email must be a valid email address"
+      },
+      "phoneNumber": {
+        "required": "Phone number is required"
+      },
+      "address": {
+        "required": "Address is required"
+      },
+      "role": {
+        "required": "Role is required"
+      },
+      "membership": {
+        "required": "Membership is required"
+      }
+    }
   }
 }

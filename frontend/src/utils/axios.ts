@@ -20,11 +20,16 @@ export default axiosInstance;
 // ----------------------------------------------------------------------
 
 export const fetcher = async (args: string | [string, AxiosRequestConfig]) => {
-  const [url, config] = Array.isArray(args) ? args : [args];
+  try {
+    const [url, config] = Array.isArray(args) ? args : [args];
 
-  const res = await axiosInstance.get(url, { ...config });
+    const res = await axiosInstance.get(url, { ...config });
 
-  return res.data;
+    return res.data;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
 };
 
 // ----------------------------------------------------------------------

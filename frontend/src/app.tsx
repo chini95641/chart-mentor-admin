@@ -15,6 +15,8 @@ import { SettingsDrawer, SettingsProvider } from 'src/components/settings';
 
 import { AuthProvider } from 'src/auth/context/jwt';
 import { SnackbarProvider } from 'src/components/snackbar/snackbar-provider';
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 
 // ----------------------------------------------------------------------
 
@@ -45,15 +47,17 @@ export default function App() {
           themeStretch: false,
         }}
       >
-        <SnackbarProvider>
-          <ThemeProvider>
-            <MotionLazy>
-              <SettingsDrawer />
-              <ProgressBar />
-              <Router />
-            </MotionLazy>
-          </ThemeProvider>
-        </SnackbarProvider>
+        <LocalizationProvider dateAdapter={AdapterDateFns}>
+          <SnackbarProvider>
+            <ThemeProvider>
+              <MotionLazy>
+                <SettingsDrawer />
+                <ProgressBar />
+                <Router />
+              </MotionLazy>
+            </ThemeProvider>
+          </SnackbarProvider>
+        </LocalizationProvider>
       </SettingsProvider>
     </AuthProvider>
   );

@@ -3,8 +3,10 @@ import verifyToken from '../middleware/auth.middleware';
 import {
   assignRole,
   create,
+  deleteUser,
   getUsers,
   login,
+  updateUser,
 } from '../controllers/auth.controller';
 import { errorWrap } from '../utils/error.utils';
 import { withTransaction } from '../utils/transactionHelper';
@@ -24,6 +26,10 @@ router.put(
   errorWrap(verifyToken, 'Could not verify JWT token'),
   withTransaction(errorWrap(assignRole, 'Could not assign user role'))
 );
+
+router.delete('/:id', withTransaction(errorWrap(deleteUser, 'Could not delete user')));
+
+router.put('/:id', withTransaction(errorWrap(updateUser, 'Could not update user')));
 
 router.get(
   '/get-users',
